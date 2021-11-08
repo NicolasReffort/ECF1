@@ -1,0 +1,177 @@
+public void afficher(){
+
+        System.out.println( " Le propsect " + this.getRaisonSociale() + " a été prospecté le " + getDateProspection()
+                + ". \n Il y a répondu favorablement à la prospection : " + getPropsectEstInteresse()
+                +". Son identifiant est : " + getIdentifiant()
+        );
+
+    };
+
+    /***
+     *
+     * @param indice : oriente le switch case pour effectuer les modifications. 100++ pour attributs clients, 5
+     *               500+ pour attributs Propsects.
+     * @param nouvelleValeurSouhaitee Sera convertie si besoin, puis passe dans les setters.
+     */
+    public void modifier(int indice, String nouvelleValeurSouhaitee ){
+        /***
+         * modifier l'entité selon une option choisie en amont, et lui attribue une nouvelle valeur souhaitée.
+         */
+
+        switch (indice) {
+            case 1:
+                this.setRaisonSociale(nouvelleValeurSouhaitee); //tO DO TRY CATCH
+                break;
+
+            case 2:
+                this.setNumeroRue(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 3:
+                this.setRue(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 4:
+                this.setCodePostal(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 5:
+                this.setTelephone(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 6:
+                this.setCourriel(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 7:
+                this.setCommentaires(nouvelleValeurSouhaitee);
+
+                break;
+
+            //fin des modifications des attributs hérité de société,
+            //début des attributs propres aux prospects (les indices débutent à 500 pour eux)
+
+            case 500 :
+
+                try {
+                    LocalDate nouvelleValeurSouhaiteeLocalDate = StringToLocalDate(nouvelleValeurSouhaitee);
+                    this.setDateProspection(nouvelleValeurSouhaiteeLocalDate);
+                }
+
+                catch (MonExceptionMaison monExceptionMaison) {
+                    System.out.println(monExceptionMaison.getMessage());
+                }
+
+                break;
+
+            case 501:
+                //T/C
+                int nouvelleValeurSouhaiteeInteger = Integer.parseInt(nouvelleValeurSouhaitee);
+                this.setPropsectEstInteresse(nouvelleValeurSouhaiteeInteger);
+
+                break;
+
+            default:
+                break;
+        }
+
+    }    protected void supprimer(){};
+
+
+
+***************************************************************************************************************************
+
+
+    /***
+     *      Affiche les caractéristiques métier d'un client
+     */
+    public void afficher(){
+
+        System.out.println( " Le client " + this.getRaisonSociale() + " a " + CA  + "  de chiffre d'affaires " + "et possède "
+                + getNbEmployes() + " employé(s). " + " Son identifiant est : " + getIdentifiant()
+        );
+
+    };
+
+    /***
+     *
+     * @param indice  oriente le switch case pour effectuer les modifications. 100++ pour attributs clients,
+     *                500+ pour attributs Propsects.
+     * @param nouvelleValeurSouhaitee Sera convertie si besoin, puis passe dans les setters.
+     */
+    public void modifier(int indice, String nouvelleValeurSouhaitee ){
+
+
+        switch (indice) {
+            case 1:
+                this.setRaisonSociale(nouvelleValeurSouhaitee); //tO DO TRY CATCH
+                break;
+
+            case 2:
+                this.setNumeroRue(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 3:
+                this.setRue(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 4:
+                this.setCodePostal(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 5:
+                this.setTelephone(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 6:
+                this.setCourriel(nouvelleValeurSouhaitee);
+
+                break;
+
+            case 7:
+                this.setCommentaires(nouvelleValeurSouhaitee);
+
+                break;
+
+            //fin des modifications des attributs hérité de société,
+            //début des attributs propres aux clients(les indices débutent à 100 pour eux)
+
+            case 100 :
+                try {
+                    double nouvelleValeurSouhaiteeDouble = StringToDouble(nouvelleValeurSouhaitee);
+                    this.setCA(nouvelleValeurSouhaiteeDouble);
+                }
+                catch (MonExceptionMaison mem){
+                    System.out.println(mem.getMessage());
+                }
+
+
+                break;
+
+            case 101:
+                try {
+                    int nouvelleValeurSouhaiteeInteger = StringToInt(nouvelleValeurSouhaitee);
+                    this.setNbEmployes(nouvelleValeurSouhaiteeInteger);
+                }
+                catch (MonExceptionMaison mem){
+                    System.out.println(mem.getMessage());
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+
+
+    }    //public void supprimer(){ this = null ; };

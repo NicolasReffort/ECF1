@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="vues.Formulaire">
+  <grid id="cbd77" binding="contentPaneFormulaire" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="48" y="54" width="1663" height="602"/>
+    </constraints>
+    <properties>
+      <background color="-1"/>
+      <enabled value="true"/>
+      <foreground color="-10132123"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="e7465" class="javax.swing.JButton" binding="buttonOk">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Ok"/>
+        </properties>
+      </component>
+      <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="30"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-3684409"/>
+        </properties>
+      </component>
+      <grid id="c02b6" binding="nomDesChamps" layout-manager="GridLayoutManager" row-count="11" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="4" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="394" height="353"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1029"/>
+          <foreground color="-1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="6197d" class="javax.swing.JTextField" binding="VILLETextField" default-binding="true">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="VILLE"/>
+            </properties>
+          </component>
+          <component id="45342" class="javax.swing.JTextField" binding="CODEPOSTALTextField" default-binding="true">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="CODE POSTAL"/>
+            </properties>
+          </component>
+          <component id="5f047" class="javax.swing.JTextField" binding="NUMERORUETextField" default-binding="true">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="NUMERO RUE"/>
+            </properties>
+          </component>
+          <component id="c6ee8" class="javax.swing.JTextField" binding="RUETextField" default-binding="true">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="RUE"/>
+            </properties>
+          </component>
+          <component id="dc43c" class="javax.swing.JTextField" binding="TELEPHONETextField" default-binding="true">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="TELEPHONE"/>
+            </properties>
+          </component>
+          <component id="64def" class="javax.swing.JTextField" binding="COURRIELTextField" default-binding="true">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="COURRIEL"/>
+            </properties>
+          </component>
+          <component id="5d4e7" class="javax.swing.JTextField" binding="ATTRIBUTFILLE1TextField">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="ATTRIBUTS FILLE 1"/>
+            </properties>
+          </component>
+          <component id="27f4e" class="javax.swing.JTextField" binding="ATTRIBUTFILLE2TexteField">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="ATTRIBUTS FILLE 2"/>
+            </properties>
+          </component>
+          <component id="63f87" class="javax.swing.JTextField" binding="RAISONSOCIALETextField" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="RAISON SOCIALE"/>
+            </properties>
+          </component>
+          <component id="470d3" class="javax.swing.JTextField" binding="IDTextField">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="IDENTIFIANT"/>
+            </properties>
+          </component>
+          <component id="b5e03" class="javax.swing.JTextField" binding="COMMENTAIRESTexteField">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-3684409"/>
+              <editable value="false"/>
+              <foreground color="-16777216"/>
+              <text value="COMMENTAIRES"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="1dc5f" binding="champs" layout-manager="GridLayoutManager" row-count="11" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1299"/>
+          <foreground color="-1250068"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="cc973" class="javax.swing.JTextField" binding="champFille1">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="51d0b" class="javax.swing.JTextField" binding="champRaisonSociale">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="f3cdd" class="javax.swing.JTextField" binding="champCourriel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="c081" class="javax.swing.JTextField" binding="champCodePostal">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="aabe0" class="javax.swing.JTextField" binding="champVille">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="2903b" class="javax.swing.JTextField" binding="champFille2">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="6561b" class="javax.swing.JTextField" binding="champRue">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="3a792" class="javax.swing.JTextField" binding="champTelephone">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="d8027" class="javax.swing.JTextField" binding="champNumeroRue">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+            </properties>
+          </component>
+          <component id="a6b6a" class="javax.swing.JTextField" binding="champID">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="false"/>
+              <foreground color="-11907230"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="bd474" class="javax.swing.JTextField" binding="champCommentaires">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-11907230"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
