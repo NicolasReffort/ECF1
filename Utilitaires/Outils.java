@@ -4,6 +4,10 @@ import entites.Client;
 import entites.Prospect;
 import entites.Societe;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Outils {
 
     private boolean itsClient = false;
@@ -27,6 +31,20 @@ public class Outils {
         {Prospect propsect = ((Prospect) societe);
             setItsProspect(true);
             return propsect;
+        }
+    }
+
+    //TESTEURS DE ...-----------------------------------------------------------------------------------------------
+
+    public LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison{
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            return LocalDate.parse(nouvelleValeurSouhaitee, formatter);
+        }
+
+        catch (DateTimeParseException dtpe) {
+            throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
         }
     }
 

@@ -25,8 +25,8 @@ public class Accueil extends JFrame {
         setSize(1600,900);
         setMinimumSize(new Dimension(150,156));
         getRootPane().setDefaultButton(buttonOK);
+        setVisible(true);
         jpanelChoixEdition.setVisible(false); // DE BASE ON CACHE LES CHOIX D EDITION
-
 
         // CHOIX DE LA GESTION CLIENT CLIENT --------------------------------------------------------------------------
         gérerUnClientButton.addActionListener(new ActionListener() {
@@ -58,11 +58,28 @@ public class Accueil extends JFrame {
                 dispose();
                 // ON PASSE A LA MODIFICAITON DE LA PERSONNE DESIREE
                 //TO DO : LE FAIRE CHOISIR AVEC UNE COMBO BOX
-                Formulaire formulaireModification = new Formulaire(ListeClients.getListeTousClients().get(0));
+                Formulaire formulaireModification = new Formulaire("modification", ListeClients.getListeTousClients().get(0));
             }
         });
 
+        // CHOIX AFFICHAGE CLIENT :
+        affichageButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                // ON PASSE A LA MODIFICAITON DE LA PERSONNE DESIREE
+                //TO DO : LE FAIRE CHOISIR AVEC UNE COMBO BOX
+                Affichage affichage = new Affichage( "client");
+            }
+        });
 
+        // CHOIX SUPPRESSION CLIENT :
+        supprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //FAIRE LA COMBO LISTE POUR ENVOYER LA BONNE SOCIETE A SUPP
+                // Formulaire formulaire = new Formulaire("suppression", );
 
+            }
+        });
     }
 }

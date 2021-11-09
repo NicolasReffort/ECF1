@@ -9,7 +9,8 @@ import java.time.format.DateTimeParseException;
 public class Prospect extends Societe {
 
     //RELATIF A LA CLASSE-----------------------------------------------------------------------------------------------
-    private int compteurProspects;
+    private static int compteurProspects = 0 ;
+
 
     public void dateProspectionConvertor(String datePropsectionEnstring) throws MonExceptionMaison {
 
@@ -33,12 +34,8 @@ public class Prospect extends Societe {
     private int propsectEstInteresse;
 
     //SETTERS ET GETTERS-----------------------------------------------------------------------------------------------
-    public int getCompteurProspects() {
+    public static int getCompteurProspects() {
         return compteurProspects;
-    }
-
-    public void setCompteurProspects(int compteurProspects) {
-        this.compteurProspects = compteurProspects;
     }
 
     public LocalDate getDateProspection() {
