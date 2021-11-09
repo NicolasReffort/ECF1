@@ -1,28 +1,27 @@
 package vues;
 
-import Utilitaires.MonExceptionMaison;
+import Exceptions.MonExceptionMaison;
 import Utilitaires.Outils;
 import entites.*;
 
 import javax.swing.*;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLOutput;
 import java.util.Locale;
 
 public class Formulaire extends JFrame {
     private JPanel contentPaneFormulaire;
     private JButton buttonOk;
     private JButton buttonCancel;
-    private JTextField RAISONSOCIALETextField;
-    private JTextField CODEPOSTALTextField;
-    private JTextField VILLETextField;
-    private JTextField NUMERORUETextField;
-    private JTextField RUETextField;
-    private JTextField TELEPHONETextField;
-    private JTextField COURRIELTextField;
-    private JTextField ATTRIBUTFILLE1TextField;
+    private JTextField RaisonSocialeTextField;
+    private JTextField CodePostalTextField;
+    private JTextField VilleTextField;
+    private JTextField NumeroRueTextField;
+    private JTextField RueTextField;
+    private JTextField TelephoneTextField;
+    private JTextField CourrielTextField;
+    private JTextField AttributFille1TexteField;
+    private JTextField AttributFille2TexteField;
     private JPanel champs;
     private JPanel nomDesChamps;
     private JTextField champFille1;
@@ -33,11 +32,10 @@ public class Formulaire extends JFrame {
     private JTextField champRue;
     private JTextField champTelephone;
     private JTextField champCourriel;
-    private JTextField COMMENTAIRESTexteField;
-    private JTextField ATTRIBUTFILLE2TexteField;
+    private JTextField CommentairesTexteField;
     private JTextField champFille2;
     private JTextField champCommentaires;
-    private JTextField IDTextField;
+    private JTextField IdTextField;
     private JTextField champID;
 
     public final String ATTRIBUTCLIENT1 = "CHIFFRE D'AFFAIRES" ;
@@ -45,12 +43,10 @@ public class Formulaire extends JFrame {
     public final String ATTRIBUTPROSPECT1 = "DATE DE PROSPECTION";
     public final String ATTRIBUTPROSPECT2 = "EST INTERESSE : O/N.";
 
-
-    public Outils outils = new Outils(); // est ce une bonne idée de le mettre en variable d'instance ?
-
     private Double CAenDouble; // UTILISE POUR POUVOIR SETTER PLUS FACILEMENT ----
     public Double getCAenDouble() {return CAenDouble;}
-    private void setCAenDouble(Double CAenDouble) throws NullPointerException, NumberFormatException {this.CAenDouble = CAenDouble;    }
+    private void setCAenDouble(Double CAenDouble) throws NullPointerException, NumberFormatException {
+        this.CAenDouble = CAenDouble;}
 
     private int NbEmployesInt;// UTILISE POUR POUVOIR SETTER PLUS FACILEMENT
     private void setNbEmployesInt(int nbEmployesInt) {NbEmployesInt = nbEmployesInt;}
@@ -72,15 +68,15 @@ public class Formulaire extends JFrame {
 
         // REMPLISSAGE DE LA VUE SI CEST UN CLIENT
         if (clientOuProspect.equals("client")) {
-            ATTRIBUTFILLE1TextField.setText(ATTRIBUTCLIENT1);
-            ATTRIBUTFILLE2TexteField.setText(ATTRIBUTCLIENT2);
+            AttributFille1TexteField.setText(ATTRIBUTCLIENT1);
+            AttributFille2TexteField.setText(ATTRIBUTCLIENT2);
             // ON AFFICHE LE FUTUR IDENTIFIANT QUI SERA SSOCIE AU CLIENT CREE
             champID.setText( Integer.toString(Client.getCompteurClients() + 1 ));
         }
 
         else {
-            ATTRIBUTFILLE1TextField.setText(ATTRIBUTPROSPECT2);
-            ATTRIBUTFILLE2TexteField.setText(ATTRIBUTPROSPECT2);
+            AttributFille1TexteField.setText(ATTRIBUTPROSPECT2);
+            AttributFille2TexteField.setText(ATTRIBUTPROSPECT2);
             // ON AFFICHE LE FUTUR IDENTIFIANT QUI SERA SSOCIE AU CLIENT CREE
             champID.setText( String.valueOf(Prospect.getCompteurProspects() + 1 ));
         }
@@ -194,28 +190,24 @@ public class Formulaire extends JFrame {
         champID.setText( Integer.toString(societe.getIdentifiant()) );
 
         //CASTING DES SOCIETES
-        outils.DirecteurDeCasting(societe);
-        if (outils.isItsClient()) {
-            Client clientCasted = ((Client)societe);
-            setClient(clientCasted);
+        Outils.DirecteurDeCasting(societe);
 
-        }
-        else
-        { Prospect prospect = ((Prospect) societe) ; }
+        if (Outils.itsClient) {
 
-        if (outils.isItsClient()){
-            // ON CHARGE AVEC LES DONNES ASSOCIEES SPECIFIQUES CLIENT
-            ATTRIBUTFILLE1TextField.setText(ATTRIBUTCLIENT1);
-            ATTRIBUTFILLE2TexteField.setText(ATTRIBUTCLIENT2);
+            // ON CHARGE AVEC LES DONNEeS ASSOCIEES SPECIFIQUES CLIENT
+            AttributFille1TexteField.setText(ATTRIBUTCLIENT1);
+            AttributFille2TexteField.setText(ATTRIBUTCLIENT2);
             champFille1.setText( String.valueOf(client.getCA()));
             champFille2.setText(String.valueOf(client.getNbEmployes()));
         }
+        else
+        {
+            //setProspect(((Prospect)societe));
 
-        else{
-            // ON CHARGE AVEC LES DONNES ASSOCIEES SPECIFIQUES PROSPECT
-            ATTRIBUTFILLE1TextField.setText("DATE PROSPECTION");
-            ATTRIBUTFILLE2TexteField.setText("PROSPECT INTERESSE");
-            //TO FAIRE LE FAIRE AVEC LES PROSPECTS
+            // ON CHARGE AVEC LES DONNEES ASSOCIEES SPECIFIQUES PROSPECT
+            AttributFille1TexteField.setText("DATE PROSPECTION");
+            AttributFille2TexteField.setText("PROSPECT INTERESSE");
+            // FAIRE AVEC LES PROSPECTS§§§§§§§§§§§§§§§
         }
 
         //TAILLE
@@ -227,7 +219,7 @@ public class Formulaire extends JFrame {
 
 
         //.....d'un client
-        if (outils.isItsClient()) {
+        if (Outils.itsClient) {
 
             buttonOk.setText("MODIFIER CE CLIENT");
 
@@ -238,7 +230,7 @@ public class Formulaire extends JFrame {
             buttonOk.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
 
-                        //ESSAI DU CA
+                        //ESSAI DU CA //////////////////////////CATCHER plus bas
                         try {
                             setCAenDouble(Double.parseDouble(champFille1.getText()));
 
@@ -312,7 +304,7 @@ public class Formulaire extends JFrame {
 
         }
 
-        //.... et si c'est un prospect qu'on veut modifier :
+        //.... ou d'un prospect:
         else {
             buttonOk.setText("MODIFIER CE PROSPECT");
 
@@ -321,25 +313,6 @@ public class Formulaire extends JFrame {
             //ACTION DU BOUTON OK
             buttonOk.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-
-                    //ESSA //TO FAIRE LES TEST DES ATTRIBUTS PROSPECTS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    try {
-                        setCAenDouble(Double.parseDouble(champFille1.getText()));
-
-                    } catch (NullPointerException npe) {
-                        System.out.println("Merci de saisir un C.A");
-                    } catch (NumberFormatException nfe) {
-                        System.out.println("Votre C.A saisi n'est pas correct");
-                    }
-
-                    //ESSAI DU NB D EMPLOYES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    try {
-                        setNbEmployesInt(Integer.parseInt(champFille2.getText()));
-                    } catch (NumberFormatException nfe1) {
-                        JOptionPane.showMessageDialog(null, "Votre nombre d'employé saisi " +
-                                "n'est pas correct")
-                        ;
-                    }
 
                     //ESSAYER DE MODIFIER AVEC LES DONNEES SAISIES ET LES VERIFICATIONS DU TYPAGE FAITES PAR L AFFICHAGE
                     try {
@@ -374,8 +347,6 @@ public class Formulaire extends JFrame {
 
         }
 
-
-
             buttonCancel.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     onCancel();
@@ -403,9 +374,9 @@ public class Formulaire extends JFrame {
         //DEBUT SUPPRESSION CLIENT
         if(suppressionOuModification.equals("suppression")) {
 
-            if (outils.isItsClient()){
-                ATTRIBUTFILLE1TextField.setText("CHIFFRE D'AFFAIRES ");
-                ATTRIBUTFILLE2TexteField.setText("NOMBRE DE SALARIES");
+            if (Outils.itsClient){
+                AttributFille1TexteField.setText("CHIFFRE D'AFFAIRES ");
+                AttributFille2TexteField.setText("NOMBRE DE SALARIES");
 
                 //FORMULAIRE DEVIENT VISIBLE
                 setVisible(true);
@@ -417,17 +388,6 @@ public class Formulaire extends JFrame {
                 });
 
             }
-
-
-
-
-
-
-
-
-
-
-
 
         }
     }

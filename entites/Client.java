@@ -1,8 +1,7 @@
 package entites;
 
-import Utilitaires.MonExceptionMaison;
-
-import java.util.function.DoubleToIntFunction;
+import Exceptions.MonExceptionMaison;
+import Utilitaires.Outils;
 
 public class Client extends Societe{
 
@@ -17,14 +16,12 @@ public class Client extends Societe{
     private int nbEmployes;
     public final double CA_MIN = 200 ;
     public final int NBSALARIE_MIN = 0 ;
+    private Outils.TypeSociete CLIENT ;
 
     //SETTERS ET GETTERS------------------------------------------------------------------------------------------------
     public static int getCompteurClients() {return compteurClients;}
 
-    public void setCompteurClients(int compteurClients) {this.compteurClients = compteurClients;}
-
     public Double getCA() {return CA;}
-
     public void setCA(Double CA) throws MonExceptionMaison {
 
         if (CA<=CA_MIN ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
@@ -35,7 +32,6 @@ public class Client extends Societe{
     }
 
     public int getNbEmployes() {return nbEmployes;}
-
     public void setNbEmployes(int nbEmployes) throws MonExceptionMaison{
         if ( nbEmployes <= NBSALARIE_MIN )
         {
@@ -49,7 +45,7 @@ public class Client extends Societe{
                   String courriel, String commentaires, Double CA, int nbEmployes) throws MonExceptionMaison,
             NumberFormatException, NullPointerException {
         super(raisonSociale,ville, numeroRue, rue, codePostal, telephone, courriel, commentaires);
-        compteurClients = getCompteurClients() + 1 ;
+        compteurClients = compteurClients + 1 ;
         setIdentifiant(compteurClients);
         setCA(CA);
         setNbEmployes(nbEmployes);

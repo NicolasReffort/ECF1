@@ -44,7 +44,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="6197d" class="javax.swing.JTextField" binding="VILLETextField" default-binding="true">
+          <component id="6197d" class="javax.swing.JTextField" binding="VilleTextField">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -57,7 +57,7 @@
               <text value="VILLE"/>
             </properties>
           </component>
-          <component id="45342" class="javax.swing.JTextField" binding="CODEPOSTALTextField" default-binding="true">
+          <component id="45342" class="javax.swing.JTextField" binding="CodePostalTextField">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -70,7 +70,7 @@
               <text value="CODE POSTAL"/>
             </properties>
           </component>
-          <component id="5f047" class="javax.swing.JTextField" binding="NUMERORUETextField" default-binding="true">
+          <component id="5f047" class="javax.swing.JTextField" binding="NumeroRueTextField">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -83,7 +83,7 @@
               <text value="NUMERO RUE"/>
             </properties>
           </component>
-          <component id="c6ee8" class="javax.swing.JTextField" binding="RUETextField" default-binding="true">
+          <component id="c6ee8" class="javax.swing.JTextField" binding="RueTextField">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -96,7 +96,7 @@
               <text value="RUE"/>
             </properties>
           </component>
-          <component id="dc43c" class="javax.swing.JTextField" binding="TELEPHONETextField" default-binding="true">
+          <component id="dc43c" class="javax.swing.JTextField" binding="TelephoneTextField">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -109,7 +109,7 @@
               <text value="TELEPHONE"/>
             </properties>
           </component>
-          <component id="64def" class="javax.swing.JTextField" binding="COURRIELTextField" default-binding="true">
+          <component id="64def" class="javax.swing.JTextField" binding="CourrielTextField">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -122,9 +122,9 @@
               <text value="COURRIEL"/>
             </properties>
           </component>
-          <component id="5d4e7" class="javax.swing.JTextField" binding="ATTRIBUTFILLE1TextField">
+          <component id="5d4e7" class="javax.swing.JTextField" binding="AttributFille1TexteField">
             <constraints>
-              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
@@ -135,7 +135,7 @@
               <text value="ATTRIBUTS FILLE 1"/>
             </properties>
           </component>
-          <component id="27f4e" class="javax.swing.JTextField" binding="ATTRIBUTFILLE2TexteField">
+          <component id="27f4e" class="javax.swing.JTextField" binding="AttributFille2TexteField">
             <constraints>
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -148,7 +148,7 @@
               <text value="ATTRIBUTS FILLE 2"/>
             </properties>
           </component>
-          <component id="63f87" class="javax.swing.JTextField" binding="RAISONSOCIALETextField" default-binding="true">
+          <component id="63f87" class="javax.swing.JTextField" binding="RaisonSocialeTextField">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -161,7 +161,7 @@
               <text value="RAISON SOCIALE"/>
             </properties>
           </component>
-          <component id="470d3" class="javax.swing.JTextField" binding="IDTextField">
+          <component id="470d3" class="javax.swing.JTextField" binding="IdTextField">
             <constraints>
               <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -174,7 +174,7 @@
               <text value="IDENTIFIANT"/>
             </properties>
           </component>
-          <component id="b5e03" class="javax.swing.JTextField" binding="COMMENTAIRESTexteField">
+          <component id="b5e03" class="javax.swing.JTextField" binding="CommentairesTexteField">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

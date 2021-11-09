@@ -26,9 +26,6 @@ public class Affichage extends JFrame {
         JTable table1 = new JTable(dataModel);
         JScrollPane scrollpane = new JScrollPane(table1);
 
-
-
-
         //TAILLE
         setSize(800, 900);
         setMinimumSize(new Dimension(150, 156));

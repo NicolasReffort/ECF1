@@ -1,10 +1,6 @@
 package entites;
 
-import Utilitaires.MonExceptionMaison;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import Exceptions.MonExceptionMaison;
 
 public abstract class Societe {
 
@@ -23,26 +19,24 @@ public abstract class Societe {
     //GETTERS ET SETTERS------------------------------------------------------------------------------------------------
 
     public int getIdentifiant() {return identifiant;}
-
     public void setIdentifiant(int identifiant) {
         this.identifiant = identifiant;
     }
 
     public String getRaisonSociale() {return raisonSociale;}
+    public void setRaisonSociale(String raisonSociale) throws MonExceptionMaison {
 
-    public void setRaisonSociale(String raisonSociale) throws  MonExceptionMaison {
-
-        if (raisonSociale.isBlank()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un champ vide ou nul") ;
+        try {
+            raisonSociale.isBlank();
+            this.raisonSociale = raisonSociale;
         }
-        else {this.raisonSociale = raisonSociale;}
+        catch (NullPointerException npe ){
+            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer une raison sociale non-nulle ");
+        }
 
     }
 
-    public String getNumeroRue() {
-
-        return numeroRue;}
-
+    public String getNumeroRue() {return numeroRue;}
     public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
 
         if (numeroRue.isBlank() || numeroRue.isEmpty()) {
@@ -52,7 +46,6 @@ public abstract class Societe {
     }
 
     public String getRue() {return rue;}
-
     public void setRue(String rue) throws MonExceptionMaison {
 
         if (rue.isBlank() || rue.isEmpty()) {
@@ -62,7 +55,6 @@ public abstract class Societe {
     }
 
     public String getCodePostal() {return codePostal;}
-
     public void setCodePostal(String codePostal) throws MonExceptionMaison {
 
         if (codePostal.isBlank() || codePostal.isEmpty()) {
@@ -73,7 +65,6 @@ public abstract class Societe {
     }
 
     public String getTelephone() {return telephone;}
-
     public void setTelephone(String telephone) throws MonExceptionMaison {
 
         if (telephone.isBlank() || telephone.isEmpty()) {
@@ -113,9 +104,11 @@ public abstract class Societe {
         {Ville = ville;}
     }
 
+
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Societe(String raisonSociale, String Ville, String numeroRue, String rue, String codePostal, String telephone,
                    String courriel,String commentaires) throws MonExceptionMaison {
+
         setRaisonSociale( raisonSociale);
         setVille(Ville);
         setNumeroRue(numeroRue);
