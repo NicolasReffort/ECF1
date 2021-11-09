@@ -1,34 +1,55 @@
 package Utilitaires;
 
+import Exceptions.MonExceptionMaison;
 import entites.Client;
 import entites.Prospect;
 import entites.Societe;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Outils {
+    //DE CLASSSSSE
+    public static boolean itsClient = false;
+    public static boolean itsProspect = false;
 
-    private boolean itsClient = false;
-    private boolean itsProspect = false;
+    public static void setItsClient(boolean itsClient) {itsClient = itsClient;}
+    public static void setItsProspect(boolean itsProspect) {itsProspect = itsProspect;}
 
-    public boolean isItsClient() {return itsClient;}
-    public void setItsClient(boolean itsClient) {this.itsClient = itsClient;}
-    public boolean isItsProspect() {return itsProspect;}
+    //ENUMS
+    public enum TypeSociete{CLIENT,PROSPECT}
 
-    public void setItsProspect(boolean itsProspect) {this.itsProspect = itsProspect;}
-
-    public Societe DirecteurDeCasting(Societe societe){
+    public static void DirecteurDeCasting(Societe societe){
 
         if (societe instanceof Client) {
-            Client client = ((Client) societe);
             setItsClient(true);
-            return client;
+            setItsProspect(false);
         }
 
         else
-        {Prospect propsect = ((Prospect) societe);
+        {
             setItsProspect(true);
-            return propsect;
+            setItsProspect(false);
         }
     }
+
+
+    //TESTEURS DE ...-----------------------------------------------------------------------------------------------
+
+    public LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison {
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            return LocalDate.parse(nouvelleValeurSouhaitee, formatter);
+        }
+
+        catch (DateTimeParseException dtpe) {
+            throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
+        }
+    }
+
+
 
 
 

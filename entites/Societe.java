@@ -1,10 +1,6 @@
 package entites;
 
-import Utilitaires.MonExceptionMaison;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import Exceptions.MonExceptionMaison;
 
 public abstract class Societe {
 
@@ -23,26 +19,24 @@ public abstract class Societe {
     //GETTERS ET SETTERS------------------------------------------------------------------------------------------------
 
     public int getIdentifiant() {return identifiant;}
-
     public void setIdentifiant(int identifiant) {
         this.identifiant = identifiant;
     }
 
     public String getRaisonSociale() {return raisonSociale;}
+    public void setRaisonSociale(String raisonSociale) throws MonExceptionMaison {
 
-    public void setRaisonSociale(String raisonSociale) throws  MonExceptionMaison {
-
-        if (raisonSociale.isBlank()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un champ vide ou nul") ;
+        try {
+            raisonSociale.isBlank();
+            this.raisonSociale = raisonSociale;
         }
-        else {this.raisonSociale = raisonSociale;}
+        catch (NullPointerException npe ){
+            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer une raison sociale non-nulle ");
+        }
 
     }
 
-    public String getNumeroRue() {
-
-        return numeroRue;}
-
+    public String getNumeroRue() {return numeroRue;}
     public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
 
         if (numeroRue.isBlank() || numeroRue.isEmpty()) {
@@ -52,7 +46,6 @@ public abstract class Societe {
     }
 
     public String getRue() {return rue;}
-
     public void setRue(String rue) throws MonExceptionMaison {
 
         if (rue.isBlank() || rue.isEmpty()) {
@@ -62,7 +55,6 @@ public abstract class Societe {
     }
 
     public String getCodePostal() {return codePostal;}
-
     public void setCodePostal(String codePostal) throws MonExceptionMaison {
 
         if (codePostal.isBlank() || codePostal.isEmpty()) {
@@ -73,7 +65,6 @@ public abstract class Societe {
     }
 
     public String getTelephone() {return telephone;}
-
     public void setTelephone(String telephone) throws MonExceptionMaison {
 
         if (telephone.isBlank() || telephone.isEmpty()) {
@@ -102,82 +93,30 @@ public abstract class Societe {
     }
 
     public String getCommentaires() {return commentaires;}
-    public void setCommentaires(String commentaires) {
-        try{
-            this.commentaires = commentaires;
-        }
-        catch (NullPointerException nullPointerException){}
-
-    }
+    public void setCommentaires(String commentaires) {this.commentaires = commentaires;}
 
     public String getVille() {return Ville;}
     public void setVille(String ville) throws MonExceptionMaison {
-        if (ville.isBlank()) {throw new MonExceptionMaison("Le champ Ville est vide.") ;
+        if (ville.isBlank()) {
+            throw new MonExceptionMaison("Le champ Ville est vide.") ;
         }
         else
         {Ville = ville;}
     }
 
+
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Societe(String raisonSociale, String Ville, String numeroRue, String rue, String codePostal, String telephone,
                    String courriel,String commentaires) throws MonExceptionMaison {
+
         setRaisonSociale( raisonSociale);
+        setVille(Ville);
         setNumeroRue(numeroRue);
         setRue(rue);
         setCodePostal(codePostal);
         setTelephone(telephone);
         setCourriel(courriel);
         setCommentaires(commentaires);
-    }
-
-    //TESTEURS DE ...-----------------------------------------------------------------------------------------------
-
-    /***
-     *
-     * @param nouvelleValeurSouhaitee String récupéré par la vue
-     * @return le string converti en entier
-     * @throws MonExceptionMaison
-     */
-    public int StringToInt (String nouvelleValeurSouhaitee) throws MonExceptionMaison{
-
-        try {
-            return Integer.parseInt(nouvelleValeurSouhaitee);
-        }
-
-        catch (NumberFormatException nfe) {
-            throw new MonExceptionMaison("Ceci ne constitue pas un entier valide (attendu = entier positif)");
-        }
-
-    }
-
-    /***
-     *
-     * @param nouvelleValeurSouhaitee String récupéré par la vue
-     * @return Un Double
-     * @throws MonExceptionMaison
-     */
-    public Double StringToDouble (String nouvelleValeurSouhaitee) throws MonExceptionMaison{
-
-        try {
-            return Double.parseDouble(nouvelleValeurSouhaitee);
-        }
-
-        catch (NumberFormatException nfe) {
-            throw new MonExceptionMaison("Ceci ne constitue pas un nombre valide (attendu = nombre double");
-        }
-
-    }
-
-    public LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison{
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            return LocalDate.parse(nouvelleValeurSouhaitee, formatter);
-        }
-
-        catch (DateTimeParseException dtpe) {
-            throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
-        }
     }
 
     //TOSTRING----------------------------------------------------------------------------------------------------------

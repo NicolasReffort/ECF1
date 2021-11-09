@@ -9,8 +9,6 @@ public class ListeClients {
 
     public static List<Client> getListeTousClients() {return listeTousClients;    }
 
-    public static void setListeTousClients(List<Client> listeTousClients) {
-        ListeClients.listeTousClients = listeTousClients;}
 
 
 }

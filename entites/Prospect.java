@@ -1,6 +1,7 @@
 package entites;
 
-import Utilitaires.MonExceptionMaison;
+import Exceptions.MonExceptionMaison;
+import Utilitaires.Outils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +10,8 @@ import java.time.format.DateTimeParseException;
 public class Prospect extends Societe {
 
     //RELATIF A LA CLASSE-----------------------------------------------------------------------------------------------
-    private int compteurProspects;
+    private static int compteurProspects = 0 ;
+
 
     public void dateProspectionConvertor(String datePropsectionEnstring) throws MonExceptionMaison {
 
@@ -31,16 +33,14 @@ public class Prospect extends Societe {
     //RELATIF AUX INSTANCES--------------------------------------------------------------------------------------------
     private LocalDate dateProspection;
     private int propsectEstInteresse;
+    private Outils.TypeSociete PROSPECT ;
+
+
 
     //SETTERS ET GETTERS-----------------------------------------------------------------------------------------------
-    public int getCompteurProspects() {
+    public static int getCompteurProspects() {
         return compteurProspects;
     }
-
-    public void setCompteurProspects(int compteurProspects) {
-        this.compteurProspects = compteurProspects;
-    }
-
     public LocalDate getDateProspection() {
         return dateProspection;
     }
@@ -50,11 +50,10 @@ public class Prospect extends Societe {
         this.dateProspection = dateProspection;
     }
 
-    public int getPropsectEstInteresse() {
 
-      return propsectEstInteresse;
-    }
 
+
+    public int getPropsectEstInteresse() {return propsectEstInteresse;}
     public void setPropsectEstInteresse(int propsectEstInteresse) throws MonExceptionMaison {
 
         if ( (propsectEstInteresse != 1) && (propsectEstInteresse !=0) ) {
@@ -68,6 +67,7 @@ public class Prospect extends Societe {
     public Prospect(String raisonSociale, String ville, String numeroRue, String rue, String codePostal, String telephone,
                     String courriel, String commentaires, LocalDate dateProspection, int propsectEstInteresse) throws MonExceptionMaison {
         super(raisonSociale, ville,numeroRue, rue, codePostal, telephone, courriel, commentaires);
+
         compteurProspects++;
         setIdentifiant(compteurProspects);
         setDateProspection(dateProspection);
