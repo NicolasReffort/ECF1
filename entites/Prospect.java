@@ -63,6 +63,10 @@ public class Prospect extends Societe {
         this.propsectEstInteresse = propsectEstInteresse;
     }
 
+    public Outils.TypeSociete getType() {
+        return PROSPECT;
+    }
+
     //CONSTRUCTEURS----------------------------------------------------------------------------------------------------
     public Prospect(String raisonSociale, String ville, String numeroRue, String rue, String codePostal, String telephone,
                     String courriel, String commentaires, LocalDate dateProspection, int propsectEstInteresse) throws MonExceptionMaison {

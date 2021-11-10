@@ -22,6 +22,9 @@ public class Client extends Societe{
     public static int getCompteurClients() {return compteurClients;}
 
     public Double getCA() {return CA;}
+
+    public Outils.TypeSociete getType() {return CLIENT;}
+
     public void setCA(Double CA) throws MonExceptionMaison {
 
         if (CA<=CA_MIN ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
@@ -40,6 +43,8 @@ public class Client extends Societe{
         else {this.nbEmployes = nbEmployes;};
     }
 
+
+
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Client(String raisonSociale,String ville, String numeroRue, String rue, String codePostal, String telephone,
                   String courriel, String commentaires, Double CA, int nbEmployes) throws MonExceptionMaison,
@@ -54,13 +59,18 @@ public class Client extends Societe{
 
     //TO STRING --------------------------------------------------------------------------------------------------------
 
-
     @Override
     public String toString() {
-        return super.toString() + "Client{" +
-                "ID=" + getIdentifiant() +
-                ", CA=" + CA +
-                ", nbEmployes=" + nbEmployes +
-                '}' + "\n";
+        return this.getRaisonSociale() ;
     }
+
+
+//    @Override
+//    public String toString() {
+//        return super.toString() + "Client{" +
+//                "ID=" + getIdentifiant() +
+//                ", CA=" + CA +
+//                ", nbEmployes=" + nbEmployes +
+//                '}' + "\n";
+//    }
 }

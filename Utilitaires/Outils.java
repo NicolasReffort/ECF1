@@ -4,35 +4,37 @@ import Exceptions.MonExceptionMaison;
 import entites.Client;
 import entites.Prospect;
 import entites.Societe;
+import vues.Accueil;
+import vues.Formulaire;
 
+import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Outils {
-    //DE CLASSSSSE
-    public static boolean itsClient = false;
-    public static boolean itsProspect = false;
-
-    public static void setItsClient(boolean itsClient) {itsClient = itsClient;}
-    public static void setItsProspect(boolean itsProspect) {itsProspect = itsProspect;}
+    //D INSTANCE
+    public boolean itsClient;
+    public void setItsClient(boolean itsClient) {
+        this.itsClient = itsClient;
+    }
 
     //ENUMS
     public enum TypeSociete{CLIENT,PROSPECT}
 
-    public static void DirecteurDeCasting(Societe societe){
+    public void DirecteurDeCasting(Societe societe){
 
         if (societe instanceof Client) {
             setItsClient(true);
-            setItsProspect(false);
         }
 
-        else
+        if (societe instanceof  Prospect)
         {
-            setItsProspect(true);
-            setItsProspect(false);
+            setItsClient(false);
         }
     }
+
 
 
     //TESTEURS DE ...-----------------------------------------------------------------------------------------------
@@ -48,6 +50,27 @@ public class Outils {
             throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
         }
     }
+
+    public static void RetournerAccueil(){
+
+        Accueil accueil = new Accueil();
+    }
+
+    public static void PreparerleFormulaire(Formulaire formulaire, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        formulaire.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        formulaire.setSize(800, 900);
+        formulaire.setMinimumSize(new Dimension(150, 156));
+
+    }
+
+
+
+
+
+
+
 
 
 
