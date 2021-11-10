@@ -71,6 +71,7 @@ public class Accueil extends JFrame {
         affichageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 comboBox1.setVisible(false);
+                dispose();
                 Affichage affichage = new Affichage(Outils.TypeSociete.CLIENT);
 
             }

@@ -39,10 +39,7 @@ public class Formulaire extends JFrame {
     private JTextField IdTextField;
     private JTextField champID;
 
-    public final String ATTRIBUTCLIENT1 = "CHIFFRE D'AFFAIRES" ;
-    public final String ATTRIBUTCLIENT2 = "NOMBRE D'EMPLOYES" ;
-    public final String ATTRIBUTPROSPECT1 = "DATE DE PROSPECTION";
-    public final String ATTRIBUTPROSPECT2 = "EST INTERESSE : O/N.";
+
 
     private Double CAenDouble; // UTILISE POUR POUVOIR SETTER PLUS FACILEMENT ----
     public Double getCAenDouble() {return CAenDouble;}
@@ -68,15 +65,15 @@ public class Formulaire extends JFrame {
 
         // REMPLISSAGE DE LA VUE SI CEST UN CLIENT
         if (typeSociete == Outils.TypeSociete.CLIENT) {
-            AttributFille1TexteField.setText(ATTRIBUTCLIENT1);
-            AttributFille2TexteField.setText(ATTRIBUTCLIENT2);
+            AttributFille1TexteField.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+            AttributFille2TexteField.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
             // ON AFFICHE LE FUTUR IDENTIFIANT QUI SERA SSOCIE AU CLIENT CREE
             champID.setText( Integer.toString(Client.getCompteurClients() + 1 ));
         }
 
         else {
-            AttributFille1TexteField.setText(ATTRIBUTPROSPECT2);
-            AttributFille2TexteField.setText(ATTRIBUTPROSPECT2);
+            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION);
+            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE);
             // ON AFFICHE LE FUTUR IDENTIFIANT QUI SERA SSOCIE AU CLIENT CREE
             champID.setText( String.valueOf(Prospect.getCompteurProspects() + 1 ));
         }
@@ -100,17 +97,18 @@ public class Formulaire extends JFrame {
                             setCAenDouble( Double.parseDouble(champFille1.getText())) ;
 
                     }catch (NullPointerException npe) {
-                        System.out.println("Merci de saisir un CA");
+                        System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
                     }
                     catch (NumberFormatException nfe )  {
-                        System.out.println("Votre CA saisi n'est pas correct");
+                        System.out.println("Votre " + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct");
                     }
 
                     //ESSAI DU NB D EMPLOYES
                     try {
                         setNbEmployesInt(Integer.parseInt(champFille2.getText())); }
                     catch (NumberFormatException nfe1 )  {
-                        JOptionPane.showMessageDialog(null, "Votre nombre d'employé saisi n'est pas correct")
+                        JOptionPane.showMessageDialog(null, "Votre "
+                                + VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas correct")
                     ;
                     }
 
@@ -199,18 +197,19 @@ public class Formulaire extends JFrame {
 
 
         if (outils.itsClient) {
+            String Orange = "black" ;
 
             // ON CHARGE AVEC LES DONNEeS ASSOCIEES SPECIFIQUES CLIENT
-            AttributFille1TexteField.setText(ATTRIBUTCLIENT1);
-            AttributFille2TexteField.setText(ATTRIBUTCLIENT2);
+            AttributFille1TexteField.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+            AttributFille2TexteField.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
             champFille1.setText( String.valueOf(client.getCA()));
             champFille2.setText(String.valueOf(client.getNbEmployes()));
         }
         else
         {
             // ON CHARGE AVEC LES DONNEES ASSOCIEES SPECIFIQUES PROSPECT
-            AttributFille1TexteField.setText(ATTRIBUTPROSPECT1);
-            AttributFille2TexteField.setText(ATTRIBUTPROSPECT2);
+            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION);
+            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE);
             // FAIRE AVEC LES PROSPECTS§§§§§§§§§§§§§§§
         }
 
@@ -234,16 +233,16 @@ public class Formulaire extends JFrame {
                             setCAenDouble(Double.parseDouble(champFille1.getText()));
 
                         } catch (NullPointerException npe) {
-                            System.out.println("Merci de saisir un C.A");
+                            System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
                         } catch (NumberFormatException nfe) {
-                            System.out.println("Votre C.A saisi n'est pas correct");
+                            System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct.");
                         }
 
                         //ESSAI DU NB D EMPLOYES
                         try {
                             setNbEmployesInt(Integer.parseInt(champFille2.getText()));
                         } catch (NumberFormatException nfe1) {
-                            JOptionPane.showMessageDialog(null, "Votre nombre d'employé saisi " +
+                            JOptionPane.showMessageDialog(null, "Votre " + VuesUtilitaires.NB_EMPLOYES +" saisi " +
                                     "n'est pas correct")
                             ;
                         }
@@ -365,8 +364,6 @@ public class Formulaire extends JFrame {
                     else{prospect = null ;}
                     System.out.println(ListeClients.getListeTousClients().toString());
                     System.out.println(client);
-
-
                     dispose();
                     Outils.RetournerAccueil();
             };

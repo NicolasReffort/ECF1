@@ -3,9 +3,11 @@ package vues;
 import Exceptions.MonExceptionMaison;
 import Utilitaires.Outils;
 import entites.*;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -18,57 +20,52 @@ public class Affichage extends JFrame {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable table1;
-    public Outils outils = new Outils(); // est ce une bonne idée de le mettre en variable d'instance ?
+
+    private String[] NOMS_COLONNES;
+    public void setNOMS_COLONNES(String[] NOMS_COLONNES) {this.NOMS_COLONNES = NOMS_COLONNES;}
+
+    private int nbLignes;
+    public void setNbLignes(int nbLignes) {this.nbLignes = nbLignes;}
 
     public Affichage(Outils.TypeSociete typeSociete) {
 
         //PANE CHARGE
         setContentPane(contentPane);
-        //AJOUTER CBX AU RESTE
-
         //TAILLE
-        setSize(400, 200);
+        setSize(200, 200);
         setMinimumSize(new Dimension(200, 100));
 
-        TableModel dataModel = new AbstractTableModel() {
+        // CALCUL POUR LE MODEL ADEQUAT SELON LE TYPE DE SOCIETE
+        if (typeSociete == Outils.TypeSociete.CLIENT){
+            String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
+                        VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
+                        VuesUtilitaires.CHIFFRESDAFFAIRES, VuesUtilitaires.NB_EMPLOYES // <-----ATTRIBUTS CLIENT
+            };
+            setNbLignes(ListeClients.getListeTousClients().size());
+        }
 
-            private final String[] entetes = { "RaisonSociale", "Ville", "COde Postal", "Rue", };
-
-
-            @Override
-            public int getRowCount() {
-                return ListeClients.getListeTousClients().size();
-            }
-
-            @Override
-            public int getColumnCount() {
-                return entetes.length -1 ;
-            }
-
-
-            @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                return null;
-            }
+        else{
+            String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
+                        VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
+                        VuesUtilitaires.DATEDEPROSPECTION, VuesUtilitaires.EST_IL_INTERESSE // <-----ATTRIBUTS PROSPECT
+            };
+           setNbLignes(ListeProspects.getListeTousProspects().size());
         };
 
-        table1.setModel(dataModel);
-
-        for (int i = 0; i<ListeClients.getListeTousClients().size(); i++ ){
-            table1.setValueAt(ListeClients.getListeTousClients().get(i).getRaisonSociale(), 1,i);
-        }
-
-        for (int i = 0; i<ListeClients.getListeTousClients().size(); i++ ){
-            table1.setValueAt(ListeClients.getListeTousClients().get(i).getRaisonSociale(), 1,1);
-        }
-
-        table1.setValueAt(ListeClients.getListeTousClients().get(1).getRaisonSociale(), 1,1);
-
-
+        //Instanciation et paramétrage du model pour la table
+        DefaultTableModel defaultTableModel = new DefaultTableModel(NOMS_COLONNES, nbLignes);
+        VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);
         table1.setVisible(true);
         //PANE VISIBLE
         setVisible(true);
         getRootPane().setDefaultButton(buttonOK);
 
+
+
     }
+
+
 }
+
+
+

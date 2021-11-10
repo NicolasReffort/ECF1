@@ -9,6 +9,7 @@ public class ListeProspects {
 
 
     public static List<Prospect>getListeTousProspects() {return listeTousProspects;}
-    public static void setListeTousClients(List<Prospect>listeTousProspects) {ListeProspects.listeTousProspects = listeTousProspects;}
+    public static void setListeTousClients(List<Prospect>listeTousProspects) {
+        listeTousProspects = listeTousProspects;}
 
 }
