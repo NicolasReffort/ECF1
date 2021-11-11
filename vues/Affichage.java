@@ -17,7 +17,6 @@ import java.util.List;
 public class Affichage extends JFrame {
 
     private JPanel contentPane;
-    private JButton buttonOK;
     private JButton buttonCancel;
     private JTable table1;
 
@@ -32,37 +31,62 @@ public class Affichage extends JFrame {
         //PANE CHARGE
         setContentPane(contentPane);
         //TAILLE
-        setSize(200, 200);
+        setSize(500, 222);
         setMinimumSize(new Dimension(200, 100));
 
-        // CALCUL POUR LE MODEL ADEQUAT SELON LE TYPE DE SOCIETE
-        if (typeSociete == Outils.TypeSociete.CLIENT){
-            String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
-                        VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
-                        VuesUtilitaires.CHIFFRESDAFFAIRES, VuesUtilitaires.NB_EMPLOYES // <-----ATTRIBUTS CLIENT
-            };
-            setNbLignes(ListeClients.getListeTousClients().size());
-        }
+        buttonCancel.setText("Retour à l'accueil");
+        buttonCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                dispose();
+                Accueil accueil = new Accueil();
+            }
+        });
 
-        else{
-            String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
-                        VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
-                        VuesUtilitaires.DATEDEPROSPECTION, VuesUtilitaires.EST_IL_INTERESSE // <-----ATTRIBUTS PROSPECT
-            };
-           setNbLignes(ListeProspects.getListeTousProspects().size());
-        };
+
+
+        // call onCancel() when cross is clicked
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+                Accueil accueil = new Accueil();
+            }
+        });
+
+
+
+
+
+        //COLONNES COMMUNES A TOUTES LES SOCIETES
+        String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
+                VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE};
+        //
+        if (typeSociete == Outils.TypeSociete.CLIENT){
+            setNbLignes(ListeClients.getListeTousClients().size());}
+        else  { setNbLignes(ListeProspects.getListeTousProspects().size()); };
 
         //Instanciation et paramétrage du model pour la table
         DefaultTableModel defaultTableModel = new DefaultTableModel(NOMS_COLONNES, nbLignes);
-        VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);
-        table1.setVisible(true);
+
+        // ajout des colonnes spécifiques
+        if (typeSociete == Outils.TypeSociete.CLIENT){
+            defaultTableModel.addColumn(VuesUtilitaires.CHIFFRESDAFFAIRES);
+            defaultTableModel.addColumn(VuesUtilitaires.NB_EMPLOYES);
+        }
+        else{
+            defaultTableModel.addColumn(VuesUtilitaires.DATEDEPROSPECTION);
+            defaultTableModel.addColumn(VuesUtilitaires.EST_IL_INTERESSE);
+        };
+
+        VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);//Remplissage de la table
+
+
         //PANE VISIBLE
         setVisible(true);
-        getRootPane().setDefaultButton(buttonOK);
-
-
-
     }
+
+
 
 
 }

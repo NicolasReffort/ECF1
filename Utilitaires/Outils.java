@@ -56,14 +56,25 @@ public class Outils {
         Accueil accueil = new Accueil();
     }
 
-    public static void PreparerleFormulaire(Formulaire formulaire, Container contentPaneFormulaire){
+    public static void PreparerlaPage(Formulaire formulaire, Container contentPaneFormulaire){
         //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
         formulaire.setContentPane(contentPaneFormulaire);
         //TAILLE
         formulaire.setSize(800, 900);
         formulaire.setMinimumSize(new Dimension(150, 156));
-
     }
+
+    public static void PreparerlaPage(Accueil accueil, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        accueil.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        accueil.setSize(800, 900);
+        accueil.setMinimumSize(new Dimension(150, 156));
+    }
+
+
+
+
 
 
 

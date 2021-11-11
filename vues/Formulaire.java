@@ -39,8 +39,6 @@ public class Formulaire extends JFrame {
     private JTextField IdTextField;
     private JTextField champID;
 
-
-
     private Double CAenDouble; // UTILISE POUR POUVOIR SETTER PLUS FACILEMENT ----
     public Double getCAenDouble() {return CAenDouble;}
     private void setCAenDouble(Double CAenDouble) throws NullPointerException, NumberFormatException {
@@ -58,10 +56,12 @@ public class Formulaire extends JFrame {
     public Prospect getProspect() {return prospect;}
     public void setProspect(Prospect prospect) {this.prospect = prospect;}
 
+    private Outils outils = new Outils();
+
     //PREMIER CONSTRUCTEUR : LA FONCTION CREER -------------------------------------------------------------------------
     public Formulaire(Outils.TypeSociete typeSociete) {
 
-       Outils.PreparerleFormulaire(this ,contentPaneFormulaire);
+       Outils.PreparerlaPage(this ,contentPaneFormulaire);
 
         // REMPLISSAGE DE LA VUE SI CEST UN CLIENT
         if (typeSociete == Outils.TypeSociete.CLIENT) {
@@ -134,7 +134,7 @@ public class Formulaire extends JFrame {
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Outils.RetournerAccueil();
+                dispose();
             }
         });
 
@@ -159,29 +159,20 @@ public class Formulaire extends JFrame {
     /***
      *
      * @param societe Société choisie (dans la combo box) que l'on souhaite utiliser pour construire la vue
-     *                du formulaire de modification.
-     * @param supprimerOuModifier Indice pour connaître la marche à suivre (supp/modif)
+     *                du formulaire de modification/suppression.
+     * @param supprimerOuModifier Motclé pour connaître la marche à suivre (supp/modif)
      */
     public Formulaire(String supprimerOuModifier, Societe societe) {
 
         // chargement du formulaire et du content aux dimensions voulues.
-        Outils.PreparerleFormulaire(this, contentPaneFormulaire);
+        Outils.PreparerlaPage(this, contentPaneFormulaire);
 
-        //REMPLISSAGE AVEC LES ATTRIBUTS-MERE
-        champRaisonSociale.setText(societe.getRaisonSociale());
-        champVille.setText(societe.getVille());
-        champCodePostal.setText(societe.getCodePostal());
-        champNumeroRue.setText(societe.getNumeroRue());
-        champRue.setText(societe.getRue());
-        champTelephone.setText(societe.getTelephone());
-        champCourriel.setText(societe.getCourriel());
-        champCommentaires.setText(societe.getCommentaires());
-        champID.setText( Integer.toString(societe.getIdentifiant()) );
+        //remplissage des champs formulaire et de leur contenu pour les attributs commun à toutes les sociétés
+        RemplirChampsCommunsFormulaire(societe);
 
         //CASTING SOCIETE ARRIVANTE: le résulat est stocké en v.i.
-        Outils outils = new Outils();
-        outils.DirecteurDeCasting(societe);
 
+        outils.DirecteurDeCasting(societe);
         if (outils.itsClient) {
             Client clientCaste = ((Client)societe);
             setClient(clientCaste); // stockage résulat en vi
@@ -195,11 +186,9 @@ public class Formulaire extends JFrame {
             JOptionPane.showMessageDialog(null, "Vous avez sélectionné le prospect : " + prospect.getRaisonSociale());
         }
 
-
+        //remplissage des champs du formulaire et de leur contenu avec les attributs spécifiques à chaque type de société
         if (outils.itsClient) {
-            String Orange = "black" ;
 
-            // ON CHARGE AVEC LES DONNEeS ASSOCIEES SPECIFIQUES CLIENT
             AttributFille1TexteField.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
             AttributFille2TexteField.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
             champFille1.setText( String.valueOf(client.getCA()));
@@ -207,22 +196,19 @@ public class Formulaire extends JFrame {
         }
         else
         {
-            // ON CHARGE AVEC LES DONNEES ASSOCIEES SPECIFIQUES PROSPECT
             AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION);
             AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE);
             // FAIRE AVEC LES PROSPECTS§§§§§§§§§§§§§§§
         }
 
 
-        //-------------------modification---------------------------------------
+        //-------------------MODIFICATION---------------------------------------
         if(supprimerOuModifier.equals("modifier")) {
-
 
         //.....d'un client
         if (outils.itsClient) {
 
             buttonOk.setText("MODIFIER " + client.getRaisonSociale());
-
 
             //ACTIONS DU BOUTON OK
             buttonOk.addActionListener(new ActionListener() {
@@ -242,7 +228,8 @@ public class Formulaire extends JFrame {
                         try {
                             setNbEmployesInt(Integer.parseInt(champFille2.getText()));
                         } catch (NumberFormatException nfe1) {
-                            JOptionPane.showMessageDialog(null, "Votre " + VuesUtilitaires.NB_EMPLOYES +" saisi " +
+                            JOptionPane.showMessageDialog(null, "Votre "
+                                    + VuesUtilitaires.NB_EMPLOYES +" saisi " +
                                     "n'est pas correct")
                             ;
                         }
@@ -261,9 +248,6 @@ public class Formulaire extends JFrame {
                             client.setNbEmployes(Integer.parseInt(champFille2.getText()));
 
                             dispose(); // RETOUR A L ACCUEIL SI LES MODIFICATIONS ONT FONCTIONNE
-                            JOptionPane.showMessageDialog(null, ListeClients.getListeTousClients().toString());
-                            Accueil accueil = new Accueil();
-                            accueil.setVisible(true);
 
                         } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
                             //D ERREUR PERSO
@@ -284,7 +268,6 @@ public class Formulaire extends JFrame {
                     Outils.RetournerAccueil();
                 }
             });
-
 
             this.setVisible(true);
         }
@@ -310,7 +293,6 @@ public class Formulaire extends JFrame {
                         //prospect.setNbEmployes(Integer.parseInt(champFille2.getText()));
 
                         dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
-                        JOptionPane.showMessageDialog(null, ListeProspects.getListeTousProspects().toString());
                         Outils.RetournerAccueil();
 
                     } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
@@ -381,6 +363,23 @@ public class Formulaire extends JFrame {
     private void onCancel() {
         // add your code here if necessary
         dispose();
-        Outils.RetournerAccueil();}
+        Outils.RetournerAccueil();
+    }
+
+    public void RemplirChampsCommunsFormulaire(Societe societe){
+
+        champRaisonSociale.setText(societe.getRaisonSociale());
+        champVille.setText(societe.getVille());
+        champCodePostal.setText(societe.getCodePostal());
+        champNumeroRue.setText(societe.getNumeroRue());
+        champRue.setText(societe.getRue());
+        champTelephone.setText(societe.getTelephone());
+        champCourriel.setText(societe.getCourriel());
+        champCommentaires.setText(societe.getCommentaires());
+        champID.setText( Integer.toString(societe.getIdentifiant()) );
+
+
+    }
+
 
 }

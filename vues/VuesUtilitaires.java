@@ -3,10 +3,14 @@ package vues;
 import Utilitaires.Outils;
 import entites.ListeClients;
 import entites.ListeProspects;
+import entites.Societe;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/****
+ * Classe du même package que les vues. Contient des méthodes d'affichage et variables pour les vues.
+ */
 public class VuesUtilitaires {
 
     // CONSTANTES POUR LES NOMS DES ATTRIBUTS
@@ -34,10 +38,10 @@ public class VuesUtilitaires {
     public static void RemplirJtable(JTable table, DefaultTableModel defaultTableModel, Outils.TypeSociete typeSociete) {
 
         table.setModel(defaultTableModel);
-        int nblignes = defaultTableModel.getColumnName().length(); // VOIR LES CSQ DE PRENDRE
-        // public DefaultTableModel(Object[] columnNames,int rowCount) https://docs.oracle.com/javase/7/docs/api/javax/swing/table/DefaultTableModel.html#DefaultTableModel(java.lang.Object[],%20int)
+        int nblignes = defaultTableModel.getRowCount();
         int nbColonnes = defaultTableModel.getColumnCount();
 
+        //Remplissage Jtable Client
         if (typeSociete == Outils.TypeSociete.CLIENT) {
 
             int j = 0 ;
@@ -81,6 +85,7 @@ public class VuesUtilitaires {
 
 
         }
+        //Remplissage Jtable Prospect
         else{
 
             int j = 0 ;
@@ -124,5 +129,8 @@ public class VuesUtilitaires {
         }
 
     }
+
+
+
 }
 

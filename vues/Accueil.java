@@ -1,13 +1,11 @@
 package vues;
 
 import Utilitaires.Outils;
-import entites.Client;
 import entites.ListeClients;
 import entites.ListeProspects;
 import entites.Societe;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,10 +25,7 @@ public class Accueil extends JFrame {
 
     //CONSTRUCTEUR -----------------------------------------------------------------------------------------------------
     public Accueil() {
-        setContentPane(contentPane);
-        setSize(1600,900);
-        setMinimumSize(new Dimension(150,156));
-        getRootPane().setDefaultButton(buttonOK);
+        Outils.PreparerlaPage(this, contentPane );
 
         // CHOIX DE LA GESTION CLIENT
         gererUnClientButton.addActionListener(new ActionListener() {
@@ -77,6 +72,7 @@ public class Accueil extends JFrame {
             }
         });
 
+        //par défaut au chargement, on voit les deux boutons, sans les choix d'édition ni la combobox.
         this.setVisible(true);
         jpanelChoixEdition.setVisible(false);
         panelCombobox.setVisible(false);
