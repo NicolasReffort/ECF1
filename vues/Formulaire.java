@@ -80,9 +80,6 @@ public class Formulaire extends JFrame {
 
         buttonOk.setText("CRÉER CE" + typeSociete.toString().toUpperCase(Locale.ROOT));
 
-        //TAILLE
-        setSize(800,900);
-        setMinimumSize(new Dimension(150,156));
         //FORMULAIRE DEVIENT VISIBLE
         setVisible(true);
 
@@ -119,7 +116,6 @@ public class Formulaire extends JFrame {
                                 champCommentaires.getText(), getCAenDouble() , getNbEmployesInt())
                         ;
                         dispose(); // RETOUR A L ACCUEIL SI LA CREATION A FONCTIONNE
-                        Outils.RetournerAccueil();
 
                     }
                     catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
@@ -171,7 +167,6 @@ public class Formulaire extends JFrame {
         RemplirChampsCommunsFormulaire(societe);
 
         //CASTING SOCIETE ARRIVANTE: le résulat est stocké en v.i.
-
         outils.DirecteurDeCasting(societe);
         if (outils.itsClient) {
             Client clientCaste = ((Client)societe);
@@ -183,7 +178,8 @@ public class Formulaire extends JFrame {
         {
             Prospect prospectCaste = ((Prospect)societe);
             setProspect(prospectCaste);
-            JOptionPane.showMessageDialog(null, "Vous avez sélectionné le prospect : " + prospect.getRaisonSociale());
+            JOptionPane.showMessageDialog(null, "Vous avez sélectionné le prospect : "
+                    + prospect.getRaisonSociale());
         }
 
         //remplissage des champs du formulaire et de leur contenu avec les attributs spécifiques à chaque type de société
@@ -205,71 +201,70 @@ public class Formulaire extends JFrame {
         //-------------------MODIFICATION---------------------------------------
         if(supprimerOuModifier.equals("modifier")) {
 
-        //.....d'un client
-        if (outils.itsClient) {
+            //.....d'un client
+            if (outils.itsClient) {
 
-            buttonOk.setText("MODIFIER " + client.getRaisonSociale());
+                buttonOk.setText("MODIFIER " + client.getRaisonSociale());
 
-            //ACTIONS DU BOUTON OK
-            buttonOk.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                //ACTIONS DU BOUTON OK
+                buttonOk.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
 
-                        //ESSAI DU CA //////////////////////////CATCHER plus bas
-                        try {
-                            setCAenDouble(Double.parseDouble(champFille1.getText()));
+                            //ESSAI DU CA //////////////////////////CATCHER plus bas
+                            try {
+                                setCAenDouble(Double.parseDouble(champFille1.getText()));
 
-                        } catch (NullPointerException npe) {
-                            System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                        } catch (NumberFormatException nfe) {
-                            System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct.");
-                        }
+                            } catch (NullPointerException npe) {
+                                System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
+                            } catch (NumberFormatException nfe) {
+                                System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct.");
+                            }
 
-                        //ESSAI DU NB D EMPLOYES
-                        try {
-                            setNbEmployesInt(Integer.parseInt(champFille2.getText()));
-                        } catch (NumberFormatException nfe1) {
-                            JOptionPane.showMessageDialog(null, "Votre "
-                                    + VuesUtilitaires.NB_EMPLOYES +" saisi " +
-                                    "n'est pas correct")
+                            //ESSAI DU NB D EMPLOYES
+                            try {
+                                setNbEmployesInt(Integer.parseInt(champFille2.getText()));
+                            } catch (NumberFormatException nfe1) {
+                                JOptionPane.showMessageDialog(null, "Votre "
+                                        + VuesUtilitaires.NB_EMPLOYES +" saisi " +
+                                        "n'est pas correct")
+                                ;
+                            }
+
+                            try { //ESSAYER DE MODIFIER AVEC LES SAISIES ET LA VERIFICATION DU TYPAGE FAITE A L AFFICHAGE
+
+                                client.setRaisonSociale(champRaisonSociale.getText());
+                                client.setVille(champVille.getText());
+                                client.setCodePostal(champCodePostal.getText());
+                                client.setNumeroRue(champNumeroRue.getText());
+                                client.setRue(champRue.getText());
+                                client.setTelephone(champTelephone.getText());
+                                client.setCourriel(champCourriel.getText());
+                                client.setCommentaires(champCommentaires.getText());
+                                client.setCA(Double.parseDouble(champFille1.getText()));
+                                client.setNbEmployes(Integer.parseInt(champFille2.getText()));
+                                dispose(); // RETOUR A L ACCUEIL SI LES MODIFICATIONS ONT FONCTIONNE
+
+                            } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
+                                //D ERREUR PERSO
+                                JOptionPane.showMessageDialog(null, mem.getMessage());
+                            }
                             ;
-                        }
 
-                        try { //ESSAYER DE MODIFIER AVEC LES SAISIES ET LA VERIFICATION DU TYPAGE FAITE A L AFFICHAGE
+                            JOptionPane.showMessageDialog(null, // POUR DEV
+                                    client.toString()
+                            );
 
-                            client.setRaisonSociale(champRaisonSociale.getText());
-                            client.setVille(champVille.getText());
-                            client.setCodePostal(champCodePostal.getText());
-                            client.setNumeroRue(champNumeroRue.getText());
-                            client.setRue(champRue.getText());
-                            client.setTelephone(champTelephone.getText());
-                            client.setCourriel(champCourriel.getText());
-                            client.setCommentaires(champCommentaires.getText());
-                            client.setCA(Double.parseDouble(champFille1.getText()));
-                            client.setNbEmployes(Integer.parseInt(champFille2.getText()));
+                        //onOK();
+                    }
+                });
 
-                            dispose(); // RETOUR A L ACCUEIL SI LES MODIFICATIONS ONT FONCTIONNE
+                buttonCancel.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        dispose();
+                    }
+                });
 
-                        } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
-                            //D ERREUR PERSO
-                            JOptionPane.showMessageDialog(null, mem.getMessage());
-                        }
-                        ;
-
-                        JOptionPane.showMessageDialog(null, // POUR DEV
-                                client.toString()
-                        );
-
-                    //onOK();
-                }
-            });
-
-            buttonCancel.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    Outils.RetournerAccueil();
-                }
-            });
-
-            this.setVisible(true);
+                this.setVisible(true);
         }
 
         //.... ou d'un prospect:
@@ -293,7 +288,6 @@ public class Formulaire extends JFrame {
                         //prospect.setNbEmployes(Integer.parseInt(champFille2.getText()));
 
                         dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
-                        Outils.RetournerAccueil();
 
                     } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
                         //D ERREUR PERSO
@@ -308,26 +302,26 @@ public class Formulaire extends JFrame {
 
         } /// fin du else Modif Clients
 
-            buttonCancel.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    onCancel();
-                }
-            });
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
 
-            // call onCancel() when cross is clicked
-            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    onCancel();
-                }
-            });
+        // call onCancel() when cross is clicked
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
 
-            // call onCancel() on ESCAPE
-            contentPaneFormulaire.registerKeyboardAction(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    onCancel();
-                }
-            }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        // call onCancel() on ESCAPE
+        contentPaneFormulaire.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         }
         // FIN DE LA PARTIE POUR LA MODIFICATION ---------------------------------
@@ -346,24 +340,18 @@ public class Formulaire extends JFrame {
                     else{prospect = null ;}
                     System.out.println(ListeClients.getListeTousClients().toString());
                     System.out.println(client);
-                    dispose();
-                    Outils.RetournerAccueil();
-            };
+                    dispose();};
             }
             );
             this.setVisible(true);
-
         }
-
     }
 
     private void onOK() {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
-        Outils.RetournerAccueil();
     }
 
     public void RemplirChampsCommunsFormulaire(Societe societe){
@@ -377,9 +365,6 @@ public class Formulaire extends JFrame {
         champCourriel.setText(societe.getCourriel());
         champCommentaires.setText(societe.getCommentaires());
         champID.setText( Integer.toString(societe.getIdentifiant()) );
-
-
     }
-
 
 }

@@ -1,18 +1,11 @@
 package vues;
 
-import Exceptions.MonExceptionMaison;
 import Utilitaires.Outils;
 import entites.*;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
 
 public class Affichage extends JFrame {
 
@@ -28,35 +21,22 @@ public class Affichage extends JFrame {
 
     public Affichage(Outils.TypeSociete typeSociete) {
 
-        //PANE CHARGE
-        setContentPane(contentPane);
-        //TAILLE
-        setSize(500, 222);
-        setMinimumSize(new Dimension(200, 100));
-
+        Outils.PreparerlaPage(this, contentPane);
         buttonCancel.setText("Retour à l'accueil");
         buttonCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 dispose();
-                Accueil accueil = new Accueil();
             }
         });
-
-
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
-                Accueil accueil = new Accueil();
             }
         });
-
-
-
-
 
         //COLONNES COMMUNES A TOUTES LES SOCIETES
         String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
@@ -80,7 +60,6 @@ public class Affichage extends JFrame {
         };
 
         VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);//Remplissage de la table
-
 
         //PANE VISIBLE
         setVisible(true);
