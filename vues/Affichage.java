@@ -1,74 +1,74 @@
 package vues;
 
-import Exceptions.MonExceptionMaison;
 import Utilitaires.Outils;
 import entites.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-import java.util.List;
 
 public class Affichage extends JFrame {
 
     private JPanel contentPane;
-    private JButton buttonOK;
     private JButton buttonCancel;
     private JTable table1;
-    public Outils outils = new Outils(); // est ce une bonne idée de le mettre en variable d'instance ?
+
+    private String[] NOMS_COLONNES;
+    public void setNOMS_COLONNES(String[] NOMS_COLONNES) {this.NOMS_COLONNES = NOMS_COLONNES;}
+
+    private int nbLignes;
+    public void setNbLignes(int nbLignes) {this.nbLignes = nbLignes;}
 
     public Affichage(Outils.TypeSociete typeSociete) {
 
-        //PANE CHARGE
-        setContentPane(contentPane);
-        //AJOUTER CBX AU RESTE
-
-        //TAILLE
-        setSize(400, 200);
-        setMinimumSize(new Dimension(200, 100));
-
-        TableModel dataModel = new AbstractTableModel() {
-
-            private final String[] entetes = { "RaisonSociale", "Ville", "COde Postal", "Rue", };
-
-
+        Outils.PreparerlaPage(this, contentPane);
+        buttonCancel.setText("Retour à l'accueil");
+        buttonCancel.addActionListener(new ActionListener() {
             @Override
-            public int getRowCount() {
-                return ListeClients.getListeTousClients().size();
+            public void actionPerformed(ActionEvent actionEvent) {
+                dispose();
             }
+        });
 
-            @Override
-            public int getColumnCount() {
-                return entetes.length -1 ;
+        // call onCancel() when cross is clicked
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
             }
+        });
 
+        //COLONNES COMMUNES A TOUTES LES SOCIETES
+        String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
+                VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE};
+        //
+        if (typeSociete == Outils.TypeSociete.CLIENT){
+            setNbLignes(ListeClients.getListeTousClients().size());}
+        else  { setNbLignes(ListeProspects.getListeTousProspects().size()); };
 
-            @Override
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                return null;
-            }
+        //Instanciation et paramétrage du model pour la table
+        DefaultTableModel defaultTableModel = new DefaultTableModel(NOMS_COLONNES, nbLignes);
+
+        // ajout des colonnes spécifiques
+        if (typeSociete == Outils.TypeSociete.CLIENT){
+            defaultTableModel.addColumn(VuesUtilitaires.CHIFFRESDAFFAIRES);
+            defaultTableModel.addColumn(VuesUtilitaires.NB_EMPLOYES);
+        }
+        else{
+            defaultTableModel.addColumn(VuesUtilitaires.DATEDEPROSPECTION);
+            defaultTableModel.addColumn(VuesUtilitaires.EST_IL_INTERESSE);
         };
 
-        table1.setModel(dataModel);
+        VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);//Remplissage de la table
 
-        for (int i = 0; i<ListeClients.getListeTousClients().size(); i++ ){
-            table1.setValueAt(ListeClients.getListeTousClients().get(i).getRaisonSociale(), 1,i);
-        }
-
-        for (int i = 0; i<ListeClients.getListeTousClients().size(); i++ ){
-            table1.setValueAt(ListeClients.getListeTousClients().get(i).getRaisonSociale(), 1,1);
-        }
-
-        table1.setValueAt(ListeClients.getListeTousClients().get(1).getRaisonSociale(), 1,1);
-
-
-        table1.setVisible(true);
         //PANE VISIBLE
         setVisible(true);
-        getRootPane().setDefaultButton(buttonOK);
-
     }
+
+
+
+
 }
+
+
+

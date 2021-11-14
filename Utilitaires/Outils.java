@@ -5,8 +5,8 @@ import entites.Client;
 import entites.Prospect;
 import entites.Societe;
 import vues.Accueil;
+import vues.Affichage;
 import vues.Formulaire;
-
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Outils {
-    //D INSTANCE
+    //RELATIF AUX INSTANCES
     public boolean itsClient;
     public void setItsClient(boolean itsClient) {
         this.itsClient = itsClient;
@@ -36,7 +36,6 @@ public class Outils {
     }
 
 
-
     //TESTEURS DE ...-----------------------------------------------------------------------------------------------
 
     public LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison {
@@ -51,28 +50,30 @@ public class Outils {
         }
     }
 
-    public static void RetournerAccueil(){
-
-        Accueil accueil = new Accueil();
-    }
-
-    public static void PreparerleFormulaire(Formulaire formulaire, Container contentPaneFormulaire){
+    public static void PreparerlaPage(Formulaire formulaire, Container contentPaneFormulaire){
         //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
         formulaire.setContentPane(contentPaneFormulaire);
         //TAILLE
         formulaire.setSize(800, 900);
         formulaire.setMinimumSize(new Dimension(150, 156));
-
     }
 
+    public static void PreparerlaPage(Accueil accueil, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        accueil.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        accueil.setSize(800, 900);
+        accueil.setMinimumSize(new Dimension(150, 156));
+    }
 
+    public static void PreparerlaPage(Affichage affichage, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        affichage.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        affichage.setSize(800, 900);
+        affichage.setMinimumSize(new Dimension(150, 156));
 
-
-
-
-
-
-
+    }
 
 
 
