@@ -35,9 +35,14 @@ public class VuesUtilitaires {
      * @param defaultTableModel un model de Table qu'on aura déjà paramétré au préalable.
      * @param typeSociete le type de la société, pour savoir avec quelle liste hydrater.
      */
-    public static void RemplirJtable(JTable table, DefaultTableModel defaultTableModel, Outils.TypeSociete typeSociete) {
+    public static void RemplirJtable(JTable table, DefaultTableModel defaultTableModel,
+                                     Outils.TypeSociete typeSociete) {
 
+        /*
         table.setModel(defaultTableModel);
+        JScrollPane jscrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+
         int nblignes = defaultTableModel.getRowCount();
         int nbColonnes = defaultTableModel.getColumnCount();
 
@@ -126,11 +131,10 @@ public class VuesUtilitaires {
             for (int i = 0; i < nblignes; i++) {
                 table.setValueAt(ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse(), i, j);
             }
-        }
+
+         */
 
     }
-
-
 
 }
 

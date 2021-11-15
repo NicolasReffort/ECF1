@@ -75,11 +75,12 @@ public class Accueil extends JFrame {
         modifierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (gererunClientIsClicked) {
-                    System.out.println("Le gérer un client a été cliqué, je vais lancer la construction modification-client.");
                     CreerContenuBoutonModificationSuppression("modifier", Outils.TypeSociete.CLIENT);
                 } else {
                     CreerContenuBoutonModificationSuppression("modifier", Outils.TypeSociete.PROSPECT);
                 }
+                modifierAlreadyClicked = true;
+
                 ;
             }});
 
@@ -98,18 +99,18 @@ public class Accueil extends JFrame {
                 else  {
                     CreerContenuBoutonModificationSuppression("supprimer", Outils.TypeSociete.PROSPECT);
                 };
+                supprimerAlreadyClicked = true ;
             }
         });
-
 
         // ACTION SUR AFFICHAGE :
         affichageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 comboBox1.setVisible(false);
                 if (gererunClientIsClicked){
-                    Affichage affichage = new Affichage(Outils.TypeSociete.CLIENT);
+                    Affichage affichage = new Affichage();
                 }
-                else  {Affichage affichage = new Affichage(Outils.TypeSociete.PROSPECT);
+                else  {Affichage affichage = new Affichage();
                 };
 
             }
@@ -160,81 +161,30 @@ public class Accueil extends JFrame {
     }
 
     /****
-     *
-     * @param supprimerOuModifier créé les boutons supprimer ou modifier et leur combobox
+     * Crée le contenu puis rend visible la CBB.
+     * @param supprimerOuModifier créé le contenu des boutons supprimer ou modifier, et l'action sur combobox correspondante.
      * @param typeSociete Outils.TypeSocite.CLIENT ou PROSPECT
      */
     public void CreerContenuBoutonModificationSuppression(String supprimerOuModifier, Outils.TypeSociete typeSociete){
 
+        // ne pas remplir 2 fois la combobox
+        if (!modifierAlreadyClicked && !supprimerAlreadyClicked) {
+            RemplirCombobox(comboBox1, typeSociete);
+            // action sur combobox
+            comboBox1.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                Societe societe = RecupererSelectionCombobox(comboBox1, typeSociete);
+                                                Formulaire formulaire = new Formulaire(supprimerOuModifier, societe);
+                                            }
+                                        }
 
-        switch (supprimerOuModifier){
-
-            case "supprimer":
-
-                if (supprimerAlreadyClicked) {
-                    JOptionPane.showMessageDialog(null,"Je ne peux pas construire les actions de " +
-                            "supprimer. supprimerAlreadyClicked est"
-                            + supprimerAlreadyClicked );
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "supprimerAlreadyclick vaut : "
-                            + supprimerAlreadyClicked);
-                    supprimerButton.addActionListener(new ActionListener() {
-                                                          @Override
-                                                          public void actionPerformed(ActionEvent e) {
-                                                              panelCombobox.setVisible(true);
-                                                              if (supprimerAlreadyClicked == false) {
-                                                                  RemplirCombobox(comboBox1, typeSociete);
-                                                              } else System.out.println("Vous avez déjà cliqué sur le bouton supprimer");
-
-
-                                                              // action sur combobox
-                                                              comboBox1.addActionListener(new ActionListener() {
-                                                                  @Override
-                                                                  public void actionPerformed(ActionEvent e) {
-                                                                      Societe societe = RecupererSelectionCombobox(comboBox1, typeSociete);
-                                                                      Formulaire formulaire = new Formulaire(supprimerOuModifier, societe);
-                                                                  }
-                                                              });
-                                                          }
-                                                      }
-                    );
-                    supprimerAlreadyClicked = true;
-                }
-
-                break;
-
-            case "modifier":
-
-                modifierButton.addActionListener(new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-                        panelCombobox.setVisible(true);
-                        if (modifierAlreadyClicked == false ) {
-                            RemplirCombobox(comboBox1, typeSociete);
-                        }
-                        else System.out.println("Vous avez déjà cliqué sur le bouton Modifier");
-                        comboBox1.addActionListener(new ActionListener() {
-
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                Societe societe = RecupererSelectionCombobox(comboBox1, typeSociete);
-                                comboBox1.setVisible(false);
-                                Formulaire formulaire = new Formulaire(supprimerOuModifier, societe);
-                            }
-                        });
-                    }
-
-                    //TO DO ; METTRE EN TRY CATCH POUR NPE
-//                try {Object societeToHandle = comboBox1.getSelectedItem();}
-//                catch (NullPointerException mem) {
-//                    throw new MonExceptionMaison("Merci de séléctionner une société à éditer dans la liste déroulante");
-
-                });
-                modifierAlreadyClicked = true ;
-                break;
-
+            );
         }
+
+        panelCombobox.setVisible(true); // CBB visible.
+        comboBox1.setVisible(true);
+
 
 
     }

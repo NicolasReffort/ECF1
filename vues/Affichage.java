@@ -1,32 +1,53 @@
 package vues;
 
 import Utilitaires.Outils;
-import entites.*;
+import entites.ListeClients;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 
 public class Affichage extends JFrame {
-
     private JPanel contentPane;
+    private JButton buttonOK;
     private JButton buttonCancel;
-    private JTable table1;
+    private JTable table;
+    private JPanel jpanelduJtable;
+    private JPanel jpannelBoutons;
 
-    private String[] NOMS_COLONNES;
-    public void setNOMS_COLONNES(String[] NOMS_COLONNES) {this.NOMS_COLONNES = NOMS_COLONNES;}
-
-    private int nbLignes;
-    public void setNbLignes(int nbLignes) {this.nbLignes = nbLignes;}
-
-    public Affichage(Outils.TypeSociete typeSociete) {
-
+    public Affichage() {
         Outils.PreparerlaPage(this, contentPane);
-        buttonCancel.setText("Retour à l'accueil");
+        getRootPane().setDefaultButton(buttonOK);
+
+        //COLONNES COMMUNES A TOUTES LES SOCIETES
+        String[] nomsColonnes = { VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE,
+                VuesUtilitaires.CODEPOSTAL, VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE,
+                VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE};
+
+
+
+        Object[][] donnees =  {
+
+                    {
+                        ListeClients.getListeTousClients().get(i).getRaisonSociale(),
+                        ListeClients.getListeTousClients().get(i).getVille(),
+                        ListeClients.getListeTousClients().get(i).getCodePostal(),
+                        ListeClients.getListeTousClients().get(i).getNumeroRue(),
+                        ListeClients.getListeTousClients().get(i).getRue(),
+                        ListeClients.getListeTousClients().get(i).getCourriel(),
+                        ListeClients.getListeTousClients().get(i).getTelephone(),
+                    }
+
+        };
+
+        DefaultTableModel defaultTableModel = new DefaultTableModel(donnees, nomsColonnes);
+        defaultTableModel.setColumnIdentifiers(nomsColonnes);
+        table.setModel(defaultTableModel);
+        table.setVisible(true);
+
         buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                dispose();
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
             }
         });
 
@@ -34,41 +55,20 @@ public class Affichage extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                dispose();
+                onCancel();
             }
         });
 
-        //COLONNES COMMUNES A TOUTES LES SOCIETES
-        String[] NOMS_COLONNES = {VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE, VuesUtilitaires.CODEPOSTAL,
-                VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE, VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE};
-        //
-        if (typeSociete == Outils.TypeSociete.CLIENT){
-            setNbLignes(ListeClients.getListeTousClients().size());}
-        else  { setNbLignes(ListeProspects.getListeTousProspects().size()); };
+        // call onCancel() on ESCAPE
+        contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        //Instanciation et paramétrage du model pour la table
-        DefaultTableModel defaultTableModel = new DefaultTableModel(NOMS_COLONNES, nbLignes);
-
-        // ajout des colonnes spécifiques
-        if (typeSociete == Outils.TypeSociete.CLIENT){
-            defaultTableModel.addColumn(VuesUtilitaires.CHIFFRESDAFFAIRES);
-            defaultTableModel.addColumn(VuesUtilitaires.NB_EMPLOYES);
-        }
-        else{
-            defaultTableModel.addColumn(VuesUtilitaires.DATEDEPROSPECTION);
-            defaultTableModel.addColumn(VuesUtilitaires.EST_IL_INTERESSE);
-        };
-
-        VuesUtilitaires.RemplirJtable(table1, defaultTableModel, typeSociete);//Remplissage de la table
-
-        //PANE VISIBLE
         setVisible(true);
     }
 
 
-
-
+    private void onCancel() {dispose();}
 }
-
-
-

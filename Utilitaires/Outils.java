@@ -66,13 +66,12 @@ public class Outils {
         accueil.setMinimumSize(new Dimension(150, 156));
     }
 
-    public static void PreparerlaPage(Affichage affichage, Container contentPaneFormulaire){
+    public static void PreparerlaPage(Affichage affichage, JPanel contentPaneFormulaire){
         //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
         affichage.setContentPane(contentPaneFormulaire);
         //TAILLE
         affichage.setSize(800, 900);
         affichage.setMinimumSize(new Dimension(150, 156));
-
     }
 
 

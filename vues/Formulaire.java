@@ -242,7 +242,8 @@ public class Formulaire extends JFrame {
                                 client.setCommentaires(champCommentaires.getText());
                                 client.setCA(Double.parseDouble(champFille1.getText()));
                                 client.setNbEmployes(Integer.parseInt(champFille2.getText()));
-                                dispose(); // RETOUR A L ACCUEIL SI LES MODIFICATIONS ONT FONCTIONNE
+                                dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
+                                Accueil accueil = new Accueil();
 
                             } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
                                 //D ERREUR PERSO
@@ -250,18 +251,14 @@ public class Formulaire extends JFrame {
                             }
                             ;
 
-                            JOptionPane.showMessageDialog(null, // POUR DEV
-                                    client.toString()
-                            );
-
                         //onOK();
                     }
                 });
 
                 buttonCancel.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        dispose();
-                    }
+                        dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
+                        Accueil accueil = new Accueil();                     }
                 });
 
                 this.setVisible(true);
@@ -288,6 +285,7 @@ public class Formulaire extends JFrame {
                         //prospect.setNbEmployes(Integer.parseInt(champFille2.getText()));
 
                         dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
+                        Accueil accueil = new Accueil();
 
                     } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
                         //D ERREUR PERSO
@@ -302,11 +300,7 @@ public class Formulaire extends JFrame {
 
         } /// fin du else Modif Clients
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -340,11 +334,25 @@ public class Formulaire extends JFrame {
                     else{prospect = null ;}
                     System.out.println(ListeClients.getListeTousClients().toString());
                     System.out.println(client);
-                    dispose();};
+                    dispose();
+                    Accueil accueil = new Accueil();
+                };
+
             }
             );
-            this.setVisible(true);
         }
+
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+                Accueil accueil = new Accueil();
+            }
+        });
+
+
+        this.setVisible(true);
+
     }
 
     private void onOK() {
@@ -352,6 +360,9 @@ public class Formulaire extends JFrame {
 
     private void onCancel() {
         dispose();
+        Accueil accueil = new Accueil();
+
+
     }
 
     public void RemplirChampsCommunsFormulaire(Societe societe){
