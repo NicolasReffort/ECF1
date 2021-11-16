@@ -210,48 +210,29 @@ public class Formulaire extends JFrame {
                 buttonOk.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
 
-                            //ESSAI DU CA //////////////////////////CATCHER plus bas
-                            try {
-                                setCAenDouble(Double.parseDouble(champFille1.getText()));
-
-                            } catch (NullPointerException npe) {
+                        try {
+                             client.setRaisonSociale(champRaisonSociale.getText());
+                             client.setVille(champVille.getText());
+                             client.setCodePostal(champCodePostal.getText());
+                             client.setNumeroRue(champNumeroRue.getText());
+                             client.setRue(champRue.getText());
+                             client.setTelephone(champTelephone.getText());
+                             client.setCourriel(champCourriel.getText());
+                             client.setCommentaires(champCommentaires.getText());
+                             client.setCA(Double.parseDouble(champFille1.getText()));
+                             client.setNbEmployes(Integer.parseInt(champFille2.getText()));
+                             dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
+                             Accueil accueil = new Accueil();
+                        } catch (NullPointerException npe) {
                                 System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                            } catch (NumberFormatException nfe) {
-                                System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct.");
-                            }
-
-                            //ESSAI DU NB D EMPLOYES
-                            try {
-                                setNbEmployesInt(Integer.parseInt(champFille2.getText()));
-                            } catch (NumberFormatException nfe1) {
-                                JOptionPane.showMessageDialog(null, "Votre "
-                                        + VuesUtilitaires.NB_EMPLOYES +" saisi " +
-                                        "n'est pas correct")
-                                ;
-                            }
-
-                            try { //ESSAYER DE MODIFIER AVEC LES SAISIES ET LA VERIFICATION DU TYPAGE FAITE A L AFFICHAGE
-
-                                client.setRaisonSociale(champRaisonSociale.getText());
-                                client.setVille(champVille.getText());
-                                client.setCodePostal(champCodePostal.getText());
-                                client.setNumeroRue(champNumeroRue.getText());
-                                client.setRue(champRue.getText());
-                                client.setTelephone(champTelephone.getText());
-                                client.setCourriel(champCourriel.getText());
-                                client.setCommentaires(champCommentaires.getText());
-                                client.setCA(Double.parseDouble(champFille1.getText()));
-                                client.setNbEmployes(Integer.parseInt(champFille2.getText()));
-                                dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
-                                Accueil accueil = new Accueil();
-
-                            } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
+                        } catch (NumberFormatException nfe) {
+                                System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
+                                        VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas correct.");
+                        }
+                        catch (MonExceptionMaison mem) {
                                 //D ERREUR PERSO
                                 JOptionPane.showMessageDialog(null, mem.getMessage());
-                            }
-                            ;
-
-                        //onOK();
+                        }
                     }
                 });
 
@@ -292,7 +273,6 @@ public class Formulaire extends JFrame {
                         JOptionPane.showMessageDialog(null, mem.getMessage());
                     }
                     ;
-
                 }
             });
 

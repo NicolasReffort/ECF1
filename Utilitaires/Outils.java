@@ -38,7 +38,7 @@ public class Outils {
 
     //TESTEURS DE ...-----------------------------------------------------------------------------------------------
 
-    public LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison {
+    public static LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison {
 
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

@@ -108,9 +108,9 @@ public class Accueil extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 comboBox1.setVisible(false);
                 if (gererunClientIsClicked){
-                    Affichage affichage = new Affichage();
+                    Affichage affichage = new Affichage(Outils.TypeSociete.CLIENT);
                 }
-                else  {Affichage affichage = new Affichage();
+                else  {Affichage affichage = new Affichage(Outils.TypeSociete.PROSPECT);
                 };
 
             }

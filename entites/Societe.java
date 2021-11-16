@@ -1,6 +1,7 @@
 package entites;
 
 import Exceptions.MonExceptionMaison;
+import vues.VuesUtilitaires;
 
 public abstract class Societe {
 
@@ -14,7 +15,9 @@ public abstract class Societe {
     private String telephone;
     private String courriel;
     private String commentaires;
+    private String messageMerciDe = "Merci de bien vouloir compléter correctement le champ : " ;
 
+    //TO DO / FACTORISER LE TEST STRING BASIQUE DES SETTERS. §§§§§§§§§§§§§§
 
     //GETTERS ET SETTERS------------------------------------------------------------------------------------------------
 
@@ -26,21 +29,18 @@ public abstract class Societe {
     public String getRaisonSociale() {return raisonSociale;}
     public void setRaisonSociale(String raisonSociale) throws MonExceptionMaison {
 
-        try {
-            raisonSociale.isBlank();
-            this.raisonSociale = raisonSociale;
-        }
-        catch (NullPointerException npe ){
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer une raison sociale non-nulle ");
-        }
+        if ( ( raisonSociale == null) || raisonSociale.isEmpty() || raisonSociale.isBlank()) {
 
+            throw new MonExceptionMaison(messageMerciDe + VuesUtilitaires.RAISONSOCIALE);
+        }
+        else {this.raisonSociale = raisonSociale;}
     }
 
     public String getNumeroRue() {return numeroRue;}
     public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
 
         if (numeroRue.isBlank() || numeroRue.isEmpty()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un numéro de rue vide ou nul") ;
+            throw new MonExceptionMaison(messageMerciDe + VuesUtilitaires.NUMERORUE) ;
         }
         else {this.numeroRue = numeroRue;}
     }
@@ -48,8 +48,10 @@ public abstract class Societe {
     public String getRue() {return rue;}
     public void setRue(String rue) throws MonExceptionMaison {
 
-        if (rue.isBlank() || rue.isEmpty()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer une Rue vide ou nul") ;
+        if ( ( rue == null) || rue.isEmpty() || rue.isBlank()) {
+
+            throw new MonExceptionMaison( messageMerciDe+ VuesUtilitaires.RUE);
+
         }
         else {this.rue = rue;}
     }
