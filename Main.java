@@ -1,8 +1,11 @@
 import Exceptions.MonExceptionMaison;
+import Utilitaires.Outils;
 import entites.*;
 import vues.*;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 
 public class Main {
 
@@ -27,6 +30,18 @@ public class Main {
                 65000.0, 2
         );
 
+        LocalDate dateProspection1 = Outils.StringToLocalDate("22-05-2021");
+        LocalDate dateProspection2 = Outils.StringToLocalDate("01-02-2021");
+
+        Prospect prospect2 = new Prospect("Martine Lecture", "Angoulême", "7", "Principale",
+                "16000", "+05 45 38 70 03", "angou@feu.fr", "Mairie",
+                dateProspection2, "n"
+        );
+
+        Prospect prospect1 = new Prospect("Hugie LEs Bons Tyuaux", "LA", "562", "Madison",
+                "1200", "+5512155952", "hugie@free.fr", "Client US", dateProspection1,
+                "o"
+        );
 
         Accueil accueil = new Accueil();
     }

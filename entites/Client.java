@@ -2,6 +2,7 @@ package entites;
 
 import Exceptions.MonExceptionMaison;
 import Utilitaires.Outils;
+import vues.VuesUtilitaires;
 
 public class Client extends Societe{
 
@@ -27,11 +28,11 @@ public class Client extends Societe{
 
     public void setCA(Double CA) throws MonExceptionMaison {
 
-        if (CA<=CA_MIN ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
-            throw new MonExceptionMaison("le CA indiqué ne peut être inférieur à " + CA_MIN) ;
+        if (  (CA==null) || ( CA < CA_MIN )  ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
+            throw new MonExceptionMaison("le " + VuesUtilitaires.CHIFFRESDAFFAIRES + " doit être supérieur à "  + CA_MIN) ;
         }
 
-        this.CA = CA;
+        else { this.CA = CA;}
     }
 
     public int getNbEmployes() {return nbEmployes;}
@@ -42,8 +43,6 @@ public class Client extends Societe{
         }
         else {this.nbEmployes = nbEmployes;};
     }
-
-
 
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Client(String raisonSociale,String ville, String numeroRue, String rue, String codePostal, String telephone,
