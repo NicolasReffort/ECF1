@@ -103,6 +103,9 @@ public class Accueil extends JFrame {
             }
         });
 
+
+
+
         // ACTION SUR AFFICHAGE :
         affichageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -134,13 +137,13 @@ public class Accueil extends JFrame {
 
             case CLIENT:
                 for (int i = 0 ; i < ( ListeClients.getListeTousClients().size() ) ; i++) {
-                    comboBox.addItem(ListeClients.getListeTousClients().get(i).toString());
+                    comboBox.addItem(ListeClients.getListeTousClients().get(i).getRaisonSociale());
                 }
                 break;
 
             case PROSPECT:
                 for (int i = 0; i < ( ListeProspects.getListeTousProspects().size() ) ; i++) {
-                    comboBox.addItem(ListeProspects.getListeTousProspects().get(i).toString());
+                    comboBox.addItem(ListeProspects.getListeTousProspects().get(i).getRaisonSociale());
                 }
                 break;
         }
@@ -167,24 +170,24 @@ public class Accueil extends JFrame {
      */
     public void CreerContenuBoutonModificationSuppression(String supprimerOuModifier, Outils.TypeSociete typeSociete){
 
-        // ne pas remplir 2 fois la combobox
+        // si rien n'a été cliqué
         if (!modifierAlreadyClicked && !supprimerAlreadyClicked) {
+
             RemplirCombobox(comboBox1, typeSociete);
+
             // action sur combobox
             comboBox1.addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                Societe societe = RecupererSelectionCombobox(comboBox1, typeSociete);
-                                                Formulaire formulaire = new Formulaire(supprimerOuModifier, societe);
-                                            }
-                                        }
-
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Societe societe = RecupererSelectionCombobox(comboBox1, typeSociete);
+                    Formulaire formulaire = new Formulaire(supprimerOuModifier, societe);
+                    dispose();
+                }
+            }
             );
+            panelCombobox.setVisible(true); // CBB visible.
+            comboBox1.setVisible(true);
         }
-
-        panelCombobox.setVisible(true); // CBB visible.
-        comboBox1.setVisible(true);
-
 
 
     }

@@ -7,6 +7,7 @@ import entites.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 import java.util.Locale;
 
 public class Formulaire extends JFrame {
@@ -39,29 +40,36 @@ public class Formulaire extends JFrame {
     private JTextField IdTextField;
     private JTextField champID;
 
-    private Double CAenDouble; // UTILISE POUR POUVOIR SETTER PLUS FACILEMENT ----
+    private Double CAenDouble; // ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
     public Double getCAenDouble() {return CAenDouble;}
     private void setCAenDouble(Double CAenDouble) throws NullPointerException, NumberFormatException {
         this.CAenDouble = CAenDouble;}
 
-    private int NbEmployesInt;// UTILISE POUR POUVOIR SETTER PLUS FACILEMENT
+    private int NbEmployesInt;// ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
     private void setNbEmployesInt(int nbEmployesInt) {NbEmployesInt = nbEmployesInt;}
     public int getNbEmployesInt() {return NbEmployesInt;    }
 
-    private Client client ; // ATTRIBUT FOURNI POUR LA CREATION POUR JONGLER + FACILEMENT DANS LA PAGE
+    private LocalDate dateProspection;// // ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
+    public LocalDate getDateProspection() {return dateProspection;}
+    public void setDateProspection(LocalDate dateProspection) {this.dateProspection = dateProspection;}
+
+    private Client client ; // ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
     public Client getClient() {return client;}
     public void setClient(Client client) {this.client = client;    }
 
-    private Prospect prospect ; // ATTRIBUT FOURNI POUR LA CREATION POUR JONGLER + FACILEMENT DANS LA PAGE
+    private Prospect prospect ; // ATTRIBUT FPOUR JONGLER + FACILEMENT DANS LA PAGE
     public Prospect getProspect() {return prospect;}
     public void setProspect(Prospect prospect) {this.prospect = prospect;}
 
     private Outils outils = new Outils();
 
+    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     //PREMIER CONSTRUCTEUR : LA FONCTION CREER -------------------------------------------------------------------------
     public Formulaire(Outils.TypeSociete typeSociete) {
 
        Outils.PreparerlaPage(this ,contentPaneFormulaire);
+       // TO DO / FACTORISABLE AVEC LE REMPLISSAGE VUE MODIF SUPPRIMER &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
         // REMPLISSAGE DE LA VUE SI CEST UN CLIENT
         if (typeSociete == Outils.TypeSociete.CLIENT) {
@@ -72,61 +80,84 @@ public class Formulaire extends JFrame {
         }
 
         else {
-            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION);
-            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE);
+            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE.toUpperCase() );
             // ON AFFICHE LE FUTUR IDENTIFIANT QUI SERA SSOCIE AU CLIENT CREE
             champID.setText( String.valueOf(Prospect.getCompteurProspects() + 1 ));
         }
 
         buttonOk.setText("CRÉER CE" + typeSociete.toString().toUpperCase(Locale.ROOT));
 
-        //FORMULAIRE DEVIENT VISIBLE
-        setVisible(true);
+
 
        buttonOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                //ACTIONS A ENCLENCHER POUR  OK SI CEST UN CLIENT ------------------------------------------------------
+                //ACTIONS SUR OK
+                // ....si c'est un client ----------------------------
                 if (typeSociete == Outils.TypeSociete.CLIENT) {
 
-                    //ESSAI DU CA
                     try {
-                            setCAenDouble( Double.parseDouble(champFille1.getText())) ;
-
-                    }catch (NullPointerException npe) {
-                        System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                    }
-                    catch (NumberFormatException nfe )  {
-                        System.out.println("Votre " + VuesUtilitaires.CHIFFRESDAFFAIRES + " saisi n'est pas correct");
-                    }
-
-                    //ESSAI DU NB D EMPLOYES
-                    try {
-                        setNbEmployesInt(Integer.parseInt(champFille2.getText())); }
-                    catch (NumberFormatException nfe1 )  {
-                        JOptionPane.showMessageDialog(null, "Votre "
-                                + VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas correct")
-                    ;
-                    }
-
-                    try { //ESSAYER DE CONSTRUIRE AVEC LES SAISIES ET LA VERIFICATION DU TYPAGE FAITE A L AFFICHAGE
-
-                        new Client(champRaisonSociale.getText(),champVille.getText(), champNumeroRue.getText(), champRue.getText(),
-                                champCodePostal.getText(), champTelephone.getText(), champCourriel.getText(),
-                                champCommentaires.getText(), getCAenDouble() , getNbEmployesInt())
+                        // on teste le typage correct des variables
+                        testerlesTypesDesAttributsFille(typeSociete);
+                        //et on essaie de setter
+                        new Client(champRaisonSociale.getText(),champVille.getText(), champNumeroRue.getText(),
+                                champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
+                                champCourriel.getText(),champCommentaires.getText(),
+                                getCAenDouble() , getNbEmployesInt() )
                         ;
                         dispose(); // RETOUR A L ACCUEIL SI LA CREATION A FONCTIONNE
 
                     }
-                    catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
-                        //D ERREUR PERSO
-                        JOptionPane.showMessageDialog(null,mem.getMessage() );
+                    catch (MonExceptionMaison mem) {
+                        JOptionPane.showMessageDialog(null, mem.getMessage());
+                    }catch (NullPointerException npe) {
+                        JOptionPane.showMessageDialog(null,"Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(null,"Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
+                                VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au format correct.");
                     }
-                    ;
+
 
                 }
+                // ... ou un prospect
+                else {
+
+                    try {
+                        // on teste le typage correct des variables
+                        double CADouble  = Double.parseDouble(champFille1.getText()) ;
+                        int nbEmployesInt = Integer.parseInt(champFille2.getText());
+                        //et on essaie de setter
+                        new Client(champRaisonSociale.getText(),champVille.getText(), champNumeroRue.getText(),
+                                champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
+                                champCourriel.getText(),champCommentaires.getText(),
+                                CADouble , nbEmployesInt )
+                        ;
+                        dispose(); // RETOUR A L ACCUEIL SI LA CREATION A FONCTIONNE
+
+                    }
+                    catch (NullPointerException npe) {
+                        JOptionPane.showMessageDialog(null,"Merci de saisir un "
+                                + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
+                    } catch (NumberFormatException nfe) {
+                        JOptionPane.showMessageDialog(null,"Votre"
+                                + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
+                                VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au format correct.");
+                    }
+                    catch (MonExceptionMaison mem) {
+                        //D ERREUR PERSO
+                        JOptionPane.showMessageDialog(null, mem.getMessage());
+                    }
+
+                }
+
+
             }
+
         });
+
+        //FORMULAIRE DEVIENT VISIBLE
+        setVisible(true);
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -150,6 +181,8 @@ public class Formulaire extends JFrame {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     // DEUXIEME CONSTRUCTEUR : MODIFICATION/SUPPESSION -----------------------------------------------------------------
 
     /***
@@ -168,6 +201,7 @@ public class Formulaire extends JFrame {
 
         //CASTING SOCIETE ARRIVANTE: le résulat est stocké en v.i.
         outils.DirecteurDeCasting(societe);
+
         if (outils.itsClient) {
             Client clientCaste = ((Client)societe);
             setClient(clientCaste); // stockage résulat en vi
@@ -192,25 +226,30 @@ public class Formulaire extends JFrame {
         }
         else
         {
-            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION);
-            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE);
-            // FAIRE AVEC LES PROSPECTS§§§§§§§§§§§§§§§
+            AttributFille1TexteField.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+            AttributFille2TexteField.setText(VuesUtilitaires.EST_IL_INTERESSE.toUpperCase() );
+            champFille1.setText( String.valueOf(prospect.getDateProspection().toString() ));
+            champFille2.setText(String.valueOf(prospect.getPropsectEstInteresse() ));
         }
-
 
         //-------------------MODIFICATION---------------------------------------
         if(supprimerOuModifier.equals("modifier")) {
 
+            buttonOk.setText("MODIFIER " + societe.getRaisonSociale().toUpperCase()  );
+
             //.....d'un client
             if (outils.itsClient) {
 
-                buttonOk.setText("MODIFIER " + client.getRaisonSociale());
 
                 //ACTIONS DU BOUTON OK
                 buttonOk.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
 
                         try {
+                            // on teste le typage correct des variables
+                             testerlesTypesDesAttributsFille(Outils.TypeSociete.CLIENT);
+                             
+                             //et on essaie de setter
                              client.setRaisonSociale(champRaisonSociale.getText());
                              client.setVille(champVille.getText());
                              client.setCodePostal(champCodePostal.getText());
@@ -219,20 +258,23 @@ public class Formulaire extends JFrame {
                              client.setTelephone(champTelephone.getText());
                              client.setCourriel(champCourriel.getText());
                              client.setCommentaires(champCommentaires.getText());
-                             client.setCA(Double.parseDouble(champFille1.getText()));
-                             client.setNbEmployes(Integer.parseInt(champFille2.getText()));
-                             dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
+                             client.setCA(getCAenDouble());
+                             client.setNbEmployes(getNbEmployesInt());
+
+                             dispose(); // retour accueil si tout va bien
                              Accueil accueil = new Accueil();
+
                         } catch (NullPointerException npe) {
                                 System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
                         } catch (NumberFormatException nfe) {
                                 System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
-                                        VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas correct.");
+                                        VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au format correct.");
                         }
                         catch (MonExceptionMaison mem) {
                                 //D ERREUR PERSO
                                 JOptionPane.showMessageDialog(null, mem.getMessage());
                         }
+                        //to do : catcher TOUTES EXCEPTIONS
                     }
                 });
 
@@ -247,7 +289,6 @@ public class Formulaire extends JFrame {
 
         //.... ou d'un prospect:
         else {
-            buttonOk.setText("MODIFIER" + prospect.toString().toUpperCase()  );
 
             //Action du bouton OK
             buttonOk.addActionListener(new ActionListener() {
@@ -255,6 +296,10 @@ public class Formulaire extends JFrame {
 
                     //ESSAYER DE MODIFIER AVEC LES DONNEES SAISIES ET LES VERIFICATIONS DU TYPAGE FAITES PAR L AFFICHAGE
                     try {
+                        // on teste le typage correct des variables
+                        testerlesTypesDesAttributsFille(Outils.TypeSociete.PROSPECT);
+
+                        //tentative de setter
                         prospect.setRaisonSociale(champRaisonSociale.getText());
                         prospect.setVille(champVille.getText());
                         prospect.setCodePostal(champCodePostal.getText());
@@ -262,13 +307,16 @@ public class Formulaire extends JFrame {
                         prospect.setRue(champRue.getText());
                         prospect.setTelephone(champTelephone.getText());
                         prospect.setCourriel(champCourriel.getText());
-                        //prospect.setCA(Double.parseDouble(champFille1.getText())); TO DO FAIRE LES ATT PROSPECT
-                        //prospect.setNbEmployes(Integer.parseInt(champFille2.getText()));
+                        prospect.setDateProspection(dateProspection);
+                        prospect.setPropsectEstInteresse(champFille2.getText());
 
                         dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
                         Accueil accueil = new Accueil();
 
-                    } catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
+                    } catch (NullPointerException npe){
+
+                    }
+                    catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
                         //D ERREUR PERSO
                         JOptionPane.showMessageDialog(null, mem.getMessage());
                     }
@@ -298,24 +346,33 @@ public class Formulaire extends JFrame {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         }
-        // FIN DE LA PARTIE POUR LA MODIFICATION ---------------------------------
 
-        //DEBUT SUPPRESSION
+
+        //-------------------SUPPRESSION---------------------------------------
         if(supprimerOuModifier.equals("supprimer")) {
 
-            buttonOk.setText("SUPPRIMER");
+            buttonOk.setText("SUPPRIMER " + societe.getRaisonSociale().toUpperCase()  );
 
             buttonOk.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
 
-                    if (outils.itsClient) {
-                        client = null ;
+                    // BONS INDICATEIRS ???????????????????????????????????
+
+                    if ( JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer"
+                            + societe.getRaisonSociale() + "?" )  == 1 )
+                    {
+                        if (outils.itsClient) {
+                            deleteThat(client);
+                        }
+
+                        else{
+                            deleteThat(prospect);
+                        }
+
                     }
-                    else{prospect = null ;}
-                    System.out.println(ListeClients.getListeTousClients().toString());
-                    System.out.println(client);
-                    dispose();
-                    Accueil accueil = new Accueil();
+                    ;
+
+                    onCancel();
                 };
 
             }
@@ -325,13 +382,11 @@ public class Formulaire extends JFrame {
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                dispose();
-                Accueil accueil = new Accueil();
+                onCancel();
             }
         });
 
-
-        this.setVisible(true);
+       this.setVisible(true);
 
     }
 
@@ -357,5 +412,64 @@ public class Formulaire extends JFrame {
         champCommentaires.setText(societe.getCommentaires());
         champID.setText( Integer.toString(societe.getIdentifiant()) );
     }
+
+    /***
+     * Vérifie que les attributs filles sont bien typés.
+     * @param typeSociete
+     * @throws MonExceptionMaison si la date de prospection est nulle ou au mauvais format
+     * @throws NumberFormatException si CA/NB employés = mauvais type
+     * @throws NullPointerException
+     */
+    public void testerlesTypesDesAttributsFille(Outils.TypeSociete typeSociete) throws MonExceptionMaison,
+            NumberFormatException, NullPointerException {
+
+        if (typeSociete == Outils.TypeSociete.CLIENT) {
+          
+                setCAenDouble(Double.parseDouble(champFille1.getText()));
+                setNbEmployesInt(Integer.parseInt(champFille2.getText()));
+
+            //} catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
+            //JOptionPane.showMessageDialog(null, mem.getMessage());
+            //}
+
+        }
+
+        else {
+            //try {
+            // on essaie de stocker la date de prospection correctement typée pour ensuite l'utiliser dans le setter
+                setDateProspection(Outils.StringToLocalDate(champFille1.getText()));
+
+            //}
+            //catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
+            //JOptionPane.showMessageDialog(null, mem.getMessage());
+            //}
+
+        }
+    }
+
+    /***
+     * Supprime un client
+     * @param clientAsuprrimer
+     */
+    public void deleteThat(Client clientAsuprrimer){
+
+        ListeClients.getListeTousClients().remove(clientAsuprrimer);
+        clientAsuprrimer = null ;
+
+    }
+
+    /***
+     * supprime un prospect
+     * @param prospectAsupprimer
+     */
+    public void deleteThat(Prospect prospectAsupprimer){
+
+        ListeProspects.getListeTousProspects().remove(prospectAsupprimer);
+        prospectAsupprimer = null ;
+
+
+    }
+
+
 
 }

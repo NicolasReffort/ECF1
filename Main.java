@@ -33,15 +33,14 @@ public class Main {
         LocalDate dateProspection1 = Outils.StringToLocalDate("22-05-2021");
         LocalDate dateProspection2 = Outils.StringToLocalDate("01-02-2021");
 
+        Prospect prospect2 = new Prospect("Martine Lecture", "Angoulême", "7", "Principale",
+                "16000", "+05 45 38 70 03", "angou@feu.fr", "Mairie",
+                dateProspection2, "n"
+        );
 
         Prospect prospect1 = new Prospect("Hugie LEs Bons Tyuaux", "LA", "562", "Madison",
                 "1200", "+5512155952", "hugie@free.fr", "Client US", dateProspection1,
-                1
-        );
-
-        Prospect prospect2 = new Prospect("Martine Lecture", "Angoulême", "7", "Principale",
-                "16000", "+05 45 38 70 03", "angou@feu.fr", "Mairie",
-                dateProspection2, 0
+                "o"
         );
 
         Accueil accueil = new Accueil();

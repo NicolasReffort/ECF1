@@ -7,6 +7,8 @@ import entites.Societe;
 import vues.Accueil;
 import vues.Affichage;
 import vues.Formulaire;
+import vues.VuesUtilitaires;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
@@ -35,14 +37,25 @@ public class Outils {
         }
     }
 
+    //TESTEUR DE ...-----------------------------------------------------------------------------------------------
 
-    //TESTEURS DE ...-----------------------------------------------------------------------------------------------
+    /***
+     *
+     * @param string LocalDate en String dont on veut vérifier le bon typage
+     * @return Une LocalDate bien typée
+     * @throws MonExceptionMaison Si mauvais format ou Npe
+     */
+    public static LocalDate StringToLocalDate(String string)throws MonExceptionMaison {
 
-    public static LocalDate StringToLocalDate(String nouvelleValeurSouhaitee)throws MonExceptionMaison {
 
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            return LocalDate.parse(nouvelleValeurSouhaitee, formatter);
+            return LocalDate.parse(string, formatter);
+        }
+
+        catch (NullPointerException npe ){
+            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.DATEDEPROSPECTION);
+
         }
 
         catch (DateTimeParseException dtpe) {
@@ -73,7 +86,4 @@ public class Outils {
         affichage.setSize(800, 900);
         affichage.setMinimumSize(new Dimension(150, 156));
     }
-
-
-
 }

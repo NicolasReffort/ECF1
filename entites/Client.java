@@ -44,8 +44,6 @@ public class Client extends Societe{
         else {this.nbEmployes = nbEmployes;};
     }
 
-
-
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Client(String raisonSociale,String ville, String numeroRue, String rue, String codePostal, String telephone,
                   String courriel, String commentaires, Double CA, int nbEmployes) throws MonExceptionMaison,

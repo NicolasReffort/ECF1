@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /****
- * Classe du même package que les vues. Contient des méthodes d'affichage et variables pour les vues.
+ * Classe du même package que les vues. Contient les méthodes d'affichage et variables pour les vues.
  */
 public class VuesUtilitaires {
 
@@ -22,6 +22,8 @@ public class VuesUtilitaires {
     public static final String COURRIEL = "Courriel";
     public static final String TELEPHONE = "Téléphone";
     public static final String COMMENTAIRES = "Commentaires";
+    public static final String MERCIDE = "Merci de bien vouloir compléter correctement le champ : " ;
+
 
     // filles
     public static final String CHIFFRESDAFFAIRES = "Chiffre d'affaires";

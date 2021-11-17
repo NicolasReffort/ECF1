@@ -31,7 +31,7 @@ public abstract class Societe {
 
         if ( ( raisonSociale == null) || raisonSociale.isEmpty() || raisonSociale.isBlank()) {
 
-            throw new MonExceptionMaison(messageMerciDe + VuesUtilitaires.RAISONSOCIALE);
+            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.RAISONSOCIALE);
         }
         else {this.raisonSociale = raisonSociale;}
     }
@@ -39,8 +39,8 @@ public abstract class Societe {
     public String getNumeroRue() {return numeroRue;}
     public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
 
-        if (numeroRue.isBlank() || numeroRue.isEmpty()) {
-            throw new MonExceptionMaison(messageMerciDe + VuesUtilitaires.NUMERORUE) ;
+        if (  numeroRue == null || numeroRue.isEmpty() || numeroRue.isBlank()) {
+            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.NUMERORUE) ;
         }
         else {this.numeroRue = numeroRue;}
     }
@@ -48,9 +48,9 @@ public abstract class Societe {
     public String getRue() {return rue;}
     public void setRue(String rue) throws MonExceptionMaison {
 
-        if ( ( rue == null) || rue.isEmpty() || rue.isBlank()) {
+        if (  rue == null || rue.isEmpty() || rue.isBlank()) {
 
-            throw new MonExceptionMaison( messageMerciDe+ VuesUtilitaires.RUE);
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE+ VuesUtilitaires.RUE);
 
         }
         else {this.rue = rue;}
@@ -59,8 +59,8 @@ public abstract class Societe {
     public String getCodePostal() {return codePostal;}
     public void setCodePostal(String codePostal) throws MonExceptionMaison {
 
-        if (codePostal.isBlank() || codePostal.isEmpty()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un Code Postal vide ou nul") ;
+        if (  codePostal == null || codePostal.isEmpty() || codePostal.isBlank()) {
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.CODEPOSTAL ) ;
         }
         else {this.codePostal = codePostal;}
 
@@ -69,12 +69,12 @@ public abstract class Societe {
     public String getTelephone() {return telephone;}
     public void setTelephone(String telephone) throws MonExceptionMaison {
 
-        if (telephone.isBlank() || telephone.isEmpty()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un numéro de téléphone vide ou nul") ;
+        if ( telephone == null || telephone.isEmpty() || telephone.isBlank()) {
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         }
 
         else if (telephone.length() < 10 ){
-            throw new MonExceptionMaison("Merci de bien vouloir rentrer un numéro de téléphone d'au moins 10 caractères") ;
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         };
 
         this.telephone = telephone;
@@ -83,15 +83,15 @@ public abstract class Societe {
     public String getCourriel() {return courriel;}
     public void setCourriel(String courriel) throws MonExceptionMaison {
 
-        if (courriel.isBlank() || courriel.isEmpty()) {
-            throw new MonExceptionMaison("Merci de bien vouloir ne pas rentrer un courriel vide ou nul") ;
+        if ( courriel == null || courriel.isEmpty() || courriel.isBlank()) {
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.COURRIEL ) ;
         }
 
         if (  !courriel.contains("@") ){
             throw new MonExceptionMaison("Merci de bien vouloir rentrer un courriel contenant '@'.") ;
         }
 
-        this.courriel = courriel;
+        else this.courriel = courriel;
     }
 
     public String getCommentaires() {return commentaires;}
@@ -99,13 +99,12 @@ public abstract class Societe {
 
     public String getVille() {return Ville;}
     public void setVille(String ville) throws MonExceptionMaison {
-        if (ville.isBlank()) {
-            throw new MonExceptionMaison("Le champ Ville est vide.") ;
+        if (  ville == null || ville.isEmpty() || ville.isBlank()) {
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.VILLE) ;
         }
         else
         {Ville = ville;}
     }
-
 
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Societe(String raisonSociale, String Ville, String numeroRue, String rue, String codePostal, String telephone,
@@ -120,7 +119,6 @@ public abstract class Societe {
         setCourriel(courriel);
         setCommentaires(commentaires);
     }
-
     //TOSTRING----------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
@@ -142,8 +140,5 @@ public abstract class Societe {
                 + "\n" +
                 '}';
     }
-
-
-
 
 }

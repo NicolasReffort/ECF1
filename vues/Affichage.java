@@ -95,8 +95,8 @@ public class Affichage extends JFrame {
                 donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getDateProspection();
                 j++;
 
-                // traduction prospect intéressé 1/0 en Oui/Non
-                if ( ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse() == 1) {
+                // traduction prospect intéressé O/N en Oui/Non
+                if ( ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse().equals("O")) {
                     donnees[i][j] = "Oui";
                 }
                 else donnees[i][j] = "Non";
