@@ -20,6 +20,7 @@ public class Accueil extends JFrame {
     private JPanel jpanelChoixEdition;
     private JPanel panelCombobox;
     private JComboBox<Societe> comboBox1;
+    private JButton button1;
     private JButton buttonOK;
     private boolean gererunClientIsClicked = false; // flag == vrai si on clique sur GérerUnClient
     private boolean supprimerAlreadyClicked; // même principe pour supprimer et modifer. Evite de remplir deux fois la combobox.
@@ -27,7 +28,9 @@ public class Accueil extends JFrame {
 
     //CONSTRUCTEUR -----------------------------------------------------------------------------------------------------
     public Accueil() {
-        Outils.PreparerlaPage(this, contentPane );
+        VuesUtilitaires.PreparerlaPage(this, contentPane );
+        VuesUtilitaires.PreparerBoutonAccueil(button1, this);
+
         gererunClientIsClicked = false;
         supprimerAlreadyClicked = false;
         modifierAlreadyClicked = false;
@@ -38,7 +41,7 @@ public class Accueil extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 gererunClientIsClicked = true ;
                 gererUnProspectButton.setVisible(false);
-                jpanelChoixEdition.setVisible(true);// apparition des champs d'édition
+                jpanelChoixEdition.setVisible(true);// apparition des champs d'édition : factorisable, à la rigueur
                 affichageButton.setText("Afficher tous les clients");
                 creerButton.setText("Créer un client");
                 modifierButton.setText("Modifier un client");

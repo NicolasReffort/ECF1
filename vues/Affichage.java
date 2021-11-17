@@ -25,7 +25,7 @@ public class Affichage extends JFrame {
 
     public Affichage(Outils.TypeSociete typeSociete) {
         ;
-        Outils.PreparerlaPage(this, contentPane);
+        VuesUtilitaires.PreparerlaPage(this, contentPane);
 
         //COLONNES COMMUNES A TOUTES LES SOCIETES
 

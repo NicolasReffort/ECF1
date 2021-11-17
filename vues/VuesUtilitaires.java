@@ -1,12 +1,13 @@
 package vues;
 
 import Utilitaires.Outils;
-import entites.ListeClients;
-import entites.ListeProspects;
-import entites.Societe;
+import entites.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /****
  * Classe du même package que les vues. Contient les méthodes d'affichage et variables pour les vues.
@@ -24,6 +25,13 @@ public class VuesUtilitaires {
     public static final String COMMENTAIRES = "Commentaires";
     public static final String MERCIDE = "Merci de bien vouloir compléter correctement le champ : " ;
 
+    public static final int WIDTH_NORMAL = 800 ;
+    public static final int HEIGHT_NORMAL = 900 ;
+    public static final int MIN_WIDTH_NORMAL = 800 ;
+    public static final int MIN_HEIGHT_NORMAL = 900 ;
+
+
+
 
     // filles
     public static final String CHIFFRESDAFFAIRES = "Chiffre d'affaires";
@@ -31,112 +39,101 @@ public class VuesUtilitaires {
     public static final String DATEDEPROSPECTION = "Date de prospection";
     public static final String EST_IL_INTERESSE = "Intéressé : O/N.";
 
-    /****
-     *
-     * @param table Une Jtable pas encore rattachée à un Model de Table
-     * @param defaultTableModel un model de Table qu'on aura déjà paramétré au préalable.
-     * @param typeSociete le type de la société, pour savoir avec quelle liste hydrater.
-     */
-    public static void RemplirJtable(JTable table, DefaultTableModel defaultTableModel,
-                                     Outils.TypeSociete typeSociete) {
+     public static void PreparerBoutonAccueil(JButton button, JFrame jframe )
+    {
+        button.setText("Retour Accueil");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                jframe.dispose();
+                Accueil accueil = new Accueil();
+            }
+        });
+    }
 
-        /*
-        table.setModel(defaultTableModel);
-        JScrollPane jscrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
-
-        int nblignes = defaultTableModel.getRowCount();
-        int nbColonnes = defaultTableModel.getColumnCount();
-
-        //Remplissage Jtable Client
-        if (typeSociete == Outils.TypeSociete.CLIENT) {
-
-            int j = 0 ;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getRaisonSociale(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getVille(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getCodePostal(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getNumeroRue(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getRue(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getCourriel(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getTelephone(), i, j);
-            }
-            j++;
-
-            //attributs clients propres
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getCA(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeClients.getListeTousClients().get(i).getNbEmployes(), i, j);
-            }
-
-
-        }
-        //Remplissage Jtable Prospect
-        else{
-
-            int j = 0 ;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getRaisonSociale(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getVille(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getCodePostal(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getNumeroRue(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getRue(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getCourriel(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getTelephone(), i, j);
-            }
-            j++;
-
-            //attributs prospects propres
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getDateProspection(), i, j);
-            }
-            j++;
-            for (int i = 0; i < nblignes; i++) {
-                table.setValueAt(ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse(), i, j);
-            }
-
-         */
+    public static void PreparerlaPage(Formulaire formulaire, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        formulaire.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        formulaire.setSize(WIDTH_NORMAL, HEIGHT_NORMAL);
+        formulaire.setMinimumSize(new Dimension(MIN_WIDTH_NORMAL, MIN_HEIGHT_NORMAL));
 
     }
+
+    public static void PreparerlaPage(Accueil accueil, Container contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        accueil.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        accueil.setSize(WIDTH_NORMAL, HEIGHT_NORMAL);
+        accueil.setMinimumSize(new Dimension(MIN_WIDTH_NORMAL, MIN_HEIGHT_NORMAL));
+
+    }
+
+    public static void PreparerlaPage(Affichage affichage, JPanel contentPaneFormulaire){
+        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
+        affichage.setContentPane(contentPaneFormulaire);
+        //TAILLE
+        affichage.setSize(WIDTH_NORMAL, HEIGHT_NORMAL);
+        affichage.setMinimumSize(new Dimension(MIN_WIDTH_NORMAL, MIN_HEIGHT_NORMAL));
+    }
+
+    public static void RemplirNomsChampsFilles(Outils.TypeSociete typeSociete,
+                                               JTextField attributFilleTexteField1, JTextField attributFilleTexteField2,
+                                               JTextField champId){
+
+         switch (typeSociete){
+
+             case CLIENT :
+                 attributFilleTexteField1.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+                 attributFilleTexteField2.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
+                 // On affiche le futur identifiant de la Fille à créer
+                 champId.setText( Integer.toString(Client.getCompteurClients() + 1 ));
+                 ;
+                 break;
+
+
+             case PROSPECT:
+                 attributFilleTexteField1.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+                 attributFilleTexteField2.setText(VuesUtilitaires.EST_IL_INTERESSE.toUpperCase() );
+                 champId.setText( Integer.toString(Prospect.getCompteurProspects() + 1 ));;
+                 break;
+         }
+    }
+
+    public static void RemplirNomsChampsFilles(Outils.TypeSociete typeSociete,
+                                               JTextField attributFilleTexteField1, JTextField attributFilleTexteField2){
+
+        switch (typeSociete){
+
+            case CLIENT :
+                attributFilleTexteField1.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+                attributFilleTexteField2.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
+                ;
+                break;
+
+
+            case PROSPECT:
+                attributFilleTexteField1.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+                attributFilleTexteField2.setText(VuesUtilitaires.EST_IL_INTERESSE.toUpperCase() );
+                break;
+        }
+    }
+
+    public static void RemplirContenuChampsFilles(Client client, JTextField champFille1, JTextField champFille2){
+
+         champFille1.setText(String.valueOf(client.getCA()));
+         champFille2.setText(String.valueOf(client.getNbEmployes()));
+    }
+
+    public static void RemplirContenuChampsFilles(Prospect prospect, JTextField champFille1, JTextField champFille2){
+
+        champFille1.setText( (prospect.getDateProspection().toString() ));
+        champFille2.setText((prospect.getPropsectEstInteresse()));
+    }
+
+
+
+
 
 }
 

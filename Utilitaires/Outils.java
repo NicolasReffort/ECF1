@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Outils {
+
     //RELATIF AUX INSTANCES
     public boolean itsClient;
     public void setItsClient(boolean itsClient) {
@@ -57,33 +58,12 @@ public class Outils {
             throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.DATEDEPROSPECTION);
 
         }
-
         catch (DateTimeParseException dtpe) {
             throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
         }
     }
 
-    public static void PreparerlaPage(Formulaire formulaire, Container contentPaneFormulaire){
-        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
-        formulaire.setContentPane(contentPaneFormulaire);
-        //TAILLE
-        formulaire.setSize(800, 900);
-        formulaire.setMinimumSize(new Dimension(150, 156));
-    }
 
-    public static void PreparerlaPage(Accueil accueil, Container contentPaneFormulaire){
-        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
-        accueil.setContentPane(contentPaneFormulaire);
-        //TAILLE
-        accueil.setSize(800, 900);
-        accueil.setMinimumSize(new Dimension(150, 156));
-    }
 
-    public static void PreparerlaPage(Affichage affichage, JPanel contentPaneFormulaire){
-        //REMPLISSAGE DE LA PAGE AVEC LE PANE PRINCIPAL
-        affichage.setContentPane(contentPaneFormulaire);
-        //TAILLE
-        affichage.setSize(800, 900);
-        affichage.setMinimumSize(new Dimension(150, 156));
-    }
+
 }
