@@ -4,24 +4,26 @@ import Exceptions.MonExceptionMaison;
 import entites.Client;
 import entites.Prospect;
 import entites.Societe;
-import vues.Accueil;
-import vues.Affichage;
-import vues.Formulaire;
 import vues.VuesUtilitaires;
 
-import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Outils {
 
+    //RELATIF A LA CLASSE
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static DateTimeFormatter getDateTimeFormatter() {        return DATE_TIME_FORMATTER;}
+
     //RELATIF AUX INSTANCES
     public boolean itsClient;
     public void setItsClient(boolean itsClient) {
         this.itsClient = itsClient;
     }
+
+
+
 
     //ENUMS
     public enum TypeSociete{CLIENT,PROSPECT}
@@ -48,19 +50,20 @@ public class Outils {
      */
     public static LocalDate StringToLocalDate(String string)throws MonExceptionMaison {
 
-
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            return LocalDate.parse(string, formatter);
+            return LocalDate.parse(string, getDateTimeFormatter());
         }
 
         catch (NullPointerException npe ){
             throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.DATEDEPROSPECTION);
+        }
+        catch (IllegalArgumentException iae){
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + "date (format jj-mm-aaaa) ");
+        }
+        catch (DateTimeParseException dtpe){
+            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + "date (format jj-mm-aaaa) ");
+        }
 
-        }
-        catch (DateTimeParseException dtpe) {
-            throw new MonExceptionMaison("Ceci ne constitue pas une date au format valide (attendu = format dd-MM-yyyy");
-        }
     }
 
 

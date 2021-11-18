@@ -26,9 +26,14 @@ public class Client extends Societe{
 
     public Outils.TypeSociete getType() {return CLIENT;}
 
+    /***
+     *
+     * @param CA un CA dont le type a été vérifié auparavant
+     * @throws MonExceptionMaison si CA nul ou inférieur au CA MINIMUM
+     */
     public void setCA(Double CA) throws MonExceptionMaison {
 
-        if (  (CA==null) || ( CA < CA_MIN )  ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
+        if (  (CA==null) || ( CA < CA_MIN +1 )  ) { // TO DO TESTER LE STRING CA POUR ETRE SUR QUE PAS VIDE.
             throw new MonExceptionMaison("le " + VuesUtilitaires.CHIFFRESDAFFAIRES + " doit être supérieur à "  + CA_MIN) ;
         }
 
@@ -36,6 +41,12 @@ public class Client extends Societe{
     }
 
     public int getNbEmployes() {return nbEmployes;}
+
+    /***
+     *
+     * @param nbEmployes un nb dont le type a été vérifié auparavant.
+     * @throws MonExceptionMaison si nb < NB SALARIE MINIMUM
+     */
     public void setNbEmployes(int nbEmployes) throws MonExceptionMaison{
         if ( nbEmployes <= NBSALARIE_MIN )
         {

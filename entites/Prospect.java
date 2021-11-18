@@ -32,37 +32,25 @@ public class Prospect extends Societe {
         return dateProspection;
     }
     public void setDateProspection(LocalDate dateProspection) throws MonExceptionMaison{
-
-        try {
-            // Conditions +aires ?
-            this.dateProspection = dateProspection;
-        }
-
-        catch (DateTimeParseException dtpe){
-            throw new MonExceptionMaison("Merci de bien vouloir saisir une date au format jj-mm-aaaa ");
-        }
-
-    }
+        this.dateProspection = dateProspection;}
 
     public String getPropsectEstInteresse() {return propsectEstInteresse;}
+
+    /***
+     * valeur issue de la conversion de la checkbox en OUI ou NON
+     * @param propsectEstInteresse
+     * @throws MonExceptionMaison si nul vide ou blanc
+     */
     public void setPropsectEstInteresse(String propsectEstInteresse) throws MonExceptionMaison {
 
         if (propsectEstInteresse == null || propsectEstInteresse.isEmpty() || propsectEstInteresse.isBlank() ){
             throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.EST_IL_INTERESSE) ;
         }
 
-        else if ( propsectEstInteresse.equals("o") || propsectEstInteresse.equals("n")){
-            this.propsectEstInteresse = propsectEstInteresse.toUpperCase(Locale.ROOT);
-        }
-
-        else if(propsectEstInteresse.equals("O") || propsectEstInteresse.equals("N") ) {
-            this.propsectEstInteresse = propsectEstInteresse;
-        }
-
         else {
-            throw new MonExceptionMaison("Merci de saisir une valeur correcte pour " +
-                    VuesUtilitaires.EST_IL_INTERESSE );
+            this.propsectEstInteresse = propsectEstInteresse.toUpperCase();
         }
+
     }
 
     public Outils.TypeSociete getType() {

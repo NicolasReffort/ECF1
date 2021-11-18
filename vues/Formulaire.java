@@ -5,6 +5,7 @@ import Utilitaires.Outils;
 import entites.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 
@@ -37,10 +38,18 @@ public class Formulaire extends JFrame {
     private JTextField champCommentaires;
     private JTextField IdTextField;
     private JTextField champID;
+    private JCheckBox checkBox1;
+
+    private String reponseCheckBox; // Si coché, prospect intéressé = OUI
+
+    public JTextField[] champsCommuns = { champRaisonSociale, champVille, champNumeroRue, champRue, champCodePostal,
+    champTelephone, champCourriel, champCommentaires} ; //utilité de mettre en private ?
+
+    public JTextField[] champsFilles = { champFille1, champFille2};
 
     private Double CAenDouble; // ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
     public Double getCAenDouble() {return CAenDouble;}
-    private void setCAenDouble(Double CAenDouble) throws NullPointerException, NumberFormatException {
+    private void setCAenDouble(Double CAenDouble) {
         this.CAenDouble = CAenDouble;}
 
     private int NbEmployesInt;// ATTRIBUT  POUR JONGLER + FACILEMENT DANS LA PAGE
@@ -64,20 +73,33 @@ public class Formulaire extends JFrame {
     //------------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------
     //PREMIER CONSTRUCTEUR : LA FONCTION CREER -------------------------------------------------------------------------
+
+    /***
+     * Construit un formulaire de création adapté au type de société.
+     * @param typeSociete
+     */
     public Formulaire(Outils.TypeSociete typeSociete) {
 
        VuesUtilitaires.PreparerlaPage(this ,contentPaneFormulaire);
-       VuesUtilitaires.RemplirNomsChampsFilles(typeSociete, attributFilleTexteField1, attributFilleTexteField2, champID);
+       VuesUtilitaires.RemplirNomsChampsFilles(typeSociete, attributFilleTexteField1, attributFilleTexteField2,
+               checkBox1, champID);
+
+       if (typeSociete == Outils.TypeSociete.PROSPECT){
+           champFille2.setVisible(false); // pas besoin de ce champ, on a une checkox.
+
+       }
+
        buttonOk.setText("CRÉER CE" + typeSociete.toString().toUpperCase());
-       buttonOk.addActionListener(new ActionListener() {
+
+        //ACTIONS SUR OK
+        buttonOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //ACTIONS SUR OK
                 // ....si c'est un client ----------------------------
                 if (typeSociete == Outils.TypeSociete.CLIENT) {
 
                     try {
                         // on teste le typage correct des variables
-                        testerlesTypesDesAttributsFille(typeSociete);
+                        testerlesTypesDesAttributsFille(typeSociete);// attributs bien typés stockés en vi de la frame
                         //et on essaie de setter
                         new Client(champRaisonSociale.getText(),champVille.getText(), champNumeroRue.getText(),
                                 champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
@@ -97,9 +119,17 @@ public class Formulaire extends JFrame {
                                 + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +VuesUtilitaires.NB_EMPLOYES
                                 + " saisi n'est pas au format correct.");
                     }
+                    catch (Exception exception){
+                        JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                    }
                 }
                 // ... ou un prospect ----------------------------
                 else {
+
+                    if (checkBox1.isSelected()){
+                        reponseCheckBox = "OUI";
+                    }
+                    else {reponseCheckBox = "NON";}
 
                     try {
                         testerlesTypesDesAttributsFille(typeSociete);
@@ -112,8 +142,8 @@ public class Formulaire extends JFrame {
                                 champCourriel.getText(),
                                 champCommentaires.getText(),
                                 getDateProspection(),
-                                champFille2.getText()
-                        );
+                                reponseCheckBox
+                                );
                         onCancel();
                     }
                     catch (NullPointerException npe) {
@@ -127,6 +157,11 @@ public class Formulaire extends JFrame {
                     catch (MonExceptionMaison mem) {
                         JOptionPane.showMessageDialog(null, mem.getMessage());
                     }
+                    catch (Exception exception){
+                        JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                    }
+
+
                 }
             }
         });
@@ -136,26 +171,17 @@ public class Formulaire extends JFrame {
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                Accueil accueil = new Accueil();
+                onCancel();
+
             }
         });
 
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        // when cross is clicked
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPaneFormulaire.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
+            public void windowClosing(WindowEvent e) {onCancel();}
+        }
+        );
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -163,15 +189,17 @@ public class Formulaire extends JFrame {
     // DEUXIEME CONSTRUCTEUR : MODIFICATION/SUPPESSION -----------------------------------------------------------------
 
     /***
-     *
-     * @param societe Société choisie (dans la combo box) que l'on souhaite utiliser pour construire la vue
-     *                du formulaire de modification/suppression.
-     * @param supprimerOuModifier Motclé pour connaître la marche à suivre (supp/modif)
+     * Construit un formulaire de modification ou suppression pour une société.
+     * @param societe Société choisie (dans la combo box)
+     * @param supprimerOuModifier Motclé pour connaître la marche à suivre
      */
     public Formulaire(String supprimerOuModifier, Societe societe) {
 
         // chargement du formulaire et du content aux dimensions voulues.
         VuesUtilitaires.PreparerlaPage(this, contentPaneFormulaire);
+
+        JOptionPane.showMessageDialog(null, "Vous avez sélectionné "
+                + societe.getRaisonSociale());
 
         //remplissage des champs formulaire et de leur contenu pour les attributs commun à toutes les sociétés
         RemplirChampsCommunsFormulaire(societe);
@@ -181,20 +209,20 @@ public class Formulaire extends JFrame {
 
         if (outils.itsClient) {
             Client clientCaste = ((Client)societe);
-            setClient(clientCaste); // stockage résulat en vi
-            JOptionPane.showMessageDialog(null, "Vous avez sélectionné le client : "
-                    + client.getRaisonSociale());
-            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.CLIENT , attributFilleTexteField1, attributFilleTexteField2);
+            setClient(clientCaste); // stockage résulat en vi dans la frame
+            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.CLIENT, attributFilleTexteField1,
+                    attributFilleTexteField2, checkBox1
+            );
             VuesUtilitaires.RemplirContenuChampsFilles(getClient(), champFille1, champFille2);
         }
         else
         {
             Prospect prospectCaste = ((Prospect)societe);
             setProspect(prospectCaste);
-            JOptionPane.showMessageDialog(null, "Vous avez sélectionné le prospect : "
-                    + prospect.getRaisonSociale());
-            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.PROSPECT , attributFilleTexteField1, attributFilleTexteField2);
-            VuesUtilitaires.RemplirContenuChampsFilles(getProspect(), champFille1, champFille2);
+            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.PROSPECT , attributFilleTexteField1,
+                    attributFilleTexteField2, checkBox1);
+            champFille2.setVisible(false); // on n'a pas besoin d'afficher ce champ, on a une checkbox pour ça.
+            VuesUtilitaires.RemplirContenuChampsFilles(getProspect(), champFille1, checkBox1);
         }
 
         //-------------------MODIFICATION---------------------------------------
@@ -225,30 +253,26 @@ public class Formulaire extends JFrame {
                              client.setCA(getCAenDouble());
                              client.setNbEmployes(getNbEmployesInt());
 
-                             dispose(); // retour accueil si tout va bien
-                             Accueil accueil = new Accueil();
+                             onCancel();
 
                         } catch (NullPointerException npe) {
-                                System.out.println("Merci de saisir un " + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
+                            JOptionPane.showMessageDialog(null,"Merci de saisir un "
+                                    + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
                         } catch (NumberFormatException nfe) {
-                                System.out.println("Votre" + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
+                            JOptionPane.showMessageDialog(null,"Votre"
+                                    + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
                                         VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au format correct.");
                         }
                         catch (MonExceptionMaison mem) {
                                 //D ERREUR PERSO
                                 JOptionPane.showMessageDialog(null, mem.getMessage());
                         }
-                        //to do : catcher TOUTES EXCEPTIONS
+                        catch (Exception exception){
+                            JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                        }
                     }
                 });
 
-                buttonCancel.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
-                        Accueil accueil = new Accueil();                     }
-                });
-
-                this.setVisible(true);
         }
 
         //.... ou d'un prospect:
@@ -257,6 +281,11 @@ public class Formulaire extends JFrame {
             //Action du bouton OK
             buttonOk.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+
+                    if (checkBox1.isSelected()){
+                        reponseCheckBox = "OUI";
+                    }
+                    else {reponseCheckBox = "NON";}
 
                     //ESSAYER DE MODIFIER AVEC LES DONNEES SAISIES ET LES VERIFICATIONS DU TYPAGE FAITES PAR L AFFICHAGE
                     try {
@@ -271,8 +300,8 @@ public class Formulaire extends JFrame {
                         prospect.setRue(champRue.getText());
                         prospect.setTelephone(champTelephone.getText());
                         prospect.setCourriel(champCourriel.getText());
-                        prospect.setDateProspection(dateProspection);
-                        prospect.setPropsectEstInteresse(champFille2.getText());
+                        prospect.setDateProspection(getDateProspection());
+                        prospect.setPropsectEstInteresse(reponseCheckBox); // O/N
 
                         dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
                         Accueil accueil = new Accueil();
@@ -290,28 +319,17 @@ public class Formulaire extends JFrame {
             });
 
         }
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPaneFormulaire.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
         }
 
         //-------------------SUPPRESSION---------------------------------------
         if(supprimerOuModifier.equals("supprimer")) {
 
-            buttonOk.setText("SUPPRIMER " + societe.getRaisonSociale().toUpperCase()  );
+            buttonOk.setText("SUPPRIMER " + societe.getRaisonSociale().toUpperCase());
+
+            VuesUtilitaires.RendreContenuChampsEditable(false, champsCommuns);
+            VuesUtilitaires.RendreContenuChampsEditable(false, champsFilles);
+            checkBox1.setVisible(false); // on cache la check box inutile
+
 
             buttonOk.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -320,39 +338,47 @@ public class Formulaire extends JFrame {
                             + societe.getRaisonSociale() + "?" )  ==  JOptionPane.YES_OPTION )
                     {
                         if (outils.itsClient) {
-                            deleteThat(client);
+                            VuesUtilitaires.deleteThat(client);
                         }
 
                         else{
-                            deleteThat(prospect);
+                            VuesUtilitaires.deleteThat(prospect);
                         }
-
                     }
-
                     onCancel();
                 };
-
             }
             );
         }
 
+        //FORMULAIRE DEVIENT VISIBLE
+        setVisible(true);
+
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
+
             }
         });
 
-        this.setVisible(true);
-
+        // when cross is clicked
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {onCancel();            }
+        });
     }
+
     //FIN DEUXIEME CONSTRUCTEUR ***
 
     private void onCancel() {
-        dispose();
         Accueil accueil = new Accueil();
-
+        dispose();
     }
 
+    /***
+     * Remplissage du nom des champs, pas leur contenu.
+     * @param societe
+     */
     public void RemplirChampsCommunsFormulaire(Societe societe){
 
         champRaisonSociale.setText(societe.getRaisonSociale());
@@ -363,11 +389,12 @@ public class Formulaire extends JFrame {
         champTelephone.setText(societe.getTelephone());
         champCourriel.setText(societe.getCourriel());
         champCommentaires.setText(societe.getCommentaires());
-        champID.setText( Integer.toString(societe.getIdentifiant()) );
+        champID.setText( Integer.toString(societe.getIdentifiant()));
     }
 
     /***
      * Vérifie que les attributs filles sont bien typés.
+     * ((inutilement complex de le stocker dans VuesUtili.))
      * @param typeSociete
      * @throws MonExceptionMaison si la date de prospection est nulle ou au mauvais format
      * @throws NumberFormatException si CA/NB employés = mauvais type
@@ -377,38 +404,13 @@ public class Formulaire extends JFrame {
             NumberFormatException, NullPointerException {
 
         if (typeSociete == Outils.TypeSociete.CLIENT) {
-                setCAenDouble(Double.parseDouble(champFille1.getText()));
-                setNbEmployesInt(Integer.parseInt(champFille2.getText()));
+            setCAenDouble(Double.parseDouble(champFille1.getText()));
+            setNbEmployesInt(Integer.parseInt(champFille2.getText()));
         }
 
         else {
-                setDateProspection(Outils.StringToLocalDate(champFille1.getText()));
+           setDateProspection(Outils.StringToLocalDate(champFille1.getText()));
         }
     }
-
-    /***
-     * Supprime un client
-     * @param clientAsuprrimer
-     */
-    public void deleteThat(Client clientAsuprrimer){
-
-        ListeClients.getListeTousClients().remove(clientAsuprrimer);
-        clientAsuprrimer = null ;
-
-    }
-
-    /***
-     * supprime un prospect
-     * @param prospectAsupprimer
-     */
-    public void deleteThat(Prospect prospectAsupprimer){
-
-        ListeProspects.getListeTousProspects().remove(prospectAsupprimer);
-        prospectAsupprimer = null ;
-
-
-    }
-
-
 
 }

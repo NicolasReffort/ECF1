@@ -71,6 +71,7 @@ public class Accueil extends JFrame {
                 Formulaire formulaireCreation = new Formulaire(Outils.TypeSociete.CLIENT);
                 }
                 else  {Formulaire formulaireCreation = new Formulaire(Outils.TypeSociete.PROSPECT);};
+                dispose();
             }});
 
 
@@ -83,8 +84,6 @@ public class Accueil extends JFrame {
                     CreerContenuBoutonModificationSuppression("modifier", Outils.TypeSociete.PROSPECT);
                 }
                 modifierAlreadyClicked = true;
-
-                ;
             }});
 
                 //TO DO ; METTRE EN TRY CATCH POUR NPE
@@ -118,7 +117,7 @@ public class Accueil extends JFrame {
                 }
                 else  {Affichage affichage = new Affichage(Outils.TypeSociete.PROSPECT);
                 };
-
+                dispose();
             }
         });
 
