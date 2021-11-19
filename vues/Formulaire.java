@@ -1,11 +1,10 @@
 package vues;
 
-import Exceptions.MonExceptionMaison;
+import Exceptions.MonExceptionEntites;
 import Utilitaires.Outils;
 import entites.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 
@@ -68,8 +67,6 @@ public class Formulaire extends JFrame {
     public Prospect getProspect() {return prospect;}
     public void setProspect(Prospect prospect) {this.prospect = prospect;}
 
-    private Outils outils = new Outils();
-
     //------------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------------
     //PREMIER CONSTRUCTEUR : LA FONCTION CREER -------------------------------------------------------------------------
@@ -81,7 +78,7 @@ public class Formulaire extends JFrame {
     public Formulaire(Outils.TypeSociete typeSociete) {
 
        VuesUtilitaires.PreparerlaPage(this ,contentPaneFormulaire);
-       VuesUtilitaires.RemplirNomsChampsFilles(typeSociete, attributFilleTexteField1, attributFilleTexteField2,
+       RemplirNomsChampsFilles(typeSociete, attributFilleTexteField1, attributFilleTexteField2,
                checkBox1, champID);
 
        if (typeSociete == Outils.TypeSociete.PROSPECT){
@@ -99,28 +96,23 @@ public class Formulaire extends JFrame {
 
                     try {
                         // on teste le typage correct des variables
-                        testerlesTypesDesAttributsFille(typeSociete);// attributs bien typés stockés en vi de la frame
+                        testerTypesAttributsFille(typeSociete);// attributs bien typés stockés en vi de la frame
                         //et on essaie de setter
-                        new Client(champRaisonSociale.getText(),champVille.getText(), champNumeroRue.getText(),
+                        ListeClients.ajouterListeClients(new Client(champRaisonSociale.getText(),
+                                champVille.getText(), champNumeroRue.getText(),
                                 champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
                                 champCourriel.getText(),champCommentaires.getText(),
-                                getCAenDouble() , getNbEmployesInt() )
-                        ;
+                                getCAenDouble() , getNbEmployesInt()
+                        ) ) ;
                         onCancel();
-
                     }
-                    catch (MonExceptionMaison mem) {
+                    catch (MonExceptionEntites mem) {
                         JOptionPane.showMessageDialog(null, mem.getMessage());
-                    }catch (NullPointerException npe) {
-                        JOptionPane.showMessageDialog(null,"Merci de saisir un "
-                                + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                    } catch (NumberFormatException nfe) {
-                        JOptionPane.showMessageDialog(null,"Votre"
-                                + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +VuesUtilitaires.NB_EMPLOYES
-                                + " saisi n'est pas au format correct.");
                     }
-                    catch (Exception exception){
-                        JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                    catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, VuesUtilitaires.ERREUR_INCONNUE);
+                        System.out.println(ex.getMessage());
+                        System.exit(404);
                     }
                 }
                 // ... ou un prospect ----------------------------
@@ -132,8 +124,8 @@ public class Formulaire extends JFrame {
                     else {reponseCheckBox = "NON";}
 
                     try {
-                        testerlesTypesDesAttributsFille(typeSociete);
-                        new Prospect( champRaisonSociale.getText(),
+                        testerTypesAttributsFille(typeSociete);
+                        ListeProspects.ajouterListeProspects(new Prospect( champRaisonSociale.getText(),
                                 champVille.getText(),
                                 champNumeroRue.getText(),
                                 champRue.getText(),
@@ -143,22 +135,16 @@ public class Formulaire extends JFrame {
                                 champCommentaires.getText(),
                                 getDateProspection(),
                                 reponseCheckBox
-                                );
+                        ));
                         onCancel();
                     }
-                    catch (NullPointerException npe) {
-                        JOptionPane.showMessageDialog(null,"Merci de saisir un "
-                                + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                    } catch (NumberFormatException nfe) {
-                        JOptionPane.showMessageDialog(null,"Votre"
-                                + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
-                                VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au bon correct.");
-                    }
-                    catch (MonExceptionMaison mem) {
+                    catch (MonExceptionEntites mem) {
                         JOptionPane.showMessageDialog(null, mem.getMessage());
                     }
-                    catch (Exception exception){
-                        JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                    catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, VuesUtilitaires.ERREUR_INCONNUE);
+                        System.out.println(ex.getMessage());
+                        System.exit(404);
                     }
 
 
@@ -204,25 +190,23 @@ public class Formulaire extends JFrame {
         //remplissage des champs formulaire et de leur contenu pour les attributs commun à toutes les sociétés
         RemplirChampsCommunsFormulaire(societe);
 
-        //Casting de la société arrivante : le résulat est stocké en v.i. d'outils
-        outils.DirecteurDeCasting(societe);
-
-        if (outils.itsClient) {
+        //Casting société arrivante
+        if (societe instanceof Client) {
             Client clientCaste = ((Client)societe);
             setClient(clientCaste); // stockage résulat en vi dans la frame
-            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.CLIENT, attributFilleTexteField1,
+            RemplirNomsChampsFilles( Outils.TypeSociete.CLIENT, attributFilleTexteField1,
                     attributFilleTexteField2, checkBox1
             );
-            VuesUtilitaires.RemplirContenuChampsFilles(getClient(), champFille1, champFille2);
+            RemplirContenuChampsFilles(getClient(), champFille1, champFille2);
         }
         else
         {
             Prospect prospectCaste = ((Prospect)societe);
             setProspect(prospectCaste);
-            VuesUtilitaires.RemplirNomsChampsFilles( Outils.TypeSociete.PROSPECT , attributFilleTexteField1,
+            RemplirNomsChampsFilles( Outils.TypeSociete.PROSPECT , attributFilleTexteField1,
                     attributFilleTexteField2, checkBox1);
             champFille2.setVisible(false); // on n'a pas besoin d'afficher ce champ, on a une checkbox pour ça.
-            VuesUtilitaires.RemplirContenuChampsFilles(getProspect(), champFille1, checkBox1);
+            RemplirContenuChampsFilles(getProspect(), champFille1, checkBox1);
         }
 
         //-------------------MODIFICATION---------------------------------------
@@ -231,7 +215,7 @@ public class Formulaire extends JFrame {
             buttonOk.setText("MODIFIER " + societe.getRaisonSociale().toUpperCase()  );
 
             //.....d'un client
-            if (outils.itsClient) {
+            if (societe instanceof Client) {
 
                 //ACTIONS DU BOUTON OK
                 buttonOk.addActionListener(new ActionListener() {
@@ -239,7 +223,7 @@ public class Formulaire extends JFrame {
 
                         try {
                             // on teste le typage correct des variables
-                             testerlesTypesDesAttributsFille(Outils.TypeSociete.CLIENT);
+                             testerTypesAttributsFille(Outils.TypeSociete.CLIENT);
                              
                              //et on essaie de setter
                              client.setRaisonSociale(champRaisonSociale.getText());
@@ -255,20 +239,14 @@ public class Formulaire extends JFrame {
 
                              onCancel();
 
-                        } catch (NullPointerException npe) {
-                            JOptionPane.showMessageDialog(null,"Merci de saisir un "
-                                    + VuesUtilitaires.CHIFFRESDAFFAIRES + ".");
-                        } catch (NumberFormatException nfe) {
-                            JOptionPane.showMessageDialog(null,"Votre"
-                                    + VuesUtilitaires.CHIFFRESDAFFAIRES + " ou votre " +
-                                        VuesUtilitaires.NB_EMPLOYES + " saisi n'est pas au format correct.");
                         }
-                        catch (MonExceptionMaison mem) {
-                                //D ERREUR PERSO
-                                JOptionPane.showMessageDialog(null, mem.getMessage());
+                        catch (MonExceptionEntites mem) {
+                            JOptionPane.showMessageDialog(null, mem.getMessage());
                         }
-                        catch (Exception exception){
-                            JOptionPane.showMessageDialog(null,"Erreur inconnue");
+                        catch (Exception ex){
+                            JOptionPane.showMessageDialog(null, VuesUtilitaires.ERREUR_INCONNUE);
+                            System.out.println(ex.getMessage());
+                            System.exit(404);
                         }
                     }
                 });
@@ -290,7 +268,7 @@ public class Formulaire extends JFrame {
                     //ESSAYER DE MODIFIER AVEC LES DONNEES SAISIES ET LES VERIFICATIONS DU TYPAGE FAITES PAR L AFFICHAGE
                     try {
                         // on teste le typage correct des variables
-                        testerlesTypesDesAttributsFille(Outils.TypeSociete.PROSPECT);
+                        testerTypesAttributsFille(Outils.TypeSociete.PROSPECT);
 
                         //tentative de setter
                         prospect.setRaisonSociale(champRaisonSociale.getText());
@@ -303,16 +281,15 @@ public class Formulaire extends JFrame {
                         prospect.setDateProspection(getDateProspection());
                         prospect.setPropsectEstInteresse(reponseCheckBox); // O/N
 
-                        dispose(); // RETOUR A L ACCUEIL SI LA MODIFICATION A FONCTIONNE
-                        Accueil accueil = new Accueil();
-
+                        onCancel();
                     }
-                    catch (MonExceptionMaison mem) { // SI JAMAIS UN DES SETTERS NE FONCTIONNE PAS, ON RECUPERE LE MSG
-                        //D ERREUR PERSO
+                    catch (MonExceptionEntites mem) {
                         JOptionPane.showMessageDialog(null, mem.getMessage());
                     }
                     catch (Exception ex){
-                        JOptionPane.showMessageDialog(null, "Erreur inconnue, merci de reprendre votre saisie");
+                        JOptionPane.showMessageDialog(null, VuesUtilitaires.ERREUR_INCONNUE);
+                        System.out.println(ex.getMessage());
+                        System.exit(404);
                     }
                     ;
                 }
@@ -326,8 +303,8 @@ public class Formulaire extends JFrame {
 
             buttonOk.setText("SUPPRIMER " + societe.getRaisonSociale().toUpperCase());
 
-            VuesUtilitaires.RendreContenuChampsEditable(false, champsCommuns);
-            VuesUtilitaires.RendreContenuChampsEditable(false, champsFilles);
+            RendreContenuChampsEditable(false, champsCommuns);
+            RendreContenuChampsEditable(false, champsFilles);
             checkBox1.setVisible(false); // on cache la check box inutile
 
 
@@ -337,12 +314,12 @@ public class Formulaire extends JFrame {
                     if ( JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer"
                             + societe.getRaisonSociale() + "?" )  ==  JOptionPane.YES_OPTION )
                     {
-                        if (outils.itsClient) {
-                            VuesUtilitaires.deleteThat(client);
+                        if (societe instanceof Client) {
+                            deleteThat(client);
                         }
 
                         else{
-                            VuesUtilitaires.deleteThat(prospect);
+                            deleteThat(prospect);
                         }
                     }
                     onCancel();
@@ -396,20 +373,170 @@ public class Formulaire extends JFrame {
      * Vérifie que les attributs filles sont bien typés.
      * ((inutilement complex de le stocker dans VuesUtili.))
      * @param typeSociete
-     * @throws MonExceptionMaison si la date de prospection est nulle ou au mauvais format
+     * @throws MonExceptionEntites si la date de prospection est nulle ou au mauvais format
      * @throws NumberFormatException si CA/NB employés = mauvais type
      * @throws NullPointerException
      */
-    public void testerlesTypesDesAttributsFille(Outils.TypeSociete typeSociete) throws MonExceptionMaison,
-            NumberFormatException, NullPointerException {
+    public void testerTypesAttributsFille(Outils.TypeSociete typeSociete) throws MonExceptionEntites              {
 
         if (typeSociete == Outils.TypeSociete.CLIENT) {
-            setCAenDouble(Double.parseDouble(champFille1.getText()));
-            setNbEmployesInt(Integer.parseInt(champFille2.getText()));
+
+            try {
+                setCAenDouble(Double.parseDouble(champFille1.getText()));
+            }
+            catch (NullPointerException | NumberFormatException npe ){
+                throw new MonExceptionEntites(VuesUtilitaires.MERCIDE+VuesUtilitaires.CHIFFRESDAFFAIRES);
+            }
+
+            try {
+                setNbEmployesInt(Integer.parseInt(champFille2.getText()));
+            }
+            catch (NumberFormatException nfe ){
+                throw new MonExceptionEntites(VuesUtilitaires.MERCIDE+VuesUtilitaires.NB_EMPLOYES);
+            }
+
         }
 
         else {
-           setDateProspection(Outils.StringToLocalDate(champFille1.getText()));
+            setDateProspection(Outils.StringToLocalDate(champFille1.getText()));
+        }
+    }
+
+    /***
+     * Pour création Prospect Client // factorisable avec l'autre avec un paramètre pour compteurclient+1??
+     * @param typeSociete
+     * @param attributFilleTexteField1
+     * @param attributFilleTexteField2
+     * @param champId champ spécialement généré pour la création
+     * @param checkbox
+     */
+    public static void RemplirNomsChampsFilles(Outils.TypeSociete typeSociete,
+                                               JTextField attributFilleTexteField1,
+                                               JTextField attributFilleTexteField2,
+                                               JCheckBox checkbox,
+                                               JTextField champId){
+
+        switch (typeSociete){
+
+            case CLIENT :
+                attributFilleTexteField1.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+                attributFilleTexteField2.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
+
+                // On affiche le futur identifiant de la Fille à créer
+                champId.setText( Integer.toString(Client.getCompteurClients() + 1 ));
+
+                //pas besoin d'afficher la checkbox
+                checkbox.setVisible(false);
+                ;
+                break;
+
+
+            case PROSPECT:
+                attributFilleTexteField1.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+                champId.setText( Integer.toString(Prospect.getCompteurProspects() + 1 ));;
+                checkbox.setText("EST INTERESSE.");
+
+                //pas besoin d'afficher les champs pour la date de prospection, la checkbox suffit.
+                attributFilleTexteField2.setVisible(false);
+
+
+                break;
+        }
+    }
+
+    /***
+     * Pour Modifi/Supp Client-Prospect
+     * @param typeSociete
+     * @param attributFilleTexteField1
+     * @param attributFilleTexteField2
+     * @param checkbox
+     * @param
+     */
+    public static void RemplirNomsChampsFilles(Outils.TypeSociete typeSociete,
+                                               JTextField attributFilleTexteField1,
+                                               JTextField attributFilleTexteField2,
+                                               JCheckBox checkbox){
+
+        switch (typeSociete){
+
+            case CLIENT :
+                attributFilleTexteField1.setText(VuesUtilitaires.CHIFFRESDAFFAIRES.toUpperCase());
+                attributFilleTexteField2.setText(VuesUtilitaires.NB_EMPLOYES.toUpperCase());
+                //pas besoin d'afficher la checkbox
+                checkbox.setVisible(false);
+                break;
+
+
+            case PROSPECT:
+                attributFilleTexteField1.setText(VuesUtilitaires.DATEDEPROSPECTION.toUpperCase());
+                checkbox.setText("EST INTERESSE.");
+
+                //pas besoin d'afficher les champs pour la date de prospection, la checkbox suffit.
+                attributFilleTexteField2.setVisible(false);
+                break;
+        }
+    }
+
+    /***
+     * Charge le contenu des champs spécifiques au client
+     * @param client
+     * @param champFille1 C.a
+     * @param champFille2 nb employes
+     */
+    public static void RemplirContenuChampsFilles(Client client, JTextField champFille1, JTextField champFille2){
+
+        champFille1.setText(String.valueOf(client.getCA()));
+        champFille2.setText(String.valueOf(client.getNbEmployes()));
+    }
+
+    /***
+     *Charge le contenu des champs spécifiques au prospect
+     * @param prospect
+     * @param champFille1 date prospection
+     * @param checkbox pour changer l'intéressement du prospect OUI/NON
+     */
+    public static void RemplirContenuChampsFilles(Prospect prospect, JTextField champFille1,
+                                                  JCheckBox checkbox){
+
+        champFille1.setText( (prospect.getDateProspection().format(Outils.getDateTimeFormatter()) ));
+
+        if(prospect.getPropsectEstInteresse().equals("OUI")){ //charger checkbox avec le choix enregistré.
+            checkbox.setSelected(true);
+        }
+        else checkbox.setSelected(false);
+    }
+
+    /***
+     * Supprime un client
+     * @param clientAsuprrimer
+     */
+    public static void deleteThat(Client clientAsuprrimer){
+
+        ListeClients.getListeTousClients().remove(clientAsuprrimer);
+        clientAsuprrimer = null ;
+
+    }
+
+    /***
+     * supprime un prospect
+     * @param prospectAsupprimer
+     */
+    public static void deleteThat(Prospect prospectAsupprimer){
+
+        ListeProspects.getListeTousProspects().remove(prospectAsupprimer);
+        prospectAsupprimer = null ;
+
+    }
+
+    /***
+     *
+     * @param bool true => setEditable(true) ;
+     * @param champs Un tableau de Jtextfield que l'on souhaite rendre éditable à souhait.
+     */
+    public static void RendreContenuChampsEditable (Boolean bool, JTextField[] champs){
+
+        for (int i = 0 ; i < champs.length ; i ++ ) {
+            champs[i].setEditable(bool);
         }
     }
 

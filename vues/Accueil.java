@@ -26,6 +26,10 @@ public class Accueil extends JFrame {
     private boolean supprimerAlreadyClicked; // même principe pour supprimer et modifer. Evite de remplir deux fois la combobox.
     private boolean modifierAlreadyClicked ;
 
+    /***
+     * Construit l'accueil de l'application. Pas de paramètres pour sa construct°:
+     * uniquement des flags pour les boutons cliqués.
+     */
     //CONSTRUCTEUR -----------------------------------------------------------------------------------------------------
     public Accueil() {
         VuesUtilitaires.PreparerlaPage(this, contentPane );
@@ -106,8 +110,6 @@ public class Accueil extends JFrame {
         });
 
 
-
-
         // ACTION SUR AFFICHAGE :
         affichageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -152,6 +154,13 @@ public class Accueil extends JFrame {
 
     }
 
+
+    /***
+     * Traduire la sélection combobox en une référence client / prospect
+     * @param comboBox comboxo active
+     * @param typeSociete pour matcher la séléction avec l'index de la liste adéquate
+     * @return
+     */
     public Societe RecupererSelectionCombobox(JComboBox comboBox, Outils.TypeSociete typeSociete){
 
         int indexCombobox = comboBox.getSelectedIndex(); // on récupère l'index de la sélection

@@ -1,21 +1,19 @@
 package entites;
 
-import Exceptions.MonExceptionMaison;
+import Exceptions.MonExceptionEntites;
 import Utilitaires.Outils;
 import vues.VuesUtilitaires;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Locale;
+
+/***
+ *  * Chaque entité correspondant à un prospect physique.
+ */
 
 public class Prospect extends Societe {
 
     //RELATIF A LA CLASSE-----------------------------------------------------------------------------------------------
     private static int compteurProspects = 0 ;
-
-
-
 
     //RELATIF AUX INSTANCES--------------------------------------------------------------------------------------------
     private LocalDate dateProspection;
@@ -31,7 +29,12 @@ public class Prospect extends Societe {
     public LocalDate getDateProspection() {
         return dateProspection;
     }
-    public void setDateProspection(LocalDate dateProspection) throws MonExceptionMaison{
+
+    /***
+     *
+     * @param dateProspection bien typée au préalable
+     */
+    public void setDateProspection(LocalDate dateProspection) {
         this.dateProspection = dateProspection;}
 
     public String getPropsectEstInteresse() {return propsectEstInteresse;}
@@ -39,12 +42,12 @@ public class Prospect extends Societe {
     /***
      * valeur issue de la conversion de la checkbox en OUI ou NON
      * @param propsectEstInteresse
-     * @throws MonExceptionMaison si nul vide ou blanc
+     * @throws MonExceptionEntites si nul vide ou blanc
      */
-    public void setPropsectEstInteresse(String propsectEstInteresse) throws MonExceptionMaison {
+    public void setPropsectEstInteresse(String propsectEstInteresse) throws MonExceptionEntites {
 
-        if (propsectEstInteresse == null || propsectEstInteresse.isEmpty() || propsectEstInteresse.isBlank() ){
-            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.EST_IL_INTERESSE) ;
+        if (propsectEstInteresse == null || propsectEstInteresse.trim().isEmpty()){
+            throw new MonExceptionEntites(VuesUtilitaires.MERCIDE + VuesUtilitaires.EST_IL_INTERESSE) ;
         }
 
         else {
@@ -57,16 +60,30 @@ public class Prospect extends Societe {
         return PROSPECT;
     }
 
+    /***
+     * nb : penser à ajouter dans la ListeProspect le cas échéant
+     * @param raisonSociale
+     * @param ville
+     * @param numeroRue
+     * @param rue
+     * @param codePostal
+     * @param telephone
+     * @param courriel
+     * @param commentaires
+     * @param dateProspection
+     * @param propsectEstInteresse
+     * @throws MonExceptionEntites si intérêt propspect nul vide blanc. (ne devrait pas arriver)
+     */
     //CONSTRUCTEURS----------------------------------------------------------------------------------------------------
     public Prospect(String raisonSociale, String ville, String numeroRue, String rue, String codePostal, String telephone,
-                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse) throws MonExceptionMaison {
+                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse) throws MonExceptionEntites {
         super(raisonSociale, ville,numeroRue, rue, codePostal, telephone, courriel, commentaires);
 
         compteurProspects++;
         setIdentifiant(compteurProspects);
         setDateProspection(dateProspection);
         setPropsectEstInteresse(propsectEstInteresse);
-        ListeProspects.getListeTousProspects().add(this);
+
     }
 
     //TO STRING----------------------------------------------------------------------------------------------------

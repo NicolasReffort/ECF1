@@ -11,11 +11,11 @@ import java.awt.event.*;
 
 public class Affichage extends JFrame {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton buttonRetour;
+    private JButton buttonQuitter;
     private JTable table;
     private JPanel jpanelduJtable;
-    private JPanel jpannelBoutons;
+    private JPanel jPanelBoutons;
 
     private  String[] nomsColonnes;
     public void setNomsColonnes(String[] nomsColonnes) {this.nomsColonnes = nomsColonnes;}
@@ -23,18 +23,40 @@ public class Affichage extends JFrame {
     Object[][] donnees ;
     public void setDonnees(Object[][] donnees) {this.donnees = donnees;}
 
+    /***
+     * Affiche tous les sociétés d'un type donné, sans le champ commentaires
+     * @param typeSociete
+     */
     public Affichage(Outils.TypeSociete typeSociete) {
-        ;
+
+
         VuesUtilitaires.PreparerlaPage(this, contentPane);
 
-        //COLONNES COMMUNES A TOUTES LES SOCIETES
+        VuesUtilitaires.PreparerBoutonAccueil(buttonRetour, this);
+
+        buttonRetour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
+
+        buttonQuitter.setText("Quitter l'application");
+
+        setVisible(true); // Frame devient visible
+
+        jPanelBoutons.setVisible(true);
+        jPanelBoutons.setEnabled(true);
+
+
 
         if (typeSociete == Outils.TypeSociete.CLIENT){
 
             String[] nomsColonnes = { VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE,
                     VuesUtilitaires.CODEPOSTAL, VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE,
                     VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
-                    VuesUtilitaires.CHIFFRESDAFFAIRES, VuesUtilitaires.NB_EMPLOYES}; //attr.client
+                    VuesUtilitaires.CHIFFRESDAFFAIRES, VuesUtilitaires.NB_EMPLOYES, VuesUtilitaires.ID};
+                    //attr.client
 
 
             Object[][] donnees = new Object[ListeClients.getListeTousClients().size()][nomsColonnes.length];
@@ -59,19 +81,23 @@ public class Affichage extends JFrame {
                 donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCA();
                 j++;
                 donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getNbEmployes();
-
+                j++;
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getIdentifiant();
             }
             setNomsColonnes(nomsColonnes);
             setDonnees(donnees);
 
         }
 
+
+
         else {
 
             String[] nomsColonnes = { VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE,
                     VuesUtilitaires.CODEPOSTAL, VuesUtilitaires.NUMERORUE, VuesUtilitaires.RUE,
                     VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
-                    VuesUtilitaires.DATEDEPROSPECTION, VuesUtilitaires.EST_IL_INTERESSE}; // attrib. prospect
+                    VuesUtilitaires.DATEDEPROSPECTION, VuesUtilitaires.EST_IL_INTERESSE,VuesUtilitaires.ID};
+                    // attrib. prospect
 
             Object[][] donnees = new Object[ListeProspects.ObtenirListeTriee().size()][nomsColonnes.length];
 
@@ -95,6 +121,8 @@ public class Affichage extends JFrame {
                 donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getDateProspection();
                 j++;
                 donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getPropsectEstInteresse();
+                j++;
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getIdentifiant();
 
             }
             setNomsColonnes(nomsColonnes);
@@ -105,17 +133,17 @@ public class Affichage extends JFrame {
         DefaultTableModel defaultTableModel = new DefaultTableModel(donnees, nomsColonnes);
         table.setModel(defaultTableModel);
 
-
         //affichage du modèle
         contentPane.setLayout(new BorderLayout()); // plante sans cela.
         contentPane.add(table.getTableHeader(), BorderLayout.PAGE_START);
         contentPane.add(table, BorderLayout.CENTER);
 
+
         table.setVisible(true);
 
-        buttonCancel.addActionListener(new ActionListener() {
+        buttonQuitter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                dispose();
             }
         });
 
@@ -123,7 +151,7 @@ public class Affichage extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCancel();
+                dispose();
             }
         });
 
@@ -134,11 +162,10 @@ public class Affichage extends JFrame {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setVisible(true); // Frame devient visible
+
     }
 
     private void onCancel() {
-
         Accueil accueil = new Accueil();
         dispose();
     }

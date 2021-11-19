@@ -17,6 +17,8 @@ public class ListeClients {
         return listeTousClients;
     }
 
-
-
+    public static void ajouterListeClients(Client client) {
+        ListeClients.getListeTousClients().add(client);
     }
+
+}

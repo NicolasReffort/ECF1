@@ -2,10 +2,10 @@ package Exceptions;
 
 import javax.swing.*;
 
-public class MonExceptionMaison extends Exception{
+public class MonExceptionEntites extends Exception{
 //PACKAGE A PART !!!!
 
-    public MonExceptionMaison(String message) {
+    public MonExceptionEntites(String message) {
 
         super(message);
     }

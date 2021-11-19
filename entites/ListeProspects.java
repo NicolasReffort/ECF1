@@ -16,4 +16,8 @@ public class ListeProspects {
         return listeTousProspects;
     }
 
+    public static void ajouterListeProspects(Prospect prospect) {
+        listeTousProspects.add(prospect);
+    }
+
 }

@@ -1,6 +1,6 @@
 package entites;
 
-import Exceptions.MonExceptionMaison;
+import Exceptions.MonExceptionEntites;
 import vues.VuesUtilitaires;
 
 public abstract class Societe {
@@ -30,13 +30,13 @@ public abstract class Societe {
     /***
      *
      * @param raisonSociale
-     * @throws MonExceptionMaison si nul vide blanc
+     * @throws MonExceptionEntites si nul vide blanc
      */
-    public void setRaisonSociale(String raisonSociale) throws MonExceptionMaison {
+    public void setRaisonSociale(String raisonSociale) throws MonExceptionEntites {
 
-        if ( (raisonSociale == null) || raisonSociale.isEmpty() || raisonSociale.isBlank()) {
+        if ( (raisonSociale == null) || raisonSociale.trim().isEmpty() ) {
 
-            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.RAISONSOCIALE);
+            throw new MonExceptionEntites(VuesUtilitaires.MERCIDE + VuesUtilitaires.RAISONSOCIALE);
         }
         else {this.raisonSociale = raisonSociale;}
     }
@@ -46,12 +46,12 @@ public abstract class Societe {
     /***
      *
      * @param numeroRue
-     * @throws MonExceptionMaison si nul vide blanc
+     * @throws MonExceptionEntites si nul vide blanc
      */
-    public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
+    public void setNumeroRue(String numeroRue) throws MonExceptionEntites {
 
-        if (  numeroRue == null || numeroRue.isEmpty() || numeroRue.isBlank()) {
-            throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.NUMERORUE) ;
+        if (  numeroRue == null || numeroRue.trim().isEmpty() ) {
+            throw new MonExceptionEntites(VuesUtilitaires.MERCIDE + VuesUtilitaires.NUMERORUE) ;
         }
         else {this.numeroRue = numeroRue;}
     }
@@ -61,13 +61,13 @@ public abstract class Societe {
     /***
      *
      * @param rue
-     * @throws MonExceptionMaison si nul vide blanc
+     * @throws MonExceptionEntites si nul vide blanc
      */
-    public void setRue(String rue) throws MonExceptionMaison {
+    public void setRue(String rue) throws MonExceptionEntites {
 
-        if (  rue == null || rue.isEmpty() || rue.isBlank()) {
+        if (  rue == null || rue.trim().isEmpty() ) {
 
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE+ VuesUtilitaires.RUE);
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE+ VuesUtilitaires.RUE);
 
         }
         else {this.rue = rue;}
@@ -78,12 +78,12 @@ public abstract class Societe {
     /***
      *
      * @param codePostal
-     * @throws MonExceptionMaison si nul vide blanc
+     * @throws MonExceptionEntites si nul vide blanc
      */
-    public void setCodePostal(String codePostal) throws MonExceptionMaison {
+    public void setCodePostal(String codePostal) throws MonExceptionEntites {
 
-        if (  codePostal == null || codePostal.isEmpty() || codePostal.isBlank()) {
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.CODEPOSTAL ) ;
+        if (  codePostal == null || codePostal.trim().isEmpty() ) {
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + VuesUtilitaires.CODEPOSTAL ) ;
         }
         else {this.codePostal = codePostal;}
 
@@ -94,16 +94,16 @@ public abstract class Societe {
     /***
      *
      * @param telephone
-     * @throws MonExceptionMaison  si nul vide blanc
+     * @throws MonExceptionEntites  si nul vide blanc
      */
-    public void setTelephone(String telephone) throws MonExceptionMaison {
+    public void setTelephone(String telephone) throws MonExceptionEntites {
 
-        if (telephone == null || telephone.isEmpty() || telephone.isBlank()) {
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
+        if (telephone == null || telephone.trim().isEmpty() ) {
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         }
 
         else if (telephone.length() < 10 ){
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         };
         this.telephone = telephone;
     }
@@ -113,16 +113,16 @@ public abstract class Societe {
     /***
      *
      * @param courriel
-     * @throws MonExceptionMaison  si nul vide blanc
+     * @throws MonExceptionEntites  si nul vide blanc
      */
-    public void setCourriel(String courriel) throws MonExceptionMaison {
+    public void setCourriel(String courriel) throws MonExceptionEntites {
 
-        if ( courriel == null || courriel.isEmpty() || courriel.isBlank()) {
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.COURRIEL ) ;
+        if ( courriel == null || courriel.trim().isEmpty()) {
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + VuesUtilitaires.COURRIEL ) ;
         }
 
         if (  !courriel.contains("@") ){
-            throw new MonExceptionMaison("Merci de bien vouloir rentrer un courriel contenant '@'.") ;
+            throw new MonExceptionEntites("Merci de bien vouloir rentrer un courriel contenant '@'.") ;
         }
 
         else this.courriel = courriel;
@@ -136,11 +136,11 @@ public abstract class Societe {
     /***
      *
      * @param ville
-     * @throws MonExceptionMaison si nul vide blanc
+     * @throws MonExceptionEntites si nul vide blanc
      */
-    public void setVille(String ville) throws MonExceptionMaison {
-        if (ville == null || ville.isEmpty() || ville.isBlank()) {
-            throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.VILLE) ;
+    public void setVille(String ville) throws MonExceptionEntites {
+        if (ville == null || ville.trim().isEmpty() ) {
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + VuesUtilitaires.VILLE) ;
         }
         else
         {Ville = ville;}
@@ -148,7 +148,7 @@ public abstract class Societe {
 
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Societe(String raisonSociale, String Ville, String numeroRue, String rue, String codePostal, String telephone,
-                   String courriel,String commentaires) throws MonExceptionMaison {
+                   String courriel,String commentaires) throws MonExceptionEntites {
 
         setRaisonSociale( raisonSociale);
         setVille(Ville);
