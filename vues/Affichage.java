@@ -39,28 +39,28 @@ public class Affichage extends JFrame {
 
             Object[][] donnees = new Object[ListeClients.getListeTousClients().size()][nomsColonnes.length];
 
-            for ( int i = 0 ; i < ListeClients.getListeTousClients().size(); i++ )
+            for ( int i = 0 ; i < ListeClients.ObtenirListeTriee().size(); i++ )
             {
                 int j = 0 ;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getRaisonSociale();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getRaisonSociale();
                 j++ ;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getVille();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getVille();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getCodePostal();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCodePostal();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getNumeroRue();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getNumeroRue();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getRue();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getRue();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getCourriel();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCourriel();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getTelephone();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getTelephone();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getCA();
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCA();
                 j++;
-                donnees[i][j] = ListeClients.getListeTousClients().get(i).getNbEmployes();
-            }
+                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getNbEmployes();
 
+            }
             setNomsColonnes(nomsColonnes);
             setDonnees(donnees);
 
@@ -73,39 +73,32 @@ public class Affichage extends JFrame {
                     VuesUtilitaires.COURRIEL, VuesUtilitaires.TELEPHONE,
                     VuesUtilitaires.DATEDEPROSPECTION, VuesUtilitaires.EST_IL_INTERESSE}; // attrib. prospect
 
-            Object[][] donnees = new Object[ListeProspects.getListeTousProspects().size()][nomsColonnes.length];
+            Object[][] donnees = new Object[ListeProspects.ObtenirListeTriee().size()][nomsColonnes.length];
 
-            for ( int i = 0 ; i < ListeProspects.getListeTousProspects().size(); i++ )
+            for ( int i = 0 ; i < ListeProspects.ObtenirListeTriee().size(); i++ )
             {
                 int j = 0 ;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getRaisonSociale();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getRaisonSociale();
                 j++ ;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getVille();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getVille();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getCodePostal();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getCodePostal();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getNumeroRue();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getNumeroRue();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getRue();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getRue();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getCourriel();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getCourriel();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getTelephone();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getTelephone();
                 j++;
-                donnees[i][j] = ListeProspects.getListeTousProspects().get(i).getDateProspection();
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getDateProspection();
                 j++;
-
-                // traduction prospect intéressé O/N en Oui/Non
-                if ( ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse().equals("O")) {
-                    donnees[i][j] = "Oui";
-                }
-                else donnees[i][j] = "Non";
+                donnees[i][j] = ListeProspects.ObtenirListeTriee().get(i).getPropsectEstInteresse();
 
             }
-
             setNomsColonnes(nomsColonnes);
             setDonnees(donnees);
-
         }
 
         // création et raccordement du modèle pour Jtable
@@ -120,13 +113,6 @@ public class Affichage extends JFrame {
 
         table.setVisible(true);
 
-        table.setModel(defaultTableModel);
-
-        System.out.println(defaultTableModel.getDataVector());
-
-        System.out.println(table.getTableHeader());
-
-        table.setVisible(true);
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -148,9 +134,12 @@ public class Affichage extends JFrame {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setVisible(true);
+        setVisible(true); // Frame devient visible
     }
 
+    private void onCancel() {
 
-    private void onCancel() {dispose();}
+        Accueil accueil = new Accueil();
+        dispose();
+    }
 }

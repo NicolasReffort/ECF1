@@ -15,7 +15,6 @@ public abstract class Societe {
     private String telephone;
     private String courriel;
     private String commentaires;
-    private String messageMerciDe = "Merci de bien vouloir compléter correctement le champ : " ;
 
     //TO DO / FACTORISER LE TEST STRING BASIQUE DES SETTERS. §§§§§§§§§§§§§§
 
@@ -27,9 +26,15 @@ public abstract class Societe {
     }
 
     public String getRaisonSociale() {return raisonSociale;}
+
+    /***
+     *
+     * @param raisonSociale
+     * @throws MonExceptionMaison si nul vide blanc
+     */
     public void setRaisonSociale(String raisonSociale) throws MonExceptionMaison {
 
-        if ( ( raisonSociale == null) || raisonSociale.isEmpty() || raisonSociale.isBlank()) {
+        if ( (raisonSociale == null) || raisonSociale.isEmpty() || raisonSociale.isBlank()) {
 
             throw new MonExceptionMaison(VuesUtilitaires.MERCIDE + VuesUtilitaires.RAISONSOCIALE);
         }
@@ -37,6 +42,12 @@ public abstract class Societe {
     }
 
     public String getNumeroRue() {return numeroRue;}
+
+    /***
+     *
+     * @param numeroRue
+     * @throws MonExceptionMaison si nul vide blanc
+     */
     public void setNumeroRue(String numeroRue) throws MonExceptionMaison{
 
         if (  numeroRue == null || numeroRue.isEmpty() || numeroRue.isBlank()) {
@@ -46,6 +57,12 @@ public abstract class Societe {
     }
 
     public String getRue() {return rue;}
+
+    /***
+     *
+     * @param rue
+     * @throws MonExceptionMaison si nul vide blanc
+     */
     public void setRue(String rue) throws MonExceptionMaison {
 
         if (  rue == null || rue.isEmpty() || rue.isBlank()) {
@@ -57,6 +74,12 @@ public abstract class Societe {
     }
 
     public String getCodePostal() {return codePostal;}
+
+    /***
+     *
+     * @param codePostal
+     * @throws MonExceptionMaison si nul vide blanc
+     */
     public void setCodePostal(String codePostal) throws MonExceptionMaison {
 
         if (  codePostal == null || codePostal.isEmpty() || codePostal.isBlank()) {
@@ -67,20 +90,31 @@ public abstract class Societe {
     }
 
     public String getTelephone() {return telephone;}
+
+    /***
+     *
+     * @param telephone
+     * @throws MonExceptionMaison  si nul vide blanc
+     */
     public void setTelephone(String telephone) throws MonExceptionMaison {
 
-        if ( telephone == null || telephone.isEmpty() || telephone.isBlank()) {
+        if (telephone == null || telephone.isEmpty() || telephone.isBlank()) {
             throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         }
 
         else if (telephone.length() < 10 ){
             throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.TELEPHONE ) ;
         };
-
         this.telephone = telephone;
     }
 
     public String getCourriel() {return courriel;}
+
+    /***
+     *
+     * @param courriel
+     * @throws MonExceptionMaison  si nul vide blanc
+     */
     public void setCourriel(String courriel) throws MonExceptionMaison {
 
         if ( courriel == null || courriel.isEmpty() || courriel.isBlank()) {
@@ -98,8 +132,14 @@ public abstract class Societe {
     public void setCommentaires(String commentaires) {this.commentaires = commentaires;}
 
     public String getVille() {return Ville;}
+
+    /***
+     *
+     * @param ville
+     * @throws MonExceptionMaison si nul vide blanc
+     */
     public void setVille(String ville) throws MonExceptionMaison {
-        if (  ville == null || ville.isEmpty() || ville.isBlank()) {
+        if (ville == null || ville.isEmpty() || ville.isBlank()) {
             throw new MonExceptionMaison( VuesUtilitaires.MERCIDE + VuesUtilitaires.VILLE) ;
         }
         else
