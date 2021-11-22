@@ -102,8 +102,11 @@ public class Formulaire extends JFrame {
                                 champVille.getText(), champNumeroRue.getText(),
                                 champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
                                 champCourriel.getText(),champCommentaires.getText(),
-                                getCAenDouble() , getNbEmployesInt()
+                                getCAenDouble() , getNbEmployesInt(),0
+
                         ) ) ;
+
+                        Outils.sauvegarderDonnees();
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -134,8 +137,10 @@ public class Formulaire extends JFrame {
                                 champCourriel.getText(),
                                 champCommentaires.getText(),
                                 getDateProspection(),
-                                reponseCheckBox
+                                reponseCheckBox,
+                                0 // pas d'ancien ID car c'est une création
                         ));
+                        Outils.sauvegarderDonnees();
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -146,7 +151,6 @@ public class Formulaire extends JFrame {
                         System.out.println(ex.getMessage());
                         System.exit(404);
                     }
-
 
                 }
             }
@@ -236,8 +240,8 @@ public class Formulaire extends JFrame {
                              client.setCommentaires(champCommentaires.getText());
                              client.setCA(getCAenDouble());
                              client.setNbEmployes(getNbEmployesInt());
-
-                             onCancel();
+                            Outils.sauvegarderDonnees();
+                            onCancel();
 
                         }
                         catch (MonExceptionEntites mem) {
@@ -281,6 +285,7 @@ public class Formulaire extends JFrame {
                         prospect.setDateProspection(getDateProspection());
                         prospect.setPropsectEstInteresse(reponseCheckBox); // O/N
 
+                        Outils.sauvegarderDonnees();
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -322,6 +327,7 @@ public class Formulaire extends JFrame {
                             deleteThat(prospect);
                         }
                     }
+                    Outils.sauvegarderDonnees();
                     onCancel();
                 };
             }

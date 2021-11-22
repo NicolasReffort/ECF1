@@ -21,9 +21,7 @@ public abstract class Societe {
     //GETTERS ET SETTERS------------------------------------------------------------------------------------------------
 
     public int getIdentifiant() {return identifiant;}
-    public void setIdentifiant(int identifiant) {
-        this.identifiant = identifiant;
-    }
+    public void setIdentifiant(int identifiant) {this.identifiant = identifiant;}
 
     public String getRaisonSociale() {return raisonSociale;}
 

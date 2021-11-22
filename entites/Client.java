@@ -17,14 +17,14 @@ public class Client extends Societe{
     private int nbEmployes;
     public final double CA_MIN = 200 ;
     public final int NBSALARIE_MIN = 0 ;
-    private Outils.TypeSociete CLIENT ;
 
     //SETTERS ET GETTERS------------------------------------------------------------------------------------------------
     public static int getCompteurClients() {return compteurClients;}
 
-    public Double getCA() {return CA;}
+    public static void setCompteurClients(int compteurClients) {Client.compteurClients = compteurClients;
+    }
 
-    public Outils.TypeSociete getType() {return CLIENT;}
+    public Double getCA() {return CA;}
 
     /***
      *
@@ -57,11 +57,22 @@ public class Client extends Societe{
 
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Client(String raisonSociale,String ville, String numeroRue, String rue, String codePostal, String telephone,
-                  String courriel, String commentaires, Double CA, int nbEmployes) throws MonExceptionEntites,
-            NumberFormatException, NullPointerException {
+                  String courriel, String commentaires, Double CA, int nbEmployes, int ancienidentifiantOuZero)
+
+            throws MonExceptionEntites,NumberFormatException, NullPointerException {
+
         super(raisonSociale,ville, numeroRue, rue, codePostal, telephone, courriel, commentaires);
-        compteurClients = compteurClients + 1 ; //stockage du nb client en v.de classe
-        setIdentifiant(compteurClients);
+
+        if (ancienidentifiantOuZero == 0)
+        {
+            compteurClients++;
+            setIdentifiant(compteurClients);
+        }
+
+        else {
+            setIdentifiant(ancienidentifiantOuZero);
+        }
+
         setCA(CA);
         setNbEmployes(nbEmployes);
     }

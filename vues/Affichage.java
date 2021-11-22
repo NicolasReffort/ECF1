@@ -14,7 +14,6 @@ public class Affichage extends JFrame {
     private JButton buttonRetour;
     private JButton buttonQuitter;
     private JTable table;
-    private JPanel jpanelduJtable;
     private JPanel jPanelBoutons;
 
     private  String[] nomsColonnes;
@@ -31,9 +30,7 @@ public class Affichage extends JFrame {
 
 
         VuesUtilitaires.PreparerlaPage(this, contentPane);
-
         VuesUtilitaires.PreparerBoutonAccueil(buttonRetour, this);
-
         buttonRetour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,7 +46,6 @@ public class Affichage extends JFrame {
         jPanelBoutons.setEnabled(true);
 
 
-
         if (typeSociete == Outils.TypeSociete.CLIENT){
 
             String[] nomsColonnes = { VuesUtilitaires.RAISONSOCIALE, VuesUtilitaires.VILLE,
@@ -61,34 +57,32 @@ public class Affichage extends JFrame {
 
             Object[][] donnees = new Object[ListeClients.getListeTousClients().size()][nomsColonnes.length];
 
-            for ( int i = 0 ; i < ListeClients.ObtenirListeTriee().size(); i++ )
+            for (int i = 0; i < ListeClients.ObtenirListeTrieeRaisonSociale().size(); i++ )
             {
                 int j = 0 ;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getRaisonSociale();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getRaisonSociale();
                 j++ ;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getVille();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getVille();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCodePostal();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getCodePostal();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getNumeroRue();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getNumeroRue();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getRue();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getRue();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCourriel();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getCourriel();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getTelephone();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getTelephone();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getCA();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getCA();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getNbEmployes();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getNbEmployes();
                 j++;
-                donnees[i][j] = ListeClients.ObtenirListeTriee().get(i).getIdentifiant();
+                donnees[i][j] = ListeClients.ObtenirListeTrieeRaisonSociale().get(i).getIdentifiant();
             }
             setNomsColonnes(nomsColonnes);
             setDonnees(donnees);
-
         }
-
 
 
         else {

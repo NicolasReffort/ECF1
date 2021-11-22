@@ -25,6 +25,7 @@ public class Prospect extends Societe {
     public static int getCompteurProspects() {
         return compteurProspects;
     }
+    public static void setCompteurProspects(int compteurProspects) {Prospect.compteurProspects = compteurProspects;    }
 
     public LocalDate getDateProspection() {
         return dateProspection;
@@ -76,11 +77,21 @@ public class Prospect extends Societe {
      */
     //CONSTRUCTEURS----------------------------------------------------------------------------------------------------
     public Prospect(String raisonSociale, String ville, String numeroRue, String rue, String codePostal, String telephone,
-                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse) throws MonExceptionEntites {
+                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse,
+                    int ancienidentifiantOuZero) throws MonExceptionEntites {
         super(raisonSociale, ville,numeroRue, rue, codePostal, telephone, courriel, commentaires);
 
-        compteurProspects++;
-        setIdentifiant(compteurProspects);
+
+        if (ancienidentifiantOuZero == 0) // veut dire que prospect est nouveau (jamais chargé auparavant).
+        {
+            compteurProspects++;
+            setIdentifiant(compteurProspects);
+        }
+
+        else { //on reprend l'ancien numéro identifiant sans augmenter le compteur.
+            setIdentifiant(ancienidentifiantOuZero);
+        }
+
         setDateProspection(dateProspection);
         setPropsectEstInteresse(propsectEstInteresse);
 

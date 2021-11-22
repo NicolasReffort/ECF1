@@ -1,5 +1,6 @@
 package vues;
 
+import Exceptions.MonExceptionEntites;
 import Utilitaires.Outils;
 import entites.ListeClients;
 import entites.ListeProspects;
@@ -8,6 +9,7 @@ import entites.Societe;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Accueil extends JFrame {
     private JPanel contentPane;
@@ -32,9 +34,18 @@ public class Accueil extends JFrame {
      */
     //CONSTRUCTEUR -----------------------------------------------------------------------------------------------------
     public Accueil() {
+
+        try {
+            Outils.chargerDonnes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MonExceptionEntites e) {
+            e.printStackTrace();
+        }
+
+
         VuesUtilitaires.PreparerlaPage(this, contentPane );
         VuesUtilitaires.PreparerBoutonAccueil(button1, this);
-
         gererunClientIsClicked = false;
         supprimerAlreadyClicked = false;
         modifierAlreadyClicked = false;

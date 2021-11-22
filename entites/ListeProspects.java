@@ -1,5 +1,7 @@
 package entites;
 
+import Exceptions.MonExceptionEntites;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,18 @@ public class ListeProspects {
 
     public static void ajouterListeProspects(Prospect prospect) {
         listeTousProspects.add(prospect);
+    }
+
+    public static int ConnaitreDernierIdAttribue() throws MonExceptionEntites {
+
+        try {
+            Prospect dernierProspect = listeTousProspects.get(listeTousProspects.size() - 1);
+            return dernierProspect.getIdentifiant();
+        }
+        catch (IndexOutOfBoundsException iob){
+            throw new MonExceptionEntites("LISTE PROSPECT VIDE");
+        }
+
     }
 
 }
