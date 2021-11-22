@@ -5,16 +5,24 @@ import entites.*;
 import vues.VuesUtilitaires;
 
 import java.io.*;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class Outils {
 
     //RELATIF A LA CLASSE
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_FICHIER_LOG
+            = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
     public static DateTimeFormatter getDateTimeFormatter() {        return DATE_TIME_FORMATTER;}
-    public static final String NOMFICHIERTXT = "persistanceDesDonnées.txt";
+    public static final String NOM_FICHIER_CLIENT_TXT = "persistanceDesDonnéesCLIENT.txt";
+    public static final String NOM_FICHIER_PROSPECT_TXT = "persistanceDesDonnéesPROSPECT.txt";
+    public static final String NOM_FICHIERS_LOG = "LOG.txt";
 
     //ENUMS
     public enum TypeSociete{CLIENT,PROSPECT}
@@ -40,88 +48,61 @@ public class Outils {
             throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + "date (argument inadéquat) ");
         }
         catch (DateTimeParseException dtpe){
-            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + "date (format jj-mm-aaaa) ");
+            throw new MonExceptionEntites( VuesUtilitaires.MERCIDE + "date (format JJ/MM/AAAA ) ");
         }
     }
 
     /***
      * CHARGER DONNNES CLIENT ET PROSPECT : FICHIER --> COLLECTION
      * appelé au démarrage de chaque accueil
-     * @throws IOException
-     * @throws MonExceptionEntites
+     * @throws IOException si fichier absent
+     * @throws MonExceptionEntites si fichier corrompu
      */
     public static void chargerDonnes() throws IOException, MonExceptionEntites {
 
-        FileReader fichierSauvegarde = new FileReader(NOMFICHIERTXT);
+        // VIDER LES COLLECTIONS SINON ON CUMULE LES CHARGEMENTS
+        ListeClients.getListeTousClients().removeAll(ListeClients.getListeTousClients());
+        ListeProspects.getListeTousProspects().removeAll(ListeProspects.getListeTousProspects());
 
-        /***
-         * LECTURE ET CHARGEMENT
-         */
-        try (BufferedReader monbufferedReader =new BufferedReader(fichierSauvegarde)) //fichier à charger
-        {
-            String ligne;
+        try {
+            FileInputStream monFileInputStream = new FileInputStream(NOM_FICHIER_CLIENT_TXT);
+            ObjectInputStream monObjectIntputStream = new ObjectInputStream(monFileInputStream);
 
-            // VIDER LES COLLECTIONS SINON ON CUMULE LES CHARGEMENTS
-            // CHERCHER LE DERNIER IDENTIFIANT DANS LE FICHIER
-            ListeClients.getListeTousClients().removeAll(ListeClients.getListeTousClients());
-            ListeProspects.getListeTousProspects().removeAll(ListeProspects.getListeTousProspects());
+            List<Client> listeLoaded = (List<Client>) monObjectIntputStream.readObject(); //casting suite lecture object
+            ListeClients.setListeTousClients(listeLoaded);
 
-            while (  ( ligne = monbufferedReader.readLine() ) != null ) {
-
-                if (ligne.equals("*C")) {
+            monObjectIntputStream.close();
 
 
-                    try {
-                        ListeClients.getListeTousClients().add(new Client(
-                                monbufferedReader.readLine(), //raison
-                                monbufferedReader.readLine(), //ville
-                                monbufferedReader.readLine(), //n° rue
-                                monbufferedReader.readLine(), // rue
-                                monbufferedReader.readLine(), //CP
-                                monbufferedReader.readLine(), //tém
-                                monbufferedReader.readLine(), //courriel
-                                monbufferedReader.readLine(),   // commentaires
-                                Double.parseDouble(monbufferedReader.readLine()), //CA TO DO mettre en try catch
-                                Integer.parseInt(monbufferedReader.readLine()  ), //nb employés
-                                Integer.parseInt(monbufferedReader.readLine() ) //ancien ID repris
-                        )
-                        );
-                    }
-                    catch (MonExceptionEntites e) {
-                        e.printStackTrace();
-                        System.exit(404);
-                    }
-                }
-
-                if (ligne.equals("*P")) {
-                    try {
-                        ListeProspects.getListeTousProspects().add(new Prospect(
-                                monbufferedReader.readLine(), //raison
-                                monbufferedReader.readLine(), //ville
-                                monbufferedReader.readLine(), //n° rue
-                                monbufferedReader.readLine(), // rue
-                                monbufferedReader.readLine(), //CP
-                                monbufferedReader.readLine(), //tém
-                                monbufferedReader.readLine(), //courriel
-                                monbufferedReader.readLine(),   // commentaires
-                                Outils.StringToLocalDate(monbufferedReader.readLine()),
-                                monbufferedReader.readLine(), // Intéressé O/n
-                                Integer.parseInt(monbufferedReader.readLine() ) // ancien ID
-
-                        )
-                        );
-                    } catch (MonExceptionEntites mem) {
-                        mem.printStackTrace();
-                        System.exit(404);
-                    }
-                }
-
-
-            } //fin while
+        } catch (IOException ioe ){
+            ioe.printStackTrace();
         }
-        catch(FileNotFoundException e){
-            System.out.println("Erreur lecture " + "la sauvegarde " + fichierSauvegarde + "n'existe pas.");
+
+        catch (Exception e){
+            throw new MonExceptionEntites("L'accès à notre base de données est momentanément interrompu. " +
+                    "Merci de bien vouloir contacter votre responsable informatique");
+
         }
+
+        try {
+            FileInputStream monFileInputStream = new FileInputStream(NOM_FICHIER_PROSPECT_TXT);
+            ObjectInputStream monObjectIntputStream = new ObjectInputStream(monFileInputStream);
+
+
+            List<Prospect> listeLoaded = (List<Prospect>) monObjectIntputStream.readObject();
+            ListeProspects.setListeTousProspects(listeLoaded);
+
+            monObjectIntputStream.close();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            throw new MonExceptionEntites("L'accès à notre base de données est momentanément interrompu. " +
+                    "Merci de bien vouloir contacter votre responsable informatique");
+
+        }
+
 
         // anciens compteur Repris
         try {
@@ -129,7 +110,7 @@ public class Outils {
             Client.setCompteurClients(lastId);
         }
         catch (MonExceptionEntites mee){
-            System.out.println("La liste client nest pas remplie je pense");
+            EnregistrerEnLog("Pas possible de setter le compteur client ");
         }
 
         try {
@@ -137,114 +118,109 @@ public class Outils {
             Prospect.setCompteurProspects(lastIdProspect);
         }
         catch (MonExceptionEntites mee){
-            System.out.println("La liste nest pas remplie je pense");
+            EnregistrerEnLog("Pas possible de setter le compteur Prospect");
         }
+
+        MajCompteursEntites();// mAJ compteur entité
 
     }
 
     /***
-     * SAUVEGARDER DONNES CLIENT PROSPECT : COLLECTION --> FICHIER
-     * appelé à chaque Edition( buttons créer modif supprimer);
+     *
+     * @param typeSociete liste d'entités à sauvegarder
+     * @throws MonExceptionEntites si pb connexion base
      */
-    public static void sauvegarderDonnees(){
-        /***
-         * ECRITURE POUR ENREGISTREMENT
-         */
+    public static void sauvegarderDonnees(TypeSociete typeSociete) throws MonExceptionEntites {
 
-        File fichierSauvegarde = new File(NOMFICHIERTXT);
+        try {
 
-        try (BufferedWriter monbufferedWriter =new BufferedWriter(new FileWriter(fichierSauvegarde)) )
-        {
+            if (typeSociete == TypeSociete.CLIENT) {
 
-            for(int i = 0; i < ListeClients.getListeTousClients().size(); i++)
-            {
-                monbufferedWriter.write("*C");
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getRaisonSociale() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getVille() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getNumeroRue() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getRue() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getCodePostal() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getTelephone() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getCourriel() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getCommentaires() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeClients.getListeTousClients().get(i).getCA().toString() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(String.valueOf(ListeClients.getListeTousClients().get(i).getNbEmployes())) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write( String.valueOf(ListeClients.getListeTousClients().get(i).getIdentifiant()) ) ; // ID enregistré
-                monbufferedWriter.newLine();
+                //CLIENT
+                    FileOutputStream monFileOutputStream = new FileOutputStream(NOM_FICHIER_CLIENT_TXT);
+                    ObjectOutputStream monObjectOutputStream = new ObjectOutputStream(monFileOutputStream);
+                    monObjectOutputStream.writeObject(ListeClients.getListeTousClients());
+                    monObjectOutputStream.close();
+                    monFileOutputStream.close();
+                    EnregistrerEnLog("\n Ecriture  " + NOM_FICHIER_CLIENT_TXT +  "terminée avec succès...\n");
 
             }
 
-            for(int i = 0; i < ListeProspects.getListeTousProspects().size(); i++)
+            else {
 
-            {
-                monbufferedWriter.write("*P");
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getRaisonSociale() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getVille() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getNumeroRue() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getRue() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getCodePostal() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getTelephone() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getCourriel() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getCommentaires() ) ;
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getDateProspection().format(Outils.getDateTimeFormatter()));
-                monbufferedWriter.newLine();
-                monbufferedWriter.write(ListeProspects.getListeTousProspects().get(i).getPropsectEstInteresse());
-                monbufferedWriter.newLine();
-                monbufferedWriter.write( String.valueOf(ListeProspects.getListeTousProspects().get(i).getIdentifiant()) ) ; // ID enregistré
-                monbufferedWriter.newLine();
+                //PROSPECT
+                    FileOutputStream monFileOutputStream = new FileOutputStream(NOM_FICHIER_PROSPECT_TXT);
+                    ObjectOutputStream monObjectOutputStream = new ObjectOutputStream(monFileOutputStream);
+                    monObjectOutputStream.writeObject(ListeProspects.getListeTousProspects());
+                    monObjectOutputStream.close();
+                    monFileOutputStream.close();
+                    EnregistrerEnLog("\nEcriture sur  " + NOM_FICHIER_PROSPECT_TXT +  "terminée avec succès...\n");
 
             }
 
         }
-        catch (IOException e)
-        {
-            System.out.println("Echec écriture prospect");
-        }
 
+        catch (FileNotFoundException e) {
+            EnregistrerEnLog("Fichier non trouvé.");
+
+
+        }
+        catch (IOException e) {
+            EnregistrerEnLog(e.getLocalizedMessage());
+        }
+        catch (Exception e){
+            throw new MonExceptionEntites("L'accès à notre base de données est momentanément interrompu. " +
+                        "Merci de bien vouloir contacter votre responsable informatique");
+        }
 
 
     }
 
-    public static void enregistrerDernierIdentifiant(){
+    public static void MajCompteursEntites(){
 
         // anciens compteurRepris
         try {
-            int lastId = ListeClients.ConnaitreDernierIdAttribue();
-            Client.setCompteurClients(lastId);
+            int lastIdClient = ListeClients.ConnaitreDernierIdAttribue();
+            Client.setCompteurClients(lastIdClient);
+            EnregistrerEnLog("Compteur client remis à " + lastIdClient );
         }
         catch (MonExceptionEntites mee){
-            System.out.println("La liste client nest pas remplie je pense");
+            EnregistrerEnLog("Pas possible de reprendre le compteur client");
         }
 
         try {
             int lastIdProspect = ListeProspects.ConnaitreDernierIdAttribue();
             Prospect.setCompteurProspects(lastIdProspect);
+            EnregistrerEnLog("compteur prospect remis a " + lastIdProspect );
+
         }
         catch (MonExceptionEntites mee){
-            System.out.println("La liste nest pas remplie je pense");
+            EnregistrerEnLog("Pas possible de reprendre le compteur prospect");
         }
     }
 
+    /***
+     * Enregistrer des infos dans le fichier log
+     */
+    public static void EnregistrerEnLog(String messageAenregistrer){
 
+        try {
+            FileOutputStream monFileOutputStream = new FileOutputStream(NOM_FICHIERS_LOG);
+            ObjectOutputStream monObjectOutputStream = new ObjectOutputStream(monFileOutputStream);
+
+            monObjectOutputStream.writeObject(messageAenregistrer); // écriture message
+            LocalDate date = LocalDate.now();
+            monObjectOutputStream.writeObject(date.format(DATE_TIME_FORMATTER_FICHIER_LOG));
+
+            monObjectOutputStream.close();
+            monFileOutputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

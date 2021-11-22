@@ -26,9 +26,9 @@ public class VuesUtilitaires {
     public static final String MERCIDE = "Merci de bien vouloir compléter correctement le champ : " ;
     public static final String ERREUR_INCONNUE = "Erreur inconnue. Merci de contacter votre service informatique. ";
 
-    public static final int WIDTH_NORMAL = 600 ;
+    public static final int WIDTH_NORMAL = 900 ;
     public static final int HEIGHT_NORMAL = 600 ;
-    public static final int MIN_WIDTH_NORMAL = 350 ;
+    public static final int MIN_WIDTH_NORMAL = 500 ;
     public static final int MIN_HEIGHT_NORMAL = 500 ;
 
     // filles
@@ -61,6 +61,14 @@ public class VuesUtilitaires {
         //TAILLE
         jFrame.setSize(WIDTH_NORMAL, HEIGHT_NORMAL);
         jFrame.setMinimumSize(new Dimension(MIN_WIDTH_NORMAL, MIN_HEIGHT_NORMAL));
+
+        // when cross is clicked
+        jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        jFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                jFrame.dispose();
+            }
+        });
     }
 
 }

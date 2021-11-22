@@ -57,22 +57,13 @@ public class Client extends Societe{
 
     //CONSTRUCTEURS ----------------------------------------------------------------------------------------------------
     public Client(String raisonSociale,String ville, String numeroRue, String rue, String codePostal, String telephone,
-                  String courriel, String commentaires, Double CA, int nbEmployes, int ancienidentifiantOuZero)
+                  String courriel, String commentaires, Double CA, int nbEmployes)
 
             throws MonExceptionEntites,NumberFormatException, NullPointerException {
 
         super(raisonSociale,ville, numeroRue, rue, codePostal, telephone, courriel, commentaires);
-
-        if (ancienidentifiantOuZero == 0)
-        {
             compteurClients++;
             setIdentifiant(compteurClients);
-        }
-
-        else {
-            setIdentifiant(ancienidentifiantOuZero);
-        }
-
         setCA(CA);
         setNbEmployes(nbEmployes);
     }

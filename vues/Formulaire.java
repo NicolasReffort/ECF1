@@ -102,11 +102,11 @@ public class Formulaire extends JFrame {
                                 champVille.getText(), champNumeroRue.getText(),
                                 champRue.getText(),champCodePostal.getText(), champTelephone.getText(),
                                 champCourriel.getText(),champCommentaires.getText(),
-                                getCAenDouble() , getNbEmployesInt(),0
+                                getCAenDouble() , getNbEmployesInt()
 
                         ) ) ;
 
-                        Outils.sauvegarderDonnees();
+                        Outils.sauvegarderDonnees(Outils.TypeSociete.CLIENT);
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -137,10 +137,9 @@ public class Formulaire extends JFrame {
                                 champCourriel.getText(),
                                 champCommentaires.getText(),
                                 getDateProspection(),
-                                reponseCheckBox,
-                                0 // pas d'ancien ID car c'est une création
+                                reponseCheckBox
                         ));
-                        Outils.sauvegarderDonnees();
+                        Outils.sauvegarderDonnees(Outils.TypeSociete.PROSPECT);
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -240,7 +239,7 @@ public class Formulaire extends JFrame {
                              client.setCommentaires(champCommentaires.getText());
                              client.setCA(getCAenDouble());
                              client.setNbEmployes(getNbEmployesInt());
-                            Outils.sauvegarderDonnees();
+                            Outils.sauvegarderDonnees(Outils.TypeSociete.CLIENT);
                             onCancel();
 
                         }
@@ -285,7 +284,7 @@ public class Formulaire extends JFrame {
                         prospect.setDateProspection(getDateProspection());
                         prospect.setPropsectEstInteresse(reponseCheckBox); // O/N
 
-                        Outils.sauvegarderDonnees();
+                        Outils.sauvegarderDonnees(Outils.TypeSociete.PROSPECT);
                         onCancel();
                     }
                     catch (MonExceptionEntites mem) {
@@ -321,13 +320,24 @@ public class Formulaire extends JFrame {
                     {
                         if (societe instanceof Client) {
                             deleteThat(client);
+                            try {
+                                Outils.sauvegarderDonnees(Outils.TypeSociete.CLIENT);
+                            } catch (MonExceptionEntites ex) {
+                                ex.printStackTrace();
+                            }
                         }
 
                         else{
                             deleteThat(prospect);
+                            try {
+                                Outils.sauvegarderDonnees(Outils.TypeSociete.PROSPECT);
+                            } catch (MonExceptionEntites ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     }
-                    Outils.sauvegarderDonnees();
+
+
                     onCancel();
                 };
             }
