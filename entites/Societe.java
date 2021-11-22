@@ -3,7 +3,9 @@ package entites;
 import Exceptions.MonExceptionEntites;
 import vues.VuesUtilitaires;
 
-public abstract class Societe {
+import java.io.Serializable;
+
+public abstract class Societe implements Serializable {
 
     //RELATIF AUX INSTANCES---------------------------------------------------------------------------------------------
     private int identifiant;

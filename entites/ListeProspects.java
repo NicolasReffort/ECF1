@@ -12,6 +12,8 @@ public class ListeProspects {
     public static List<Prospect> getListeTousProspects() {
         return listeTousProspects;
     }
+    public static void setListeTousProspects(List<Prospect> listeTousProspects) {
+        ListeProspects.listeTousProspects = listeTousProspects;    }
 
     public static List<Prospect> ObtenirListeTriee() {
         getListeTousProspects().sort((p2, p1) -> p2.getRaisonSociale().compareTo(p1.getRaisonSociale()));

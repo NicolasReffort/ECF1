@@ -43,7 +43,6 @@ public class Accueil extends JFrame {
             e.printStackTrace();
         }
 
-
         VuesUtilitaires.PreparerlaPage(this, contentPane );
         VuesUtilitaires.PreparerBoutonAccueil(button1, this);
         gererunClientIsClicked = false;

@@ -30,6 +30,16 @@ public class Affichage extends JFrame {
 
 
         VuesUtilitaires.PreparerlaPage(this, contentPane);
+
+        // la croix rouvre l'accueil
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+                Accueil accueil = new Accueil();
+            }
+        });
+
         VuesUtilitaires.PreparerBoutonAccueil(buttonRetour, this);
         buttonRetour.addActionListener(new ActionListener() {
             @Override

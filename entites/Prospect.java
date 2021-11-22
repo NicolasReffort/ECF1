@@ -77,21 +77,11 @@ public class Prospect extends Societe {
      */
     //CONSTRUCTEURS----------------------------------------------------------------------------------------------------
     public Prospect(String raisonSociale, String ville, String numeroRue, String rue, String codePostal, String telephone,
-                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse,
-                    int ancienidentifiantOuZero) throws MonExceptionEntites {
+                    String courriel, String commentaires, LocalDate dateProspection, String propsectEstInteresse
+                    ) throws MonExceptionEntites {
         super(raisonSociale, ville,numeroRue, rue, codePostal, telephone, courriel, commentaires);
-
-
-        if (ancienidentifiantOuZero == 0) // veut dire que prospect est nouveau (jamais chargé auparavant).
-        {
-            compteurProspects++;
-            setIdentifiant(compteurProspects);
-        }
-
-        else { //on reprend l'ancien numéro identifiant sans augmenter le compteur.
-            setIdentifiant(ancienidentifiantOuZero);
-        }
-
+        compteurProspects++;
+        setIdentifiant(compteurProspects);
         setDateProspection(dateProspection);
         setPropsectEstInteresse(propsectEstInteresse);
 
